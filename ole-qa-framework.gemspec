@@ -5,19 +5,23 @@ require 'ole/qa/framework/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "ole-qa-framework"
-  spec.version       = Ole::Qa::Framework::VERSION
+  spec.version       = '1.0' # TODO update this to use version constant when available.
   spec.authors       = ["Jain Waldrip"]
   spec.email         = ["jkwaldri@indiana.edu"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
-  spec.license       = "MIT"
+  spec.description   = "Watir-Webdriver Based Page-Object Framework for Kuali Open Library Environment QA Testing"
+  spec.summary       = "Kuali Open Library Environment"
+  spec.homepage      = "http://www.github.com/jkwaldrip/ole-qa-framework/"
+  spec.license       = "ECLv2"
 
-  spec.files         = `git ls-files`.split($/)
+  spec.files         = Dir.glob("**/**/**")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
+
+  spec.add_dependency "watir-webdriver"
+  spec.add_dependency "headless"
+  spec.add_dependency "rspec"
 end
