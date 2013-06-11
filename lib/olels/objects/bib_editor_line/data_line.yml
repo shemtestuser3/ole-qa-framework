@@ -1,0 +1,26 @@
+# Bib Editor Line Configuration for Marc Tag Field
+---
+:tag_field:
+- :input
+- :id
+- dataField_tag_id_lineLINEID_control
+:indicator_1_field:
+- :input
+- :id
+- dataField_ind1_id_lineLINEID_control
+:indicator_2_field:
+- :input
+- :id
+- dataField_ind2_id_lineLINEID_control
+:value_field:
+- :input
+- :id
+- dataField_value_id_lineLINEID_control
+:add_button:
+- :web
+- :id
+- dataField_addTagButton_id_lineLINEID
+:remove_button:
+- :web
+- :id
+- dataField_removeTagButton_id_lineLINEID

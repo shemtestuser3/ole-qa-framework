@@ -1,0 +1,26 @@
+# Screen Elements for Added OLEFS Copies Line
+---
+:copies_field:
+- :data
+- :xpath
+- //table/tbody[tr/td[contains(text(),'Item LINEID')]]/descendant::table/tbody/tr[th/div[contains(text(),'Copies')]]/following-sibling::tr[td[contains(text(),'Copies SUBLINEID')]]/following-sibling::tr[1]/td[1]/div
+:location_copies_selector:
+- :selector
+- :id
+- document.item[LINEID].copies[SUBLINEID].lcoationCopies
+:starting_copy_field:
+- :data
+- :xpath
+- //table/tbody[tr/td[contains(text(),'Item LINEID')]]/descendant::table/tbody/tr[th/div[contains(text(),'Copies')]]/following-sibling::tr[td[contains(text(),'Copies SUBLINEID')]]/following-sibling::tr[1]/td[5]/div
+:parts_field:
+- :data
+- :xpath
+- //table/tbody[tr/td[contains(text(),'Item LINEID')]]/descendant::table/tbody/tr[th/div[contains(text(),'Copies')]]/following-sibling::tr[td[contains(text(),'Copies SUBLINEID')]]/following-sibling::tr[1]/td[3]/div
+:part_enumeration_field:
+- :data
+- :xpath
+- //table/tbody[tr/td[contains(text(),'Item LINEID')]]/descendant::table/tbody/tr[th/div[contains(text(),'Copies')]]/following-sibling::tr[td[contains(text(),'Copies SUBLINEID')]]/following-sibling::tr[1]/td[4]/div
+:delete_button:
+- :web
+- :css
+- input[name='methodToCall.deleteCopy.lineLINEID:SUBLINEID']

@@ -1,0 +1,144 @@
+# OLELS Item Editor Elements
+---
+# Holdings Location/Call Number Information
+:holdings_prefix_field:
+- :data
+- :id
+- OleHoldingCallNumberPrefix_control
+:holdings_shelving_order_field:
+- :data
+- :id
+- OleHoldingShelvingOrder_control
+:holdings_call_number_field:
+- :data
+- :id
+- OleHoldingCallNumber_control
+:holdings_call_number_type_field:
+- :data
+- :id
+- OleHoldingShelvingScheme_control
+# Item Location/Call Number Information
+:location_field:
+- :input
+- :id
+- OleItemLocationLevelName_control
+:prefix_field:
+- :input
+- :id
+- OleItemCallNumberPrefix_control
+:shelving_order_field:
+- :input
+- :id
+- OleItemShelvingOrder_control
+:call_number_field:
+- :input
+- :id
+- OleItemCallNumber_control
+:call_number_type_selector:
+- :selector
+- :id
+- OleItemShelvingScheme_control
+:browse_button:
+- :web
+- :id
+- callNumberItemBrowseLink
+# Item Information
+:item_id_field:
+- :data
+- :id
+- oleItemIdentifier_ID_control
+:barcode_field:
+- :input
+- :id
+- oleItemAccessInformationBarcode_control
+:barcode_arsl_field:
+- :input
+- :id
+- oleItemBarcodeARSL_control
+:former_identifiers_field:
+- :input
+- :id
+- oleItemFormerIdentifier_control
+:statistical_searching_codes_selector:
+- :selector
+- :id
+- oleItemStatisticalSearchingCodes_control
+:temp_item_type_selector:
+- :selector
+- :id
+- oleItemTemporaryItemType_control
+:enumeration_field:
+- :input
+- :id
+- oleItemEnumeration_control
+:chronology_field:
+- :input
+- :id
+- oleItemChronology_control
+:copy_number_field:
+- :input
+- :id
+- oleItemCopyNumber_control
+:access_info_uri_field:
+- :input
+- :id
+- oleItemAccessInformationURI_control
+:item_type_selector:
+- :selector
+- :id
+- oleItemItemType_control
+:number_of_pieces_field:
+- :input
+- :id
+- oleItemNumberOfPiece_control
+# Acquisition Information
+:po_line_item_id_field:
+- :data
+- :id
+- oleItemPoID_control
+:vendor_line_item_id_field:
+- :data
+- :id
+- oleItemVendorLineItemID_control
+:fund_field:
+- :data
+- :id
+- oleItemFund_control
+:price_field:
+- :input
+- :id
+- oleItemPrice_control
+:donor_public_display_field:
+- :input
+- :id
+- oleItemDonorPublicDisplay_control
+:donor_note_field:
+- :input
+- :id
+- oleItemDonorNote_control
+# Circulation Information
+:item_status_selector:
+- :selector
+- :id
+- oleItemStatus_control
+:checkin_note_field:
+- :input
+- :id
+- oleItemCheckinNote_control
+:item_effective_status_date:
+- :input
+- :id
+- oleItemStatusEffectiveDate_control
+:fast_add_checkbox:
+- :checkbox
+- :id
+- oleItemFastAdd_control
+:staff_only_checkbox:
+- :checkbox
+- :id
+- oleItemStaffOnly_control
+# Extended Information
+:high_density_storage_field:
+- :input
+- :id
+- oleItemHighDensityStorage_control

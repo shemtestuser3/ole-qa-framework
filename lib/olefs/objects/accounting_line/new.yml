@@ -1,0 +1,42 @@
+# Screen Elements for New OLEFS Accounting Line
+---
+:chart_selector:
+- :selector
+- :id
+- document.item[LINEID].newSourceLine.chartOfAccountsCode
+:account_number_field:
+- :input
+- :id
+- document.item[LINEID].newSourceLine.accountNumber
+:sub_account_field:
+- :input
+- :id
+- document.item[LINEID].newSourceLine.subAccountNumber
+:object_field:
+- :input
+- :id
+- document.item[LINEID].newSourceLine.financialObjectCode
+:sub_object_field:
+- :input
+- :id
+- document.item[LINEID].newSourceLine.financialSubObjectCode
+:project_field:
+- :input
+- :id
+- document.item[LINEID].newSourceLine.projectCode
+:org_ref_id_field:
+- :input
+- :id
+- document.item[LINEID].newSourceLine.organizationReferenceId
+:dollar_field:
+- :input
+- :id
+- document.item[LINEID].newSourceLine.amount
+:percent_field:
+- :input
+- :id
+- document.item[LINEID].newSourceLine.accountLinePercent
+:add_button:
+- :web
+- :css
+- input[name='methodToCall.insertSourceLine.lineLINEID.anchoraccountingSourceAnchor']

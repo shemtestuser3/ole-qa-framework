@@ -1,0 +1,56 @@
+# New Receiving Line Element Definitions Hash
+---
+# Fields
+:vendor_item_identifier_field:
+- :input
+- :id
+- newLineItemReceivingItemLine.itemCatalogNumber
+:format_selector:
+- :selector
+- :id
+- newLineItemReceivingItemLine.oleFormatId
+:item_received_quantity_field:
+- :input
+- :id
+- newLineItemReceivingItemLine.oleItemReceivedTotalQuantity
+:item_received_parts_field:
+- :input
+- :id
+- newLineItemReceivingItemLine.oleItemReceivedTotalParts
+:item_returned_quantity_field:
+- :input
+- :id
+- newLineItemReceivingItemLine.oleItemReturnedTotalQuantity
+:item_returned_parts_field:
+- :input
+- :id
+- newLineItemReceivingItemLine.oleItemReturnedTotalParts
+:item_damaged_quantity_field:
+- :input
+- :id
+- newLineItemReceivingItemLine.oleItemDamagedTotalQuantity
+:item_damaged_parts_field:
+- :input
+- :id
+- newLineItemReceivingItemLine.oleItemDamagedTotalParts
+:addition_reason_selector:
+- :selector
+- :id
+- newLineItemReceivingItemLine.itemReasonAddedCode
+:available_to_public_checkbox:
+- :checkbox
+- :id
+- newLineItemReceivingItemLine.availableToPublic
+:public_view_checkbox:
+- :checkbox
+- :id
+- newLineItemReceivingItemLine.availableToPublic
+# Input Buttons
+:add_button:
+- :web
+- :css
+- input[name='methodToCall.addItem']
+:new_bib_button:
+- :web
+- :id
+- bibCreateCurrentItemButton

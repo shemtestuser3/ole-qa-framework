@@ -1,0 +1,63 @@
+# Added Receiving Line Element Definitions Hash
+---
+# Fields
+:description_field:
+- :data
+- :xpath
+- //table[@summary='Items Section']/tbody/tr/td[1][b[contains(text(),'LINENUM')]]/following-sibling::td[2]
+:quantity_ordered_field:
+- :data
+- :xpath
+- //table[@summary='Items Section']/tbody/tr/td[1][b[contains(text(),'LINENUM')]]/following-sibling::td[4]
+:parts_ordered_field:
+- :data
+- :xpath
+- //table[@summary='Items Section']/tbody/tr/td[1][b[contains(text(),'LINENUM')]]/following-sibling::td[5]
+:prior_quantity_received_field:
+- :data
+- :xpath
+- //table[@summary='Items Section']/tbody/tr/td[1][b[contains(text(),'LINENUM')]]/following-sibling::td[6]
+:prior_parts_received_field:
+- :data
+- :xpath
+- //table[@summary='Items Section']/tbody/tr/td[1][b[contains(text(),'LINENUM')]]/following-sibling::td[7]
+:quantity_to_be_received_field:
+- :data
+- :xpath
+- //table[@summary='Items Section']/tbody/tr/td[1][b[contains(text(),'LINENUM')]]/following-sibling::td[8]
+:parts_to_be_received_field:
+- :data
+- :xpath
+- //table[@summary='Items Section']/tbody/tr/td[1][b[contains(text(),'LINENUM')]]/following-sibling::td[9]
+:item_received_quantity_field:
+- :input
+- :id
+- document.item[LINEID].oleItemReceivedTotalQuantity
+:item_received_parts_field:
+- :input
+- :id
+- document.item[LINEID].oleItemReceivedTotalParts
+:item_returned_quantity_field:
+- :input
+- :id
+- document.item[LINEID].oleItemReturnedTotalQuantity
+:item_returned_parts_field:
+- :input
+- :id
+- document.item[LINEID].oleItemReturnedTotalParts
+:item_damaged_quantity_field:
+- :input
+- :id
+- document.item[LINEID].oleItemDamagedTotalQuantity
+:item_damaged_parts_field:
+- :input
+- :id
+- document.item[LINEID].oleItemDamagedTotalParts
+:available_to_public_checkbox:
+- :checkbox
+- :id
+- document.item[LINEID].availableToPublic
+:public_view_checkbox:
+- :checkbox
+- :id
+- document.item[LINEID].availableToPublic

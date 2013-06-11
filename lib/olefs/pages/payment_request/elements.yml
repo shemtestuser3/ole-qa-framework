@@ -1,0 +1,105 @@
+# OLE Financial System Payment Request Document Elements
+---
+# Invoice Info Tab
+:invoice_number_field:
+- :data
+- :xpath
+- //h3[contains(text(),'Invoice Info')]/following-sibling::table/tbody/tr[1]/td[1]
+:pay_date_field:
+- :input
+- :id
+- document.paymentRequestPayDate
+:invoice_date_field:
+- :data
+- :xpath
+- //h3[contains(text(),'Invoice Info')]/following-sibling::table/tbody/tr[3]/td[1]
+:immediate_pay_checkbox:
+- :checkbox
+- :id
+- document.immediatePaymentIndicator
+:payment_attachment_checkbox:
+- :checkbox
+- :id
+- document.paymentAttachmentIndicator
+:invoice_type_field:
+- :input
+- :id
+- document.oleInvoiceType.invoiceType
+:invoice_subtype_field:
+- :input
+- :id
+- docuemnt.oleInvoiceSubType.invoiceSubType
+:payment_method_selector:
+- :selector
+- :id
+- document.paymentMethod.paymentMethodId
+# Titles Tab
+:grand_total_field:
+- :data
+- :xpath
+- //div[@id='tab-Titles-div']/descendant::th[div[contains(text(),'Grand Total')]]/following-sibling::td/div/b
+:additional_charges_toggle:
+- :web
+- :id
+- tab-AdditionalCharges-imageToggle
+:freight_extended_cost_field:
+- :input
+- :id
+- document.item[1].itemUnitPrice
+:freight_description_field:
+- :input
+- :id
+- document.item[1].description
+:shipping_handling_extended_cost_field:
+- :input
+- :id
+- document.item[2].itemUnitPrice
+:shipping_handling_description_field:
+- :input
+- :id
+- document.item[2].description
+:minimum_order_extended_cost_field:
+- :input
+- :id
+- document.item[3].itemUnitPrice
+:minimum_order_description_field:
+- :input
+- :id
+- document.item[3].description
+:miscellaneous_overhead_extended_cost_field:
+- :input
+- :id
+- document.item[4].itemUnitPrice
+:miscellaneous_overhead_description_field:
+- :input
+- :id
+- document.item[4].description
+:prorate_by_quantity_checkbox:
+- :checkbox
+- :id
+- document.prorateQty
+:prorate_by_dollar_checkbox:
+- :checkbox
+- :id
+- document.prorateDollar
+:prorate_manual_checkbox:
+- :checkbox
+- :id
+- document.prorateManual
+:close_po_checkbox:
+- :checkbox
+- :id
+- document.closePurchaseOrderIndicator
+# View Related Docs Tab
+:view_related_tab_toggle:
+- :web
+- :id
+- tab-ViewRelatedDocuments-imageToggle
+:view_related_po_link:
+- :data
+- :xpath
+- //div[@id='tab-ViewRelatedDocuments-div']/descendant::h3[contains(text(),'Purchase Order')]/a
+:view_related_requisition_link:
+- :data
+- :xpath
+- //div[@id='tab-ViewRelatedDocuments-div']/descendant::h3[contains(text(),'Requisition')]/a

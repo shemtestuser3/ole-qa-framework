@@ -1,0 +1,30 @@
+# OLEFS Vendor Lookup Screen Elements
+---
+:vendor_name_field:
+- :input
+- :id
+- vendorName
+:tax_number_field:
+- :input
+- :id
+- vendorHeader.vendorTaxNumber
+:vendor_number_field:
+- :input
+- :id
+- vendorNumber
+:vendor_type_selector:
+- :selector
+- :id
+- vendorHeader.vendorTypeCode
+:state_field:
+- :input
+- :id
+- vendorAddresses.vendorStateCode
+:commodity_code_field:
+- :input
+- :id
+- vendorCommodities.purchasingCommodityCode
+:supplier_diversity_selector:
+- :selector
+- :id
+- vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode

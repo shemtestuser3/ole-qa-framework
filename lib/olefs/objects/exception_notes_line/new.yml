@@ -1,0 +1,10 @@
+# Screen Elements for New OLEFS Exception Notes Line
+---
+:exception_type_selector:
+- :selector
+- :id
+- document.item[LINEID].exceptionTypeId
+:note_field:
+- :input
+- :id
+- document.item[LINEID].exceptionNotes

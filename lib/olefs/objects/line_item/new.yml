@@ -1,0 +1,79 @@
+# New Line Item Element Definitions Hash
+---
+# Line Item Buttons
+:add_button:
+- :web
+- :css
+- input[title="Add an Item"]
+:new_bib_button:
+- :web
+- :id
+- bibCreateCurrentItemButton
+:import_lines:
+- :web
+- :xpath
+- //a[@id='showLink']
+# Line Item Fields
+:number_of_copies_field:
+- :input
+- :id
+- newPurchasingItemLine.oleItemQuantity
+:number_of_parts_field:
+- :input
+- :id
+- newPurchasingItemLine.itemNoOfParts
+:list_price_field:
+- :input
+- :id
+- newPurchasingItemLine.itemListPrice
+:discount_field:
+- :input
+- :id
+- newPurchasingItemLine.itemDiscount
+# Line Item Selectors
+:item_price_source_selector:
+- :selector
+- :id
+- newPurchasingItemLine.itemPriceSourceId
+:request_source_selector:
+- :selector
+- :id
+- newPurchasingItemLine.requestSourceId
+:item_type_selector:
+- :selector
+- :id
+- newPurchasingItemLine.itemTypeDescription
+:format_selector:
+- :selector
+- :id
+- newPurchasingItemLine.formatTypeId
+:category_selector:
+- :selector
+- :id
+- newPurchasingItemLine.categoryId
+:discount_type_selector:
+- :selector
+- :id
+- newPurchasingItemLine.itemDiscountType
+# Line Item Checkboxes
+:public_view_checkbox:
+- :checkbox
+- :id
+- newPurchasingItemLine.itemPublicViewIndicator
+:route_to_requestor_checkbox:
+- :checkbox
+- :id
+- newPurchasingItemLine.itemRouteToRequestorIndicator
+# Line Item Non-Editable Fields
+:requestor_id:
+- :data
+- :xpath
+- //div[@id='tab-Titles-div']/descendant::table/tbody/tr[5]/td[4]/div/a
+:extended_cost:
+- :data
+- :xpath
+- //tr[td/span[contains(text(),'Add')][contains(text(),'Item')]]/following-sibling::tr[2]/td[4]/div
+:unit_cost:
+- :data
+- :xpath
+- //tr[td/span[contains(text(),'Add')][contains(text(),'Item')]]/following-sibling::tr[5]/td[1]/div

@@ -1,0 +1,10 @@
+# Screen Elements for New OLEFS Receipt Notes Line
+---
+:note_type_selector:
+- :selector
+- :id
+- document.item[LINEID].noteTypeId
+:note_field:
+- :input
+- :id
+- document.item[LINEID].receiptNotes

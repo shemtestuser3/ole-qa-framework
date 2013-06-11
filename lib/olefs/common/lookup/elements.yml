@@ -1,0 +1,28 @@
+:title:
+- :data
+- :css
+- div[id='headerarea-small'] > h1
+:active_indicator_yes:
+- :checkbox
+- :id
+- activeYes
+:active_indicator_no:
+- :checkbox
+- :id
+- activeNo
+:active_indicator_both:
+- :checkbox
+- :id
+- activeBoth
+:search_button:
+- :web
+- :xpath
+- //input[@title='search']
+:clear_button:
+- :web
+- :xpath
+- //input[@title='clear']
+:cancel_button:
+- :web
+- :xpath
+- //a[@title='cancel']

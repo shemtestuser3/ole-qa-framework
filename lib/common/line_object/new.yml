@@ -1,0 +1,15 @@
+# Base Line Object Example Element Definitions
+# New Line Object (Not yet added)
+---
+:fake_element:
+- :web
+- :xpath
+- //item/does/not/exist
+:plugh:
+- :web
+- :id
+- item_LINENUM
+:xyzzy:
+- :web
+- :id
+- item_LINEID

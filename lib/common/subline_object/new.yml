@@ -1,0 +1,15 @@
+# Base Subline Object Example Element Definitions
+# New Subline Object (Not yet added)
+---
+:fake_element:
+- :web
+- :xpath
+- //item/does/not/exist
+:plugh:
+- :web
+- :id
+- item_LINENUM_SUBLINENUM
+:xyzzy:
+- :web
+- :id
+- item_LINEID_SUBLINEID

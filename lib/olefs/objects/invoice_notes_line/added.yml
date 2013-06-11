@@ -1,0 +1,10 @@
+# Screen Elements for Added OLEFS Invoice Notes Line
+---
+:note_field:
+- :input
+- :id
+- document.item[LINEID].notes[SUBLINEID].note
+:delete_button:
+- :web
+- :xpath
+- //input[@name='methodToCall.deleteNote.lineLINEID:SUBLINEID']

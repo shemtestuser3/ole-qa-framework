@@ -1,0 +1,55 @@
+# OLELFS Instance Editor Elements
+---
+# Location Information
+:location_toggle:
+- :web
+- :id
+- OleLocationInformationSection_toggle
+:location_field:
+- :input
+- :id
+- OleHoldingLocation_control
+# Call Number Information
+:call_number_toggle:
+- :web
+- :id
+- OleCallNumberInformation_toggle
+:prefix_field:
+- :input
+- :id
+- OleHoldingCallNumberPrefix_control
+:call_number_field:
+- :input
+- :id
+- OleHoldingCallNumber_control
+:shelving_order_field:
+- :input
+- :id
+- OleHoldingShelvingOrder_control
+:call_number_type_selector:
+- :selector
+- :id
+- OleHoldingShelvingScheme_control
+:call_number_browse_button:
+- :web
+- :id
+- callNumberHoldingsBrowseLink
+# Extent of Ownership
+:ownership_extent_toggle:
+- :web
+- :id
+- OleExtentOfOwnershipSection_toggle
+# Extended Information
+:extended_information_toggle:
+- :web
+- :id
+- OleExtendedInformation_toggle
+:receipt_status_selector:
+- :selector
+- :id
+- OleReceiptStatusField_control
+# Holding Notes
+:holding_notes_toggle:
+- :web
+- :id
+- OleHoldingNotes_toggle

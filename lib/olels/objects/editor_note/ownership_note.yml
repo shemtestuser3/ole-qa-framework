@@ -1,0 +1,18 @@
+# Screen Element Definitions for an Instance Editor Extent of Ownership Note
+---
+:note_type_selector:
+- :selector
+- :id
+- extentSubHoldingNoteTypeField_lineLINEID_lineSUBLINEID_control
+:note_field:
+- :input
+- :id
+- extentSubHoldingNoteDescField_lineLINEID_lineSUBLINEID_control
+:add_button:
+- :web
+- :id
+- oleEowHoldingNotes_addTagButton_lineLINEID_lineSUBLINEID
+:remove_button:
+- :web
+- :id
+- oleEowHoldingNotes_removeTagButton_lineLINEID_lineSUBLINEID

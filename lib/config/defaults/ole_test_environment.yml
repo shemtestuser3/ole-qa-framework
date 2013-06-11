@@ -1,0 +1,8 @@
+# Default Options Configuration for the OLE Test Environment
+#   Copy to lib/config/default_options.yml to use
+---
+:base_url: http://tst.ole.kuali.org/
+:ls_url: http://tst.rice2.ole.kuali.org/
+:headless?: true
+:implicit_wait: 10
+:explicit_wait: 10

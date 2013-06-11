@@ -1,0 +1,89 @@
+# OLEFS Receiving Document Screen Elements
+---
+# Vendor Tab
+:vendor_tab_toggle:
+- :web
+- :id
+- tab-Vendor-imageToggle
+:date_received_field:
+- :input
+- :id
+- document.shipmentReceivedDate
+:packing_slip_number_field:
+- :input
+- :id
+- document.shipmentPackingSlipNumber
+:bill_of_lading_number_field:
+- :input
+- :id
+- document.shipmentBillOfLadingNumber
+:reference_number_field:
+- :input
+- :id
+- document.shipmentReferenceNumber
+:carrier_selector:
+- :selector
+- :id
+- document.carrierCode
+# Delivery Tab
+:delivery_tab_toggle:
+- :web
+- :id
+- tab-Delivery-imageToggle
+:campus_field:
+- :data
+- :xpath
+- //div[@id='tab-Delivery-div']/descendant::tr[1]/th[1]/following-sibling::td[1]
+:building_field:
+- :data
+- :xpath
+- //div[@id='tab-Delivery-div']/descendant::tr[2]/th[1]/following-sibling::td[1]
+:address_field:
+- :data
+- :xpath
+- //div[@id='tab-Delivery-div']/descendant::tr[3]/th[1]/following-sibling::td[1]
+:room_field:
+- :data
+- :xpath
+- //div[@id='tab-Delivery-div']/descendant::tr[5]/th[1]/following-sibling::td[1]
+:city_field:
+- :data
+- :xpath
+- //div[@id='tab-Delivery-div']/descendant::tr[6]/th[1]/following-sibling::td[1]
+:state_field:
+- :data
+- :xpath
+- //div[@id='tab-Delivery-div']/descendant::tr[7]/th[1]/following-sibling::td[1]
+:postal_code_field:
+- :data
+- :xpath
+- //div[@id='tab-Delivery-div']/descendant::tr[8]/th[1]/following-sibling::td[1]
+:country_field:
+- :data
+- :xpath
+- //div[@id='tab-Delivery-div']/descendant::tr[9]/th[1]/following-sibling::td[1]
+:delivery_to_field:
+- :data
+- :xpath
+- //div[@id='tab-Delivery-div']/descendant::tr[1]/th[1]/following-sibling::td[2]
+:phone_number_field:
+- :data
+- :xpath
+- //div[@id='tab-Delivery-div']/descendant::tr[2]/th[1]/following-sibling::td[2]
+:email_field:
+- :data
+- :xpath
+- //div[@id='tab-Delivery-div']/descendant::tr[3]/th[1]/following-sibling::td[2]
+# View Related Docs Tab
+:view_related_tab_toggle:
+- :web
+- :id
+- tab-ViewRelatedDocuments-imageToggle
+:view_related_po_link:
+- :data
+- :xpath
+- //div[@id='tab-ViewRelatedDocuments-div']/descendant::h3[contains(text(),'Purchase Order')]/a
+:view_related_requisition_link:
+- :data
+- :xpath
+- //div[@id='tab-ViewRelatedDocuments-div']/descendant::h3[contains(text(),'Requisition')]/a
