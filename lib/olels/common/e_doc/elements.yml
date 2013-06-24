@@ -1,8 +1,0 @@
-# OLELS E-Document Elements
----
-# Header Info
-# Document Overview
-:description:
-- :input
-- :xpath
-- //tr/th[descendant::label[contains(text(),'Description:')]]/following-sibling::td[1]/descendant::input[1]
