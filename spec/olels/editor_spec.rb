@@ -19,8 +19,8 @@ require 'spec_helper'
 describe 'The Editor base class' do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
-    @editor = OLE_QAF::OLELS::Editor.new(@ole.browser, @ole.ls_url)
+    @ole = OLE_QA::Framework.new
+    @editor = OLE_QA::OLELS::Editor.new(@ole)
   end
 
   after :all do
@@ -28,36 +28,29 @@ describe 'The Editor base class' do
   end
 
   it 'should create a new instance of the Editor base class' do
-    @editor.class.should == OLE_QAF::OLELS::Editor
+    @editor.class.should == OLE_QA::OLELS::Editor
   end
 
   it 'should should be a page' do
-    @editor.class.superclass.should == OLE_QAF::Page
+    @editor.class.superclass.should == OLE_QA::Page
   end
 
-  it 'should have a title element' do
-    @editor.title.class.should == OLE_QAF::Data_Element
-  end
-
-  it 'should have a submit button' do
-    @editor.submit_button.class.should == OLE_QAF::Web_Element
-  end
-
-  it 'should have a cancel button' do
-    @editor.cancel_button.class.should == OLE_QAF::Web_Element
-  end
-
-  it 'should have a close button' do
-    @editor.close_button.class.should == OLE_QAF::Web_Element
-  end
-
-  it 'should have a return to search button' do
-    @editor.return_to_search_button.class.should == OLE_QAF::Web_Element
-  end
-
-  it 'should open the Marc Editor' do
+  it 'should open the Marc Editor via URL' do
     @editor.open
-    @ole.browser.current_url.should == @editor.url
+    @editor.title.text.should == "Bibliographic Editor - MARC Format"
   end
 
+  it 'should have editor elements' do
+    elements = @editor.methods
+    elements.include?(:title).should be_true
+    elements.include?(:submit_button).should be_true
+    elements.include?(:cancel_button).should be_true
+    elements.include?(:close_button).should be_true
+    elements.include?(:return_to_search_button).should be_true
+    elements.include?(:message).should be_true
+  end
+
+  it 'should wait for a title to be present' do
+    @editor.wait_for_page_to_load.should == [:title]
+  end
 end

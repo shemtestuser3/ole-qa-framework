@@ -18,8 +18,8 @@ require 'spec_helper'
 describe 'An OLEFS Vendor Lookup page' do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
-    @vendor_lookup = OLE_QAF::OLEFS::Vendor_Lookup.new(@ole.browser, @ole.base_url)
+    @ole = OLE_QA::Framework.new
+    @vendor_lookup = OLE_QA::OLEFS::Vendor_Lookup.new(@ole)
   end
 
   after :all do
@@ -27,22 +27,23 @@ describe 'An OLEFS Vendor Lookup page' do
   end
 
   it 'should create a new instance' do
-    @vendor_lookup.class.should == OLE_QAF::OLEFS::Vendor_Lookup
-    @vendor_lookup.class.superclass.should == OLE_QAF::OLEFS::Lookup
+    @vendor_lookup.class.should == OLE_QA::OLEFS::Vendor_Lookup
+    @vendor_lookup.class.superclass.should == OLE_QA::OLEFS::Lookup
   end
 
   it 'should open via URL' do
     @vendor_lookup.open
-    @vendor_lookup.title.verify_text("Vendor Lookup")
+    @vendor_lookup.title.text.strip.should == "Vendor Lookup"
   end
 
   it 'should have vendor lookup elements' do
-    @vendor_lookup.vendor_name_field.class.should == OLE_QAF::Input_Element
-    @vendor_lookup.tax_number_field.class.should == OLE_QAF::Input_Element
-    @vendor_lookup.vendor_number_field.class.should == OLE_QAF::Input_Element
-    @vendor_lookup.vendor_type_selector.class.should == OLE_QAF::Selector_Element
-    @vendor_lookup.state_field.class.should == OLE_QAF::Input_Element
-    @vendor_lookup.commodity_code_field.class.should == OLE_QAF::Input_Element
-    @vendor_lookup.supplier_diversity_selector.class.should == OLE_QAF::Selector_Element
+    methods = @vendor_lookup.methods
+    methods.include?(:vendor_name_field).should be_true
+    methods.include?(:tax_number_field).should be_true
+    methods.include?(:vendor_number_field).should be_true
+    methods.include?(:vendor_type_selector).should be_true
+    methods.include?(:state_field).should be_true
+    methods.include?(:commodity_code_field).should be_true
+    methods.include?(:supplier_diversity_selector).should be_true
   end
 end

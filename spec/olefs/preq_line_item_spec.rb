@@ -18,10 +18,10 @@ require 'spec_helper'
 describe 'An OLEFS Preq Line Item object' do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
+    @ole = OLE_QA::Framework.new
     @browser = @ole.browser
-    @preq_line_item = OLE_QAF::OLEFS::PREQ_Line_Item.new(@browser, 1)
-    @preq_line_item_added = OLE_QAF::OLEFS::PREQ_Line_Item.new(@browser, 1, new_line = false)
+    @preq_line_item = OLE_QA::OLEFS::PREQ_Line_Item.new(@ole, 1)
+    @new_preq_line = OLE_QA::OLEFS::New_PREQ_Line_Item.new(@ole, 1)
   end
 
   after :all do
@@ -29,102 +29,83 @@ describe 'An OLEFS Preq Line Item object' do
   end
 
   it 'should create a new instance' do
-    @preq_line_item.class.should == OLE_QAF::OLEFS::PREQ_Line_Item
-    @preq_line_item.class.superclass.should == OLE_QAF::Line_Object
-  end
-
-  it 'should have an appropriate YAML path' do
-    @preq_line_item.yaml_path.should == '/olefs/objects/preq_line_item/'
+    @preq_line_item.class.should == OLE_QA::OLEFS::PREQ_Line_Item
+    @preq_line_item.class.superclass.should == OLE_QA::OLEFS::Line_Object
+    @new_preq_line.class.should == OLE_QA::OLEFS::New_PREQ_Line_Item
+    @new_preq_line.class.superclass.should == OLE_QA::OLEFS::Line_Object
   end
 
   it 'should have a browser accessor' do
-    @preq_line_item.browser.class.should == @browser.class
+    @preq_line_item.browser.class.should == @ole.browser.class
+    @new_preq_line.browser.class.should == @ole.browser.class
   end
 
   it 'should have a line number of 1' do
     @preq_line_item.line_number.should == 1
   end
 
-  it 'should have an add button' do
-    @preq_line_item.add_button.class.should == OLE_QAF::Web_Element
+  it 'should have PREQ line item elements' do
+    methods = @preq_line_item.methods
+    methods.include?(:open_quantity_field).should be_true
+    methods.include?(:po_unit_price_field).should be_true
+    methods.include?(:format_field).should be_true
+    methods.include?(:vendor_item_identifier_field).should be_true
+    methods.include?(:prorated_surcharge_field).should be_true
+    methods.include?(:unit_cost_field).should be_true
+    methods.include?(:extended_cost_field).should be_true
+    methods.include?(:assigned_to_trade_in_field).should be_true
+    methods.include?(:description_field).should be_true
+    methods.include?(:number_of_copies_ordered_field).should be_true
+    methods.include?(:number_of_parts_ordered_field).should be_true
+    methods.include?(:list_price_field).should be_true
+    methods.include?(:discount_field).should be_true
+    methods.include?(:discount_type_selector).should be_true
+    methods.include?(:edit_bib_button).should be_true
+    methods.include?(:delete_button).should be_true
+    methods.include?(:invoice_notes_toggle).should be_true
+    methods.include?(:accounting_lines_toggle).should be_true
   end
 
-  it 'should have a new bib button' do
-    @preq_line_item.new_bib_button.class.should == OLE_QAF::Web_Element
+  it 'should have new PREQ line elements' do
+    elements = @new_preq_line.methods
+    elements.include?(:po_unit_price_field).should be_true
+    elements.include?(:format_selector).should be_true
+    elements.include?(:vendor_item_identifier_field).should be_true
+    elements.include?(:number_of_copies_ordered_field).should be_true
+    elements.include?(:number_of_parts_ordered_field).should be_true
+    elements.include?(:list_price_field).should be_true
+    elements.include?(:discount_field).should be_true
+    elements.include?(:discount_type_selector).should be_true
+    elements.include?(:assigned_to_trade_in_checkbox).should be_true
+    elements.include?(:description_field).should be_true
+    elements.include?(:new_bib_button).should be_true
+    elements.include?(:receipt_status_selector).should be_true
+    elements.include?(:add_button).should be_true
   end
 
-  it 'should have preq line item fields' do
-    @preq_line_item.po_unit_price_field.class.should == OLE_QAF::Input_Element
-    @preq_line_item.format_selector.class.should == OLE_QAF::Selector_Element
-    @preq_line_item.vendor_item_identifier_field.class.should == OLE_QAF::Input_Element
-    @preq_line_item.number_of_copies_ordered_field.class.should == OLE_QAF::Input_Element
-    @preq_line_item.number_of_parts_ordered_field.class.should == OLE_QAF::Input_Element
-    @preq_line_item.list_price_field.class.should == OLE_QAF::Input_Element
-    @preq_line_item.discount_field.class.should == OLE_QAF::Input_Element
-    @preq_line_item.discount_type_selector.class.should == OLE_QAF::Selector_Element
-    @preq_line_item.assigned_to_trade_in_checkbox.class.should == OLE_QAF::Checkbox_Element
-    @preq_line_item.description_field.class.should == OLE_QAF::Input_Element
-    @preq_line_item.receipt_status_selector.class.should == OLE_QAF::Selector_Element
+  it 'should have sublines' do
+    @preq_line_item.methods.include?(:new_invoice_notes_line).should be_true
+    @preq_line_item.methods.include?(:new_accounting_line).should be_true
   end
 
-  it 'should have an edit bib button after being added' do
-    @preq_line_item_added.edit_bib_button.class.should == OLE_QAF::Web_Element
+  it 'should create additional sublines' do
+    @preq_line_item.create_accounting_line(1)
+    @preq_line_item.methods.include?(:accounting_line_1).should be_true
+    @preq_line_item.accounting_line_1.class.should == OLE_QA::OLEFS::Accounting_Line
+    @preq_line_item.create_invoice_notes_line(1)
+    @preq_line_item.methods.include?(:invoice_notes_line_1).should be_true
+    @preq_line_item.invoice_notes_line_1.class.should == OLE_QA::OLEFS::Invoice_Notes_Line
   end
 
-  it 'should have a new accounting line' do
-    @preq_line_item_added.new_accounting_line.class.should == OLE_QAF::OLEFS::Accounting_Line
-    @preq_line_item_added.accounting_line_counter.should == 0
+  it 'should remove sublines' do
+    @preq_line_item.remove_accounting_line(1)
+    @preq_line_item.methods.include?(:accounting_line_1).should be_false
+    @preq_line_item.remove_invoice_notes_line(1)
+    @preq_line_item.methods.include?(:invoice_notes_line_1).should be_false
   end
 
-  it 'should create an accounting line' do
-    @preq_line_item_added.create_accounting_line
-    @preq_line_item_added.accounting_line_1.class.should == OLE_QAF::OLEFS::Accounting_Line
-    @preq_line_item_added.accounting_line_counter.should == 1
+  it 'should not remove sublines which do not exist' do
+    lambda {@preq_line_item.remove_accounting_line(1)}.should raise_error
+    lambda {@preq_line_item.remove_invoice_notes_line(1)}.should raise_error
   end
-
-  it 'should delete an accounting line' do
-    @preq_line_item_added.delete_accounting_line
-    @preq_line_item_added.accounting_line_1.class.should == NilClass
-    @preq_line_item_added.accounting_line_counter.should == 0
-  end
-
-  it 'should have an invoice notes line' do
-    @preq_line_item_added.new_invoice_notes_line.class.should == OLE_QAF::OLEFS::Invoice_Notes_Line
-    @preq_line_item_added.invoice_notes_line_counter.should == 0
-  end
-
-  it 'should create an invoice notes line' do
-    @preq_line_item_added.create_invoice_notes_line
-    @preq_line_item_added.invoice_notes_line_1.class.should == OLE_QAF::OLEFS::Invoice_Notes_Line
-    @preq_line_item_added.invoice_notes_line_counter.should == 1
-  end
-
-  it 'should delete an invoice notes line' do
-    @preq_line_item_added.delete_invoice_notes_line
-    @preq_line_item_added.invoice_notes_line_1.class.should == NilClass
-    @preq_line_item_added.invoice_notes_line_counter.should == 0
-  end
-
-  it 'should have subline toggle elements' do
-    @preq_line_item_added.accounting_lines_toggle.class.should == OLE_QAF::Web_Element
-    @preq_line_item_added.invoice_notes_toggle.class.should == OLE_QAF::Web_Element
-  end
-
-  it 'should have preq line item fields' do
-    @preq_line_item_added.open_quantity_field.class.should == OLE_QAF::Data_Element
-    @preq_line_item_added.po_unit_price_field.class.should == OLE_QAF::Data_Element
-    @preq_line_item_added.format_field.class.should == OLE_QAF::Data_Element
-    @preq_line_item_added.vendor_item_identifier_field.class.should == OLE_QAF::Data_Element
-    @preq_line_item_added.prorated_surcharge_field.class.should == OLE_QAF::Data_Element
-    @preq_line_item_added.unit_cost_field.class.should == OLE_QAF::Data_Element
-    @preq_line_item_added.extended_cost_field.class.should == OLE_QAF::Data_Element
-    @preq_line_item_added.assigned_to_trade_in_field.class.should == OLE_QAF::Data_Element
-    @preq_line_item_added.description_field.class.should == OLE_QAF::Data_Element
-    @preq_line_item_added.number_of_copies_ordered_field.class.should == OLE_QAF::Input_Element
-    @preq_line_item_added.number_of_parts_ordered_field.class.should == OLE_QAF::Input_Element
-    @preq_line_item_added.list_price_field.class.should == OLE_QAF::Input_Element
-    @preq_line_item_added.discount_field.class.should == OLE_QAF::Input_Element
-    @preq_line_item_added.discount_type_selector.class.should == OLE_QAF::Selector_Element
-  end
-
 end

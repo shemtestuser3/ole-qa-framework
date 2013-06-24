@@ -20,8 +20,8 @@ require 'spec_helper'
 describe 'An OLEFS E-Document' do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
-    @edoc = OLE_QAF::OLEFS::E_Doc.new(@ole.browser, @ole.base_url)
+    @ole = OLE_QA::Framework.new
+    @edoc = OLE_QA::OLEFS::E_Doc.new(@ole,@ole.base_url)
   end
 
   after :all do
@@ -29,51 +29,47 @@ describe 'An OLEFS E-Document' do
   end
 
   it 'should create a new instance' do
-    @edoc.class.should == OLE_QAF::OLEFS::E_Doc
+    @edoc.class.should == OLE_QA::OLEFS::E_Doc
   end
 
   it 'should be a page' do
-    @edoc.class.superclass.should == OLE_QAF::Page
+    @edoc.class.superclass.should == OLE_QA::Page
   end
 
-  it 'should have a title element' do
-    @edoc.title.class.name.should == "OLE_QAF::Data_Element"
-  end
-
-  it 'should have document number elements' do
-    @edoc.document_id.class.name.should == "OLE_QAF::Data_Element"
-    @edoc.document_type_id.class.name.should == "OLE_QAF::Data_Element"
-  end
-
-  it 'should have document status elements' do
-    @edoc.document_status.class.name.should == "OLE_QAF::Data_Element"
-    @edoc.document_type_status.class.name.should == "OLE_QAF::Data_Element"
-  end
-
-  it 'should have a creation date element' do
-    @edoc.document_create_date.class.name.should == "OLE_QAF::Data_Element"
-  end
-
-  it 'should have global input buttons' do
-    web_element_class = "OLE_QAF::Web_Element"
-    @edoc.approve_button.class.name.should == web_element_class
-    @edoc.save_button.class.name.should == web_element_class
-    @edoc.submit_button.class.name.should == web_element_class
-    @edoc.reload_button.class.name.should == web_element_class
-    @edoc.calculate_button.class.name.should == web_element_class
-    @edoc.close_button.class.name.should == web_element_class
-    @edoc.close_yes_button.class.name.should == web_element_class
-    @edoc.close_no_button.class.name.should == web_element_class
-    @edoc.cancel_button.class.name.should == web_element_class
-    @edoc.copy_button.class.name.should == web_element_class
-  end
-
-  it 'should have message elements' do
-    data_element_class = "OLE_QAF::Data_Element"
-    web_array_class = "OLE_QAF::Web_Element_Array"
-    @edoc.submit_message.class.name.should == data_element_class
-    @edoc.error_message.class.name.should == data_element_class
-    @edoc.generic_message.class.name.should == data_element_class
-    @edoc.errors_in_section.class.name.should == web_array_class
+  it 'should have E-document elements' do
+    elements = @edoc.methods
+    # General Info
+    elements.include?(:title).should be_true
+    # Header Area
+    elements.include?(:document_id).should be_true
+    elements.include?(:document_status).should be_true
+    elements.include?(:document_type_id).should be_true
+    elements.include?(:document_type_status).should be_true
+    elements.include?(:document_create_date).should be_true
+    # Document Overview
+    elements.include?(:document_overview_tab_toggle).should be_true
+    elements.include?(:description_field).should be_true
+    elements.include?(:explanation_field).should be_true
+    # Global Input Buttons
+    elements.include?(:approve_button).should be_true
+    elements.include?(:save_button).should be_true
+    elements.include?(:submit_button).should be_true
+    elements.include?(:calculate_button).should be_true
+    elements.include?(:close_button).should be_true
+    elements.include?(:cancel_button).should be_true
+    elements.include?(:copy_button).should be_true
+    # Confirmation Screen Buttons
+    elements.include?(:close_yes_button).should be_true
+    elements.include?(:close_no_button).should be_true
+    elements.include?(:cancel_yes_button).should be_true
+    elements.include?(:cancel_no_button).should be_true
+    # Messages
+    elements.include?(:save_message).should be_true
+    elements.include?(:submit_message).should be_true
+    elements.include?(:error_message).should be_true
+    elements.include?(:generic_message).should be_true
+    # Multiple Error Message Components     Watir::HTMLElementCollection
+    elements.include?(:errors_in_tab).should be_true
+    elements.include?(:get_error_array).should be_true
   end
 end

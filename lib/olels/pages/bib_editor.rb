@@ -12,182 +12,61 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QAF::OLELS
+module OLE_QA::OLELS
   # The OLE Library System MARC Bibliographic Record Editor Screen
   class Bib_Editor < Editor
-
-    # An integer counter for the number of MARC Data Lines on the screen.
-    attr_accessor :data_line_counter
-
-    # An integer counter for the number of MARC Control Lines on the screen.
-    attr_accessor :control_line_counter
-
-    # The default Leader Field Line, automatically generated upon instantiation.
-    # In OLE, this line has only a single field (leader_line.value_field),
-    # and is a required field for a MARC record, but will take any alphanumeric
-    # placeholder text (may not support punctuation or special characters).
-    #
-    attr_accessor :leader_line
-
-    # The default Control Field line created when the Bib Editor is opened.
-    #
-    # The safe placeholder value for the control field tag (control_line_1.tag_field)
-    # is "008".  Any alphanumeric value can be used as a testing placeholder for
-    # the control field value (control_line_1.value_field), but no punctuation
-    # or special characters should be used.
-    #
-    # When the Bib Record is saved (.save), a new control line will be added with
-    # a tag of "001" and a hyphenated alphanumeric string representing the UUID
-    # of the record in the DocStore.  This value will supplant control_line_1,
-    # and the script will increment the control_line_counter and add control_line_2,
-    # which will contain the original value entered for the control field.
-    #
-    attr_accessor :control_line_1
-
-    # The default Data Field line created when the Bib Editor is opened.
-    #
-    # The minimum requirements to save a Bibliographic Record include a title
-    # (tag "245", subfield "|a", any alphanumeric value), a leader field
-    # value (see leader_line), and a control field value (see control_line_1).
-    #
-    # If a minimum-requirement bib is being created, use data_line_1 to create
-    # a 245 $a MARC field.
-    #
-    attr_accessor :data_line_1
-
-    def initialize(browser, olels_url)
-      super(browser, olels_url)
-
-      @data_line_counter = 1
-      @control_line_counter = 1
-
-      # Create a line for the Leader Field (Required)
-      @leader_line = Bib_Editor_Line.new(@browser, 1, 'leader')
-      # Create a line for the Control Field (Required, 008)
-      @control_line_1 = Bib_Editor_Line.new(@browser, 1, 'control')
-      # Create a line for the first Data Field (Required, 245, |a)
-      @data_line_1 = Bib_Editor_Line.new(@browser, 1, 'data')
-
-      # Load Bib Editor Elements
-      elements = load_elements('/olels/pages/bib_editor/')
-      set_elements(elements)
-    end
-
-    # Open the Bib Editor via URL and select the frame "iframeportlet".
-    def open
+    # Set OLE Library System Bib Editor screen elements.
+    # @note  Elements for individual Marc data lines are set on
+    #   {OLE_QA::OLELS::Data_Line}
+    def set_elements
       super
-      frame_select
+      element(:leader_field)                        {b.text_field(:id => "LeaderTextInputField_control")}
+      element(:bib_record_status_selector)          {b.select_list(:id => "StatusFieldSection_control")}
+      element(:set_button)                          {b.button(:id => "set_button")}
+      # Control Field Buttons
+      element(:control_003_link)                    {b.a(:id => "003FieldLink")}
+      element(:control_005_link)                    {b.a(:id => "005FieldLink")}
+      element(:control_006_link)                    {b.a(:id => "006FieldLink")}
+      element(:control_007_link)                    {b.a(:id => "007FieldLink")}
+      element(:control_008_link)                    {b.a(:id => "008FieldLink")}
+      element(:control_009_link)                    {b.a(:id => "009FieldLink")}
+      # Control Fields & Related Elements
+      #   (NB - Dependent on links & leader field state!)
+      element(:control_003_field)                   {b.text_field(:id => "Control_Field_003_control")}
+      element(:control_005_field)                   {b.text_field(:id => "Control_Field_005_control")}
+      element(:control_006_field)                   {b.text_field(:id => "Control_Field_006_control")}
+      element(:control_006_format_selector)         {b.select_list(:id => "006Field_0_control")}
+      element(:control_006_set_button)              {b.button(:id => "ControlField_Set_button")}
+      element(:control_006_reset_button)            {b.button(:id => "ControlField_Reset_button")}
+      element(:control_008_field)                   {b.text_field(:id => "Control_Field_008_control")}
+      # Navigation Area Elements
+      # TODO Check on necessity of plurality for add instance button once it is functioning again.  (see OLE-4294)
+      element(:delete_bib_button)                   {b.img(:xpath => "//img[@class='deleteBib']")}
+      element(:holdings_links)                      {b.divs(:class => "holdingIdentifierClass")}
+      element(:item_links)                          {b.divs(:class => "itemIdentifierClass")}
+      element(:add_instance_buttons)                {b.imgs(:class => "addInstance")}
+      element(:delete_instance_buttons)             {b.imgs(:title => "Delete Instance")}
+      element(:add_item_buttons)                    {b.imgs(:title => "Add Item")}
+      element(:delete_item_buttons)                 {b.imgs(:title => "Delete Item")}
     end
 
-    # Add a data line and increment the counter (data_line_counter).
-    # Creates a new instance variable named data_line_N, where
-    # N = @data_line_counter + 1.
-    #
-    def add_data_line(do_click = true)
-      if instance_variable_defined?(:"@data_line_#{@data_line_counter}") then
-        current_line = instance_variable_get(:"@data_line_#{@data_line_counter}")
-        current_line.add_button.click if do_click
-        @data_line_counter += 1
-        make_accessor(:"data_line_#{@data_line_counter}")
-        instance_variable_set(:"@data_line_#{@data_line_counter}",\
-         Bib_Editor_Line.new(@browser, @data_line_counter, 'data'))
-      else
-        raise StandardError, "Data Line not set: data_line_#{@data_line_counter}"
-      end
+    # Add the first Marc Data Line to a new Bib Editor record.
+    # @note There will always be at least one Marc Data Line on a newly-opened record,
+    #   whether newly-created or previously extant.
+    def set_lines
+      create_data_line(1)
     end
 
-    # Add a control line and increment the counter (control_line_counter).
-    # Creates a new instance variable named control_line_N, where
-    # N = @control_line_counter + 1.
-    #
-    def add_control_line(do_click = true)
-      if instance_variable_defined?(:"@control_line_#{@control_line_counter}") then
-        current_line = instance_variable_get(:"@control_line_#{@control_line_counter}")
-        current_line.add_button.click if do_click
-        @control_line_counter += 1
-        make_accessor(:"control_line_#{@control_line_counter}")
-        instance_variable_set(:"@control_line_#{@control_line_counter}",\
-         Bib_Editor_Line.new(@browser, @control_line_counter, 'control'))
-      else
-        raise StandardError, "Control Line not set: control_line_#{@control_line_counter}"
-      end
+    # Add a Marc data line to the editor page model.
+    def create_data_line(which = 1)
+      create_line("data_line_#{which}","Data_Line", which)
     end
+    alias_method(:add_data_line, :create_data_line)
 
-    # Remove a control line by number.  If this leaves one too many
-    # control line instances, remove the last one.
-    #
-    # NB! - You'll need to use a conditional wait or a spin assert
-    # after running this method to manipulate control lines altered
-    # by this method.
-    # If you start working with them before the screen elements have
-    # time to refresh, they will show outdated values.
-    #
-    def delete_control_line(line_number, do_click = true)
-      if instance_variable_defined?(:"@control_line_#{line_number}") then
-        # Click the remove button.
-        current_line = instance_variable_get(:"@control_line_#{line_number}")
-        current_line.remove_button.click if do_click
-        # Remove and reinstantiate all but the last control_line_N instance
-        # variables.  The last one is dropped, and all of the values will
-        # be shifted downward.
-        line_number.upto(@control_line_counter) do |i|
-          remove_instance_variable(:"@control_line_#{i}")
-          unless i == @control_line_counter
-            make_accessor(:"control_line_#{i}")
-            instance_variable_set(:"@control_line_#{i}", Bib_Editor_Line.new(@browser, i, 'control'))
-          end
-        end
-        # Finally, decrement the control line counter.
-        @control_line_counter -= 1 unless @control_line_counter == 1
-      else
-        raise StandardError, "Control Line not set: control_line_#{line_number}"
-      end
+    # Remove a Marc data line from the editor page model.
+    def remove_data_line(which = 1)
+      remove_line("data_line_#{which}")
     end
-
-    # Remove a data line by number.  If this leaves one too many
-    # data field instances, remove the last one.
-    #
-    # NB! - You'll need to use a conditional wait or a spin assert
-    # after running this method to manipulate control lines altered
-    # by this method.
-    # If you start working with them before the screen elements have
-    # time to refresh, they will show outdated values.
-    #
-    def delete_data_line(line_number, do_click = true)
-      if instance_variable_defined?(:"@data_line_#{line_number}") then
-        # Click the remove button.
-        current_line = instance_variable_get(:"@data_line_#{line_number}")
-        current_line.remove_button.click if do_click
-        # Remove and reinstantiate all but the last data_line_N instance
-        # variables.  The last one is dropped, and all of the values will
-        # be shifted downward.
-        line_number.upto(@data_line_counter) do |i|
-          remove_instance_variable(:"@data_line_#{i}")
-          unless i == @data_line_counter
-            make_accessor(:"data_line_#{i}")
-            instance_variable_set(:"@data_line_#{i}", Bib_Editor_Line.new(@browser, i, 'control'))
-          end
-        end
-        # Finally, decrement the control line counter.
-        @data_line_counter -= 1 unless @data_line_counter == 1
-      else
-        raise StandardError, "Control Line not set: data_line_#{line_number}"
-      end
-    end
-
-    # Click the submit button and increment the number of control lines
-    # by 1.
-    #
-    # This method may also require a conditional wait or a spin assert in
-    # order to assure that the new control line has appeared.
-    def save
-      @submit_button.click
-      @control_line_counter += 1
-      make_accessor(:"control_line_#{@control_line_counter}")
-      instance_variable_set(:"@control_line_#{@control_line_counter}", \
-        Bib_Editor_Line.new(@browser, @control_line_counter, 'control'))
-    end
-
+    alias_method(:delete_data_line,:remove_data_line)
   end
-
 end

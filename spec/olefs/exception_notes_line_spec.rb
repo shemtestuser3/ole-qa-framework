@@ -18,33 +18,35 @@ require 'spec_helper'
 describe 'An OLEFS Exception Notes Line object' do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
+    @ole = OLE_QA::Framework.new
     @browser = @ole.browser
-    @exception_notes_line = OLE_QAF::OLEFS::Exception_Notes_Line.new(@browser, 1, 1)
-    @exception_notes_line_added = OLE_QAF::OLEFS::Exception_Notes_Line.new(@browser, 1, 1, new_line = false)
+    @exception_notes_line = OLE_QA::OLEFS::Exception_Notes_Line.new(@ole, 1, 1)
+    @new_exception_notes_line = OLE_QA::OLEFS::New_Exception_Notes_Line.new(@ole, 1, 0)
   end
 
   it 'should create a new instance' do
-    @exception_notes_line.class.should == OLE_QAF::OLEFS::Exception_Notes_Line
-    @exception_notes_line.class.superclass.should == OLE_QAF::Subline_Object
-  end
-
-  it 'should have a path to the YAML files' do
-    @exception_notes_line.yaml_path.should == '/olefs/objects/exception_notes_line/'
+    @exception_notes_line.class.should == OLE_QA::OLEFS::Exception_Notes_Line
+    @exception_notes_line.class.superclass.should == OLE_QA::Subline_Object
+    @new_exception_notes_line.class.should == OLE_QA::OLEFS::New_Exception_Notes_Line
+    @new_exception_notes_line.class.superclass.should == OLE_QA::Subline_Object
   end
 
   it 'should have a browser accessor' do
-    @exception_notes_line.browser.class.should == Selenium::WebDriver::Driver
+    @exception_notes_line.browser.class.should == @ole.browser.class
+    @new_exception_notes_line.browser.class.should == @ole.browser.class
   end
 
-  it 'should have exception notes fields' do
-    @exception_notes_line.exception_type_selector.class.should == OLE_QAF::Selector_Element
-    @exception_notes_line.note_field.class.should == OLE_QAF::Input_Element
+  it 'should have exception notes elements' do
+    methods = @exception_notes_line.methods
+    methods.include?(:exception_type_selector).should be_true
+    methods.include?(:note_field).should be_true
+    methods.include?(:note_type_selector).should be_true
   end
 
-  it 'should have exception notes fields after being added' do
-    @exception_notes_line_added.exception_type_selector.class.should == OLE_QAF::Selector_Element
-    @exception_notes_line_added.note_field.class.should == OLE_QAF::Input_Element
+  it 'should have new exception notes elements' do
+    elements = @new_exception_notes_line.methods
+    elements.include?(:exception_type_selector).should be_true
+    elements.include?(:note_field).should be_true
+    elements.include?(:note_type_selector).should be_true
   end
-
 end

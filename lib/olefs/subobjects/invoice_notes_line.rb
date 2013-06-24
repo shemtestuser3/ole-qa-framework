@@ -12,22 +12,14 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QAF
-  # A dropdown list Web Element.
-  class Selector_Element < Data_Element
-
-    # Select an option from the list.
-    #
-    # how - the method by which the value is designated
-    #   e.g., :text
-    # what - the locator or identifier for the value to be selected
-    #   e.g., "Book"
-    #
-    # - This will instantiate the Selector Element using the .element method.
-    # - This will return a Selenium::WebDriver Error if the element does not exist.
-    def select_option(how, what)
-      Selenium::WebDriver::Support::Select.new(element).select_by(how, what)
+module OLE_QA::OLEFS
+  # An Invoice Notes Line on an OLE Financial System Payment Request.
+  class Invoice_Notes_Line < OLE_QA::Subline_Object
+    # Set invoice notes line elements.
+    def set_elements
+      super
+      element(:note_field)                {b.text_area(:id => "document.item[#{@line_id}].notes[#{@subline_id}].note")}
+      element(:delete_button)             {b.input(:xpath => "//input[@name='methodToCall.deleteNote.line#{@line_id}:#{@subline_id}']")}
     end
-
   end
 end

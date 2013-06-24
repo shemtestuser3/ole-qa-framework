@@ -20,14 +20,8 @@ require 'spec_helper'
 describe 'A purap_requisition document' do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
-    @req = OLE_QAF::OLEFS::Requisition.new(@ole.browser, @ole.base_url)
-    @web_name = "OLE_QAF::Web_Element"
-    @data_name = "OLE_QAF::Data_Element"
-    @input_name = "OLE_QAF::Input_Element"
-    @array_name = "OLE_QAF::Web_Element_Array"
-    @select_name = "OLE_QAF::Selector_Element"
-    @checkbox_name = "OLE_QAF::Checkbox_Element"
+    @ole = OLE_QA::Framework.new
+    @req = OLE_QA::OLEFS::Requisition.new(@ole)
   end
 
   after :all do
@@ -35,73 +29,55 @@ describe 'A purap_requisition document' do
   end
 
   it 'should create a new instance' do
-    @req.class.should == OLE_QAF::OLEFS::Requisition
+    @req.class.should == OLE_QA::OLEFS::Requisition
   end
 
   it 'should be a subclass of an OLEFS E-Document' do
-    @req.class.superclass.should == OLE_QAF::OLEFS::PURAP_Document
+    @req.class.superclass.should == OLE_QA::OLEFS::PURAP_Document
   end
 
   it 'should open a new purap_requisition via url' do
     @req.open
-    @req.title.verify_text("Requisition").should be_true
+    @req.title.text.strip.should == "Requisition"
   end
 
-  it 'should have Document Overview elements' do
-    @req.description_field.class.name.should == @input_name
-    @req.explanation_field.class.name.should == @input_name
+  it 'should have requisition elements' do
+    elements = @req.methods
+    elements.include?(:license_request_checkbox).should be_true
+    elements.include?(:receiving_required_checkbox).should be_true
+    elements.include?(:payment_request_approval_required_checkbox).should be_true
+    elements.include?(:additional_info_tab_toggle).should be_true
+    elements.include?(:additional_info_phone_number_field).should be_true
+    elements.include?(:delivery_tab_toggle).should be_true
+    elements.include?(:building_field).should be_true
+    elements.include?(:campus_field).should be_true
+    elements.include?(:room_field).should be_true
+    elements.include?(:building_search_icon).should be_true
+    elements.include?(:campus_search_icon).should be_true
+    elements.include?(:delivery_phone_number_field).should be_true
+    elements.include?(:vendor_tab_toggle).should be_true
+    elements.include?(:vendor_name_field).should be_true
+    elements.include?(:closed_vendor_name_field).should be_true
+    elements.include?(:vendor_search_icon).should be_true
+    elements.include?(:grand_total_field).should be_true
   end
 
-  it 'should have Requisition Detail elements' do
-    @req.license_request_checkbox.class.name.should == @checkbox_name
-    @req.receiving_required_checkbox.class.name.should == @checkbox_name
-    @req.payment_request_approval_required_checkbox.class.name.should == @checkbox_name
+  it 'should have a new line item' do
+    @req.new_line_item.class.should == OLE_QA::OLEFS::New_Line_Item
   end
 
-  it 'should have Additional Information elements' do
-    @req.additional_info_tab_toggle.class.name.should == @web_name
-    @req.phone_number_field.class.name.should == @input_name
-  end
-
-  it 'should have Delivery elements' do
-    @req.delivery_tab_toggle.class.name.should == @web_name
-    @req.building_field.class.name.should == @input_name
-    @req.room_field.class.name.should == @input_name
-    @req.building_search_icon.class.name.should == @web_name
-    @req.campus_search_icon.class.name.should == @web_name
-  end
-
-  it 'should have Vendor elements' do
-    @req.vendor_tab_toggle.class.name.should == @web_name
-    @req.vendor_name_field.class.name.should == @input_name
-    @req.vendor_name_added_field.class.name.should == @data_name
-    @req.vendor_search_icon.class.name.should == @web_name
-  end
-
-  it 'should have Titles elements' do
-    @req.grand_total_field.class.name.should == @data_name
-  end
-
-  it 'should have Related Doc elements' do
-    @req.view_related_tab_toggle.class.name.should == @web_name
-    @req.view_related_po_link.class.name.should == @data_name
-  end
-
-  it 'should start out with one line item' do
-    @req.new_line_item.class.should == OLE_QAF::OLEFS::Line_Item
-    @req.line_item_counter.should == 0
-  end
-
-  it 'should create a new line item' do
-    @req.create_line_item
-    @req.line_item_1.class.should == OLE_QAF::OLEFS::Line_Item
-    @req.line_item_counter.should == 1
+  it 'should create a line item' do
+    @req.create_line_item(1)
+    @req.methods.include?(:line_item_1).should be_true
+    @req.line_item_1.class.should == OLE_QA::OLEFS::Line_Item
   end
 
   it 'should delete a line item' do
-    @req.delete_line_item
-    @req.line_item_1.class.should == NilClass
-    @req.line_item_counter.should == 0
+    @req.remove_line_item(1)
+    @req.methods.include?(:line_item_1).should be_false
   end
 
+  it 'should not delete a line item which does not exist' do
+    lambda {@req.remove_line_item(1)}.should raise_error
+  end
 end

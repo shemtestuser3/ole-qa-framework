@@ -19,8 +19,8 @@ require "spec_helper"
 describe "The OLEFS Main Menu" do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
-    @olefs = OLE_QAF::OLEFS_Main_Menu.new(@ole.browser, @ole.base_url)
+    @ole = OLE_QA::Framework.new
+    @olefs = OLE_QA::OLEFS_Main_Menu.new(@ole)
   end
 
   after :all do
@@ -29,6 +29,6 @@ describe "The OLEFS Main Menu" do
 
   it "should open via url" do
     @olefs.open
-    @ole.browser.title.should == "Kuali Portal Index"
+    @ole.browser.title.strip.should == "Kuali Portal Index"
   end
 end

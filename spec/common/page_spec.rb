@@ -12,26 +12,33 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require 'rspec'
-require 'spec_helper'
+require "rspec"
+require "spec_helper"
 
 
-describe 'A Data Object' do
+describe "A Page" do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
-    @data_object = OLE_QAF::Data_Object.new(@ole.browser)
+    @ole = OLE_QA::Framework.new
+    @page = OLE_QA::Page.new(@ole, @ole.base_url)
   end
 
-  after :all do
-    @ole.quit
-  end
-
-  it 'should create a new instance' do
-    @data_object.class.should == OLE_QAF::Data_Object
+  it "should open via url" do
+    @page.open
+    @ole.browser.title.should == "Kuali Portal Index"
   end
 
   it 'should have a browser accessor' do
-    @data_object.browser.class.should == Selenium::WebDriver::Driver
+    @page.browser.class.should == @ole.browser.class
   end
+
+  it 'should have a URL attribute' do
+    @page.url.should == @ole.base_url
+  end
+
+  it 'should set a frame element on the browser if one is present' do
+    @page.browser.link(:text => "Requisition").click
+    @page.browser.class.should == Watir::Frame
+  end
+
 end

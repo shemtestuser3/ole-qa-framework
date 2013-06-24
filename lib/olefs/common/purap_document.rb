@@ -12,68 +12,62 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QAF::OLEFS
+module OLE_QA::OLEFS
   # An OLE Financial System PURchasing/Accounts Payable Document
   class PURAP_Document < E_Doc
-
-    include OLE_QAF::Page_Helpers
-
-    # The URL to open a new PURAP document on the current OLE environment.
-    attr_accessor :url
-
-    # The number of line items on the PURAP document.
-    # - Initializes to one.
-    # - This is the value passed to the Line Item object upon instantiation.
-    # - There will always be a .line_item_N accessor where N = counter.
-    # - .line_item_N will always be the newest line item on the PURAP document.
-    # - The line item number stays with a line item after it is added.
-    attr_accessor :line_item_counter
-
-    # This is the first line item on the PURAP document.
-    # It starts out as a new line, yet to be added.
-    #
-    # @note In OLE, a bibliographic record must be attached to a line item
-    # before it can be added.
-    attr_accessor :line_item_1
-
-    def initialize(ole_browser, olefs_url)
-      super(ole_browser, olefs_url)
-
-      subdir = '/olefs/common/purap_document/'
-
-      purap_elements = load_elements(subdir)
-      set_elements(purap_elements)
-
-      @url = olefs_url
-
-      @line_item_counter = 0
-      make_accessor(:new_line_item)
-      @new_line_item = Line_Item.new(@browser, 0, new_line = true)
+    def initialize(ole_session, url)
+      super(ole_session, url)
+      set_lines if defined?(self.set_lines)
     end
 
-    # Create a new line item on the current PURAP Document instance.
-    # - Increments the line item counter.
-    # - Creates a new instance of Line_Item.
-    # - New instance variable will be @line_item_N where N = counter.
-    def create_line_item
-      @line_item_counter += 1
-      n = @line_item_counter
-      new_line = false
-      make_accessor(:"line_item_#{n}")
-      instance_variable_set(:"@line_item_#{n}",\
-        Line_Item.new(@browser, n, new_line))
+    # Set PURAP Document Elements.
+    def set_elements
+      super
+      # View Related Documents Tab
+      element(:view_related_tab_toggle)                           {b.input(:id => "tab-ViewRelatedDocuments-imageToggle")}
+      element(:view_related_po_link)                              {b.a(:xpath => "//div[@id='tab-ViewRelatedDocuments-div']/descendant::h3[contains(text(),'Purchase Order')]/a")}
+      element(:view_related_requisition_link)                     {b.a(:xpath => "//div[@id='tab-ViewRelatedDocuments-div']/descendant::h3[contains(text(),'Requisition')]/a")}
+      # Delivery Tab
+      element(:delivery_tab_toggle)                               {b.input(:id => "tab-Delivery-imageToggle")}
+      element(:building_field)                                    {b.td(:xpath => "//div[@id='tab-Delivery-div']/div/table/tbody/tr[2]/td[1]")}
+      element(:campus_field)                                      {b.td(:xpath => "//div[@id='tab-Delivery-div']/div/table/tbody/tr[1]/td[1]")}
+      element(:closed_room_field)                                 {b.td(:xpath => "//div[@id='tab-Delivery-div']/div/table/tbody/tr[5]/td[1]")}
+      element(:closed_building_field)                             {b.td(:xpath => "//div[@id='tab-Delivery-div']/div/table/tbody/tr[2]/td[1]")}
+      element(:closed_campus_field)                               {b.td(:xpath => "//div[@id='tab-Delivery-div']/div/table/tbody/tr[1]/td[1]")}
+      element(:closed_address_1_field)                            {b.td(:xpath => "//div[@id='tab-Delivery-div']/descendant::tr[3]/th[1]/following-sibling::td[1]")}
+      element(:closed_address_2_field)                            {b.td(:xpath => "//div[@id='tab-Delivery-div']/descendant::tr[4]/th[1]/following-sibling::td[1]")}
+      element(:closed_city_field)                                 {b.td(:xpath => "//div[@id='tab-Delivery-div']/descendant::tr[6]/th[1]/following-sibling::td[1]")}
+      element(:closed_state_field)                                {b.td(:xpath => "//div[@id='tab-Delivery-div']/descendant::tr[7]/th[1]/following-sibling::td[1]")}
+      element(:closed_postal_code_field)                          {b.td(:xpath => "//div[@id='tab-Delivery-div']/descendant::tr[8]/th[1]/following-sibling::td[1]")}
+      element(:closed_country_field)                              {b.td(:xpath => "//div[@id='tab-Delivery-div']/descendant::tr[9]/th[1]/following-sibling::td[1]")}
+      element(:closed_delivery_to_field)                          {b.td(:xpath => "//div[@id='tab-Delivery-div']/descendant::tr[1]/th[1]/following-sibling::td[2]")}
+      element(:closed_delivery_phone_number_field)                {b.td(:xpath => "//div[@id='tab-Delivery-div']/descendant::tr[2]/th[1]/following-sibling::td[2]")}
+      element(:closed_email_field)                                {b.td(:xpath => "//div[@id='tab-Delivery-div']/descendant::tr[3]/th[1]/following-sibling::td[2]")}
+      # Vendor Tab
+      element(:vendor_tab_toggle)                                 {b.input(:id => "tab-Vendor-imageToggle")}
+      element(:closed_vendor_name_field)                          {b.td(:xpath => "//tr/th[div[contains(text(),'Suggested Vendor:')]]/following-sibling::td[1]")}
+      # Route Log Tab
+      element(:route_log_tab_toggle)              {b.input(:id => "tab-RouteLog-imageToggle")}
+      # element(:actions_taken)                     {b.bs(:xpath => "//div[@id='tab-ActionsTaken-div']/div[1]/table/tbody/tr/td[1]/b")}
+      # element(:actions_taken_by)                  {b.as(:xpath => "//div[@id='tab-ActionsTaken-div']/div[1]/table/tbody/tr/td[2]/a")}
     end
 
-    # Delete the highest-numbered line item object on the current PURAP Document instance.
-    # - Removes the @line_item_N instance variable where N = counter.
-    # - Decrements the line item counter.
-    #
-    # @raise [StandardError] if counter = 0
-    def delete_line_item
-      n = @line_item_counter
-      raise StandardError, "No line items exist!" if n == 0
-      remove_instance_variable(:"@line_item_#{n}")
-      @line_item_counter -= 1
+    # Create a Line Object on a PURAP Document page.
+    def create_line(instance_name, class_name, which=0)
+      raise StandardError, "Line object already exists.  (#{instance_name})" if self.instance_variables.include?("@#{instance_name}".to_sym)
+      new_line_name = instance_name
+      make_accessor(:"#{instance_name}")
+      klas = OLE_QA::OLEFS.const_get(:"#{class_name}")
+      instance_variable_set(:"@#{new_line_name}", klas.new(@ole, which))
     end
+    alias_method(:add_line,:create_line)
+
+    # Remove a Line Object from a PURAP Document page.
+    def remove_line(instance_name)
+      raise StandardError, "Line object does not exist.  (#{instance_name})" unless self.instance_variables.include?("@#{instance_name}".to_sym)
+      remove_instance_variable("@#{instance_name}".to_sym)
+      unmake_attr(instance_name.to_sym)
+    end
+    alias_method(:delete_line,:remove_line)
   end
 end

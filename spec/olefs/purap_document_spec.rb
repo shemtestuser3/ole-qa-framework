@@ -18,8 +18,8 @@ require 'spec_helper'
 describe 'An OLEFS Purap Document page' do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
-    @purap_document = OLE_QAF::OLEFS::PURAP_Document.new(@ole.browser, @ole.base_url)
+    @ole = OLE_QA::Framework.new
+    @purap_document = OLE_QA::OLEFS::PURAP_Document.new(@ole, @ole.base_url)
   end
 
   after :all do
@@ -27,13 +27,32 @@ describe 'An OLEFS Purap Document page' do
   end
 
   it 'should create a new instance' do
-    @purap_document.class.should == OLE_QAF::OLEFS::PURAP_Document
-    @purap_document.class.superclass.should == OLE_QAF::OLEFS::E_Doc
+    @purap_document.class.should == OLE_QA::OLEFS::PURAP_Document
+    @purap_document.class.superclass.should == OLE_QA::OLEFS::E_Doc
   end
 
-  it 'should have route log elements' do
-    @purap_document.route_log_tab_toggle.class.should == OLE_QAF::Web_Element
-    @purap_document.actions_taken_array.class.should == OLE_QAF::Web_Element_Array
-    @purap_document.actions_taken_by_array.class.should == OLE_QAF::Web_Element_Array
+  it 'should have PURAP document elements' do
+    elements = @purap_document.methods
+    elements.include?(:view_related_tab_toggle).should be_true
+    elements.include?(:view_related_po_link).should be_true
+    elements.include?(:view_related_requisition_link).should be_true
+    elements.include?(:delivery_tab_toggle).should be_true
+    elements.include?(:building_field).should be_true
+    elements.include?(:campus_field).should be_true
+    elements.include?(:closed_room_field).should be_true
+    elements.include?(:closed_building_field).should be_true
+    elements.include?(:closed_campus_field).should be_true
+    elements.include?(:closed_address_1_field).should be_true
+    elements.include?(:closed_address_2_field).should be_true
+    elements.include?(:closed_city_field).should be_true
+    elements.include?(:closed_state_field).should be_true
+    elements.include?(:closed_postal_code_field).should be_true
+    elements.include?(:closed_country_field).should be_true
+    elements.include?(:closed_delivery_to_field).should be_true
+    elements.include?(:closed_delivery_phone_number_field).should be_true
+    elements.include?(:closed_email_field).should be_true
+    elements.include?(:route_log_tab_toggle).should be_true
+    elements.include?(:vendor_tab_toggle).should be_true
+    elements.include?(:closed_vendor_name_field).should be_true
   end
 end

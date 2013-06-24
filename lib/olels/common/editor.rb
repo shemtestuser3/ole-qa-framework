@@ -12,16 +12,16 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QAF::OLELS
+module OLE_QA::OLELS
 
   # This represents the base object for the Describe Editor.
   # It generates elements common to all three editor screens:
   # - Bibliographic Editor
   # - Instance Editor (for Holdings)
   # - Item Editor
-  class Editor < OLE_QAF::Page
+  class Editor < OLE_QA::Page
 
-    # The universal Describe Editor URL in OLELS.
+    # The URL for this Page object is the universal Describe Editor URL in OLELS.
     # When the Editor is opened via URL, it will start on the
     # MARC Bibliographic Editor screen.
     #
@@ -32,18 +32,44 @@ module OLE_QAF::OLELS
     # to verify whether or not the Editor has been opened
     # correctly.
     #
-    attr_accessor :url
-
-    def initialize(browser, ole_ls_base_url)
-      editor_url =  ole_ls_base_url + 'portal.do?channelTitle=Editor&channelUrl='
-      editor_url += ole_ls_base_url + 'kr-krad/editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=bibliographic&docFormat=marc&editable=true'
-      super(browser, editor_url)
-      @url = editor_url
-
-      universal_editor_elements = load_elements('/olels/common/editor/')
-      set_elements(universal_editor_elements)
+    def initialize(ole_session)
+      editor_url =  ole_session.ls_url + 'portal.do?channelTitle=Editor&channelUrl='
+      editor_url += ole_session.ls_url + 'kr-krad/editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=bibliographic&docFormat=marc&editable=true'
+      super(ole_session, editor_url)
+      set_lines if defined?(self.set_lines)
     end
 
-  end
+    # Set elements common to all Editor screens.
+    # @note "Return to Search" buttons will not appear when Editors are not invoked via Describe Workbench,
+    #   despite their commonality.
+    def set_elements
+      element(:title)                           {b.h2(:class => "uif-headerText").span}
+      element(:submit_button)                   {b.button(:id => "submitEditor")}
+      element(:cancel_button)                   {b.button(:id => "cancelEditor")}
+      element(:close_button)                    {b.button(:id => "closeEditor")}
+      element(:return_to_search_button)         {b.button(:id => "returnToSearch_button")}
+      element(:message)                         {b.span(:id => "workMessageSection_span")}
+    end
 
+    # Designate elements always expected to be present once the editor has finished loading.
+    def wait_for_elements
+      @wait_on << :title
+    end
+
+    # Create a Line Object on an Editor page.
+    def create_line(instance_name, class_name, which=0)
+      raise StandardError, "Line object already exists.  (#{instance_name})" if self.instance_variables.include?("@#{instance_name}".to_sym)
+      new_line_name = instance_name
+      make_accessor(:"#{instance_name}")
+      klas = OLE_QA::OLELS.const_get(:"#{class_name}")
+      instance_variable_set(:"@#{new_line_name}", klas.new(@ole, which))
+    end
+
+    # Remove a Line Object from an Editor page.
+    def remove_line(instance_name)
+      raise StandardError, "Line object does not exist.  (#{instance_name})" unless self.instance_variables.include?("@#{instance_name}".to_sym)
+      remove_instance_variable("@#{instance_name}".to_sym)
+      unmake_attr(instance_name.to_sym)
+    end
+  end
 end

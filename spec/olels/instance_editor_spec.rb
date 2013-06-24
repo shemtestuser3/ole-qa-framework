@@ -18,9 +18,9 @@ require 'spec_helper'
 describe 'An OLELS Instance Editor page' do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
+    @ole = OLE_QA::Framework.new
     @browser = @ole.browser
-    @instance_editor = OLE_QAF::OLELS::Instance_Editor.new(@browser, @ole.ls_url)
+    @instance_editor = OLE_QA::OLELS::Instance_Editor.new(@ole)
   end
 
   after :all do
@@ -28,73 +28,53 @@ describe 'An OLELS Instance Editor page' do
   end
 
   it 'should create a new instance' do
-    @instance_editor.class.should == OLE_QAF::OLELS::Instance_Editor
-    @instance_editor.class.superclass.should == OLE_QAF::OLELS::Editor
+    @instance_editor.class.should == OLE_QA::OLELS::Instance_Editor
+    @instance_editor.class.superclass.should == OLE_QA::OLELS::Editor
   end
 
   it 'should have instance editor elements' do
-    @instance_editor.location_toggle.class.should == OLE_QAF::Web_Element
-    @instance_editor.location_field.class.should == OLE_QAF::Input_Element
-    @instance_editor.call_number_toggle.class.should == OLE_QAF::Web_Element
-    @instance_editor.prefix_field.class.should == OLE_QAF::Input_Element
-    @instance_editor.call_number_field.class.should == OLE_QAF::Input_Element
-    @instance_editor.shelving_order_field.class.should == OLE_QAF::Input_Element
-    @instance_editor.call_number_type_selector.class.should == OLE_QAF::Selector_Element
-    @instance_editor.call_number_browse_button.class.should == OLE_QAF::Web_Element
-    @instance_editor.ownership_extent_toggle.class.should == OLE_QAF::Web_Element
-    @instance_editor.extended_information_toggle.class.should == OLE_QAF::Web_Element
-    @instance_editor.receipt_status_selector.class.should == OLE_QAF::Selector_Element
-    @instance_editor.holding_notes_toggle.class.should == OLE_QAF::Web_Element
+    elements = @instance_editor.methods
+    elements.include?(:location_toggle).should be_true
+    elements.include?(:location_field).should be_true
+    elements.include?(:call_number_toggle).should be_true
+    elements.include?(:prefix_field).should be_true
+    elements.include?(:shelving_order_field).should be_true
+    elements.include?(:call_number_type_selector).should be_true
+    elements.include?(:call_number_browse_button).should be_true
+    elements.include?(:ownership_extent_toggle).should be_true
+    elements.include?(:extended_information_toggle).should be_true
+    elements.include?(:receipt_status_selector).should be_true
+    elements.include?(:holding_notes_toggle).should be_true
+    elements.include?(:holdings_notes_toggle).should be_true
   end
 
-  it 'should have an ownership extent line' do
-    @instance_editor.ownership_extent_line_1.class.should == OLE_QAF::OLELS::Ownership_Extent_Line
-    @instance_editor.ownership_extent_line_counter.should == 1
+  it 'should start with line objects' do
+    @instance_editor.methods.include?(:ownership_extent_line_1).should be_true
+    @instance_editor.methods.include?(:access_info_line_1).should be_true
+    @instance_editor.methods.include?(:holdings_note_1).should be_true
+    @instance_editor.ownership_extent_line_1.class.should == OLE_QA::OLELS::Ownership_Extent_Line
+    @instance_editor.access_info_line_1.class.should == OLE_QA::OLELS::Access_Info_Line
+    @instance_editor.holdings_note_1.class.should == OLE_QA::OLELS::Holdings_Note
   end
 
-  it 'should have an access info line' do
-    @instance_editor.access_info_line_1.class.should == OLE_QAF::OLELS::Editor_Note
-    @instance_editor.access_info_line_counter.should == 1
+  it 'should add line objects' do
+    @instance_editor.add_ownership_extent_line(2)
+    @instance_editor.methods.include?(:ownership_extent_line_2).should be_true
+    @instance_editor.ownership_extent_line_2.class.should == OLE_QA::OLELS::Ownership_Extent_Line
+    @instance_editor.add_access_info_line(2)
+    @instance_editor.methods.include?(:access_info_line_2).should be_true
+    @instance_editor.access_info_line_2.class.should == OLE_QA::OLELS::Access_Info_Line
+    @instance_editor.add_holdings_note(2)
+    @instance_editor.methods.include?(:holdings_note_2).should be_true
+    @instance_editor.holdings_note_2.class.should == OLE_QA::OLELS::Holdings_Note
   end
 
-  it 'should have a holdings note line' do
-    @instance_editor.holdings_note_1.class.should == OLE_QAF::OLELS::Editor_Note
-    @instance_editor.holdings_note_counter.should == 1
-  end
-
-  it 'should add an ownership extent line' do
-    @instance_editor.add_ownership_extent_line(do_click = false)
-    @instance_editor.ownership_extent_line_2.class.should == OLE_QAF::OLELS::Ownership_Extent_Line
-    @instance_editor.ownership_extent_line_counter.should == 2
-  end
-
-  it 'should add an access info line' do
-    @instance_editor.add_access_info_line(do_click = false)
-    @instance_editor.access_info_line_2.class.should == OLE_QAF::OLELS::Editor_Note
-    @instance_editor.access_info_line_counter.should == 2
-  end
-
-  it 'should add a holdings note line' do
-    @instance_editor.add_holdings_note(do_click = false)
-    @instance_editor.holdings_note_2.class.should == OLE_QAF::OLELS::Editor_Note
-    @instance_editor.holdings_note_counter.should == 2
-  end
-
-  it 'should delete an ownership extent line' do
-    @instance_editor.delete_ownership_extent_line(2, false)
-    @instance_editor.ownership_extent_line_2.class.should == NilClass
-    @instance_editor.ownership_extent_line_counter.should == 1
-  end
-
-  it 'should delete an access info line' do
-    @instance_editor.delete_access_info_line(2, false)
-    @instance_editor.access_info_line_2.class.should == NilClass
-    @instance_editor.access_info_line_counter.should == 1
-  end
-
-  it 'should delete a holdings note line' do
-    @instance_editor.delete_holdings_note(2, false)
-    @instance_editor.holdings_note_2.class.should == NilClass
-    @instance_editor.holdings_note_counter.should == 1
+  it 'should remove line objects' do
+    @instance_editor.remove_ownership_extent_line(2)
+    @instance_editor.methods.include?(:ownership_extent_line_2).should be_false
+    @instance_editor.remove_access_info_line(2)
+    @instance_editor.methods.include?(:access_info_line_2).should be_false
+    @instance_editor.remove_holdings_note(2)
+    @instance_editor.methods.include?(:holdings_note_2).should be_false
   end
 end

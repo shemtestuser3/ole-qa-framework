@@ -16,12 +16,11 @@ require 'rspec'
 require 'spec_helper'
 
 
-describe 'An OLE_QAF Selector Element' do
+describe 'A Data Object' do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
-    @ole.browser.get("http://kis.kuali.org")
-    @selector = OLE_QAF::Selector_Element.new(@ole.browser, :id, "ProjectQuickSelect")
+    @ole = OLE_QA::Framework.new
+    @data_object = OLE_QA::Data_Object.new(@ole)
   end
 
   after :all do
@@ -29,15 +28,10 @@ describe 'An OLE_QAF Selector Element' do
   end
 
   it 'should create a new instance' do
-    @selector.class.should == OLE_QAF::Selector_Element
+    @data_object.class.should == OLE_QA::Data_Object
   end
 
-  # This particular select element navigates to a new page, resetting
-  # the selector value to ''.  If it was selected correctly, Kuali KIS
-  # should return the OLE project page.
-  it 'should select an option by a given method and value' do
-    @selector.select_option(:text, "OLE")
-    @ole.browser.find_element(:xpath, "//h1[@class='title']").text.should == "Kuali OLE"
+  it 'should have a browser accessor' do
+    @data_object.browser.class.should == @ole.browser.class
   end
-
 end

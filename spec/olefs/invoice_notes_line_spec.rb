@@ -18,24 +18,28 @@ require 'spec_helper'
 describe 'An OLEFS Invoice Notes Line object' do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
+    @ole = OLE_QA::Framework.new
     @browser = @ole.browser
-    @invoice_notes = OLE_QAF::OLEFS::Invoice_Notes_Line.new(@browser, 1, 1)
-    @invoice_notes_added = OLE_QAF::OLEFS::Invoice_Notes_Line.new(@browser, 1, 1, false)
+    @invoice_notes = OLE_QA::OLEFS::Invoice_Notes_Line.new(@ole, 1, 1)
+    @new_invoice_notes = OLE_QA::OLEFS::New_Invoice_Notes_Line.new(@ole, 1, 0)
   end
 
   it 'should create a new instance' do
-    @invoice_notes.class.should == OLE_QAF::OLEFS::Invoice_Notes_Line
-    @invoice_notes.class.superclass.should == OLE_QAF::Subline_Object
+    @invoice_notes.class.should == OLE_QA::OLEFS::Invoice_Notes_Line
+    @invoice_notes.class.superclass.should == OLE_QA::Subline_Object
+    @new_invoice_notes.class.should == OLE_QA::OLEFS::New_Invoice_Notes_Line
+    @new_invoice_notes.class.superclass.should == OLE_QA::Subline_Object
   end
 
   it 'should have invoice notes line elements' do
-    @invoice_notes.note_field.class.should == OLE_QAF::Input_Element
-    @invoice_notes.add_button.class.should == OLE_QAF::Web_Element
+    methods = @invoice_notes.methods
+    methods.include?(:note_field).should be_true
+    methods.include?(:delete_button).should be_true
   end
 
-  it 'should have invoice notes line elements' do
-    @invoice_notes_added.note_field.class.should == OLE_QAF::Input_Element
-    @invoice_notes_added.delete_button.class.should == OLE_QAF::Web_Element
+  it 'should have new invoice notes line elements' do
+    methods = @new_invoice_notes.methods
+    methods.include?(:note_field).should be_true
+    methods.include?(:add_button).should be_true
   end
 end

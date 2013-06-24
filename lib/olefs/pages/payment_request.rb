@@ -12,46 +12,56 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QAF::OLEFS
+module OLE_QA::OLEFS
   # An OLE Financial System Payment Request Document.
   class Payment_Request < PURAP_Document
-
-    def initialize(ole_browser, olefs_url)
-      super(ole_browser, olefs_url)
-
-      subdir = '/olefs/pages/payment_request/'
-      preq_elements = load_elements(subdir)
-      set_elements(preq_elements)
-
-      @url = olefs_url + 'portal.do?channelTitle=Payment Request&channelUrl=selectOlePaymentRequest.do?methodToCall=docHandler&command=initiate&docTypeName=OLE_PREQ'
-
-      # Redefine new line item instance variable set by PURAP document.
-      @new_line_item = PREQ_Line_Item.new(@browser, 0, new_line = true)
+    def initialize(ole_session)
+      new_preq_url = ole_session.fs_url + 'portal.do?channelTitle=Payment Request&channelUrl=selectOlePaymentRequest.do?methodToCall=docHandler&command=initiate&docTypeName=OLE_PREQ'
+      super(ole_session, new_preq_url)
     end
 
-    # Create a new line item on the current Payment Request instance.
-    # - Increments the line item counter.
-    # - Creates a new instance of Line_Item.
-    # - New instance variable will be @line_item_N where N = counter.
-    def create_line_item
-      @line_item_counter += 1
-      n = @line_item_counter
-      new_line = false
-      make_accessor(:"line_item_#{n}")
-      instance_variable_set(:"@line_item_#{n}",\
-        PREQ_Line_Item.new(@browser, n, new_line))
+    # Create a new payment request line item on the payment request document.
+    def set_lines
+      create_line("new_line_item","New_PREQ_Line_Item")
     end
 
-    # Delete the highest-numbered line item object on the current Payment Request instance.
-    # - Removes the @line_item_N instance variable where N = counter.
-    # - Decrements the line item counter.
-    #
-    # @raise [StandardError] if counter = 0
-    def delete_line_item
-      n = @line_item_counter
-      raise StandardError, "No line items exist!" if n == 0
-      remove_instance_variable(:"@line_item_#{n}")
-      @line_item_counter -= 1
+    # Set Payment Request document screen elements.
+    def set_elements
+      super
+      # Invoice Info Tab
+      element(:invoice_number_field)                        {b.td(:xpath => "//h3[contains(text(),'Invoice Info')]/following-sibling::table/tbody/tr[1]/td[1]")}
+      element(:pay_date_field)                              {b.text_field(:id => "document.paymentRequestPayDate")}
+      element(:invoice_date_field)                          {b.td(:xpath => "//h3[contains(text(),'Invoice Info')]/following-sibling::table/tbody/tr[3]/td[1]")}
+      element(:immediate_pay_checkbox)                      {b.checkbox(:id => "document.immediatePaymentIndicator")}
+      element(:payment_attachment_checkbox)                 {b.checkbox(:id => "document.paymentAttachmentIndicator")}
+      element(:invoice_type_field)                          {b.text_field(:id => "document.oleInvoiceType.invoiceType")}
+      element(:invoice_subtype_field)                       {b.text_field(:id => "document.oleInvoiceSubType.invoiceSubType")}
+      element(:payment_method_selector)                     {b.select_list(:id => "document.paymentMethod.paymentMethodId")}
+      # Titles Tab
+      element(:grand_total_field)                           {b.b(:xpath => "//div[@id='tab-Titles-div']/descendant::th[div[contains(text(),'Grand Total')]]/following-sibling::td/div/b")}
+      element(:additional_charges_toggle)                   {b.input(:id => "tab-AdditionalCharges-imageToggle")}
+      element(:freight_extended_cost_field)                 {b.text_field(:id => "document.item[1].itemUnitPrice")}
+      element(:freight_description_field)                   {b.text_field(:id => "document.item[1].description")}
+      element(:shipping_handling_extended_cost_field)       {b.text_field(:id => "document.item[2].itemUnitPrice")}
+      element(:shipping_handling_description_field)         {b.text_field(:id => "document.item[2].description")}
+      element(:minimum_order_extended_cost_field)           {b.text_field(:id => "document.item[3].itemUnitPrice")}
+      element(:minimum_order_description_field)             {b.text_field(:id => "document.item[3].description")}
+      element(:misc_overhead_extended_cost_field)           {b.text_field(:id => "document.item[4].itemUnitPrice")}
+      element(:misc_overhead_description_field)             {b.text_field(:id => "document.item[4].description")}
+      element(:prorate_by_quantity_checkbox)                {b.checkbox(:id => "document.prorateQty")}
+      element(:prorate_by_dollar_checkbox)                  {b.checkbox(:id => "document.prorateDollar")}
+      element(:prorate_manual_checkbox)                     {b.checkbox(:id => "document.prorateManual")}
+      element(:close_po_checkbox)                           {b.checkbox(:id => "document.closePurchaseOrderIndicator")}
     end
+
+    def create_line_item(which = 1)
+      create_line("line_item_#{which}","PREQ_Line_Item",which)
+    end
+    alias_method(:add_line_item,:create_line_item)
+
+    def remove_line_item(which = 1)
+      remove_line("line_item_#{which}")
+    end
+    alias_method(:delete_line_item,:remove_line_item)
   end
 end

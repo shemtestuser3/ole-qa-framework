@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QAF
-  # Set version number for this project.
+module OLE_QA
+  # The version number for this project.
   VERSION = '1.0.0'
 end

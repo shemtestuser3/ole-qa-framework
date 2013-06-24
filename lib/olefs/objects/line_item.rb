@@ -12,122 +12,94 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QAF::OLEFS
+module OLE_QA::OLEFS
   # A single Line Item in an OLE Financial System PURAP E-Document.
-  class Line_Item < OLE_QAF::Line_Object
-
-    # An integer counter for the number of Accounting Lines attached to the Line Item.
-    # - This counter always points at the new accounting line, the first under the item.
-    # - This counter always represents the sum of available accounting lines on the screen, not the sum of added lines.
-    attr_accessor :accounting_line_counter
-
-    # An integer counter for the number of Copies Lines attached to the Line Item.
-    # - This counter always points at the new copies line, the first under the item.
-    # - This counter always represents the sum of visible copies lines on the screen, not the sum of added lines.
-    # - The presence of actual copies lines in OLE is dependent upon the number of copies listed in the Line Item.
-    # - For simplicity's sake, this counter will be set to 1 when the Line Item is added.  It will not be state-dependent.
-    attr_accessor :copies_line_counter
-
-    # An integer counter for the number of Notes Lines attached to the Line Item.
-    # - This counter always points at the new notes line, the first under the item.
-    # - This counter always represents the sum of visible notes lines on the screen, not the sum of added lines.
-    attr_accessor :notes_line_counter
-
-    def initialize(browser, line_number, new_line = true)
-      @yaml_path = '/olefs/objects/line_item/'
-      @browser = browser
-      @line_number = line_number
-      @new_line = new_line
-      super(@browser, @yaml_path, @line_number, @new_line)
-
-      @accounting_line_counter = 0
-      @copies_line_counter = 0
-      @notes_line_counter = 0
-
-      unless new_line
-        make_accessor(:new_accounting_line)
-        @new_accounting_line = Accounting_Line.new(@browser, @line_number, 0)
-        make_accessor(:new_copies_line)
-        @new_copies_line = Copies_Line.new(@browser, @line_number, 0)
-        make_accessor(:new_notes_line)
-        @new_notes_line = Notes_Line.new(@browser, @line_number, 0)
-      end
+  class Line_Item < OLE_QA::OLEFS::Line_Object
+    # Create accessor methods for new subline objects.
+    def set_sublines
+      create_subline("new_accounting_line","New_Accounting_Line")
+      create_subline("new_notes_line","New_Notes_Line")
+      create_subline("new_copies_line","New_Copies_Line")
     end
 
-    # Create an accounting line object on the current line item instance.
-    # - Increments the accounting line counter.
-    # - Creates a new instance of Accounting_Line.
-    # - New instance variable will be @accounting_line_N where N = counter.
-    def create_accounting_line
-      @accounting_line_counter += 1
-      n = @accounting_line_counter
-      new_line = false
-      make_accessor(:"accounting_line_#{n}")
-      instance_variable_set(:"@accounting_line_#{n}", \
-        Accounting_Line.new(@browser, @line_number, n, new_line))
+    # Set line item elements.
+    def set_elements
+      super
+      # Fields
+      element(:copies_field)                      {b.text_field(:id => "document.item[#{@line_id}].oleItemQuantity")}
+      element(:parts_field)                       {b.text_field(:id => "document.item[#{@line_id}].itemNoOfParts")}
+      element(:list_price_field)                  {b.text_field(:id => "document.item[#{@line_id}].itemListPrice")}
+      element(:discount_field)                    {b.text_field(:id => "document.item[#{@line_id}].itemDiscount")}
+      element(:description_field)                 {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[1]/td[2]")}
+      element(:item_type_field)                   {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[1]/td[3]")}
+      element(:extended_cost_field)               {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[2]/td[3]")}
+      element(:receipt_status_field)              {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[3]/td[1]")}
+      # Selectors
+      element(:item_price_source_selector)        {b.select_list(:id => "document.item[#{@line_id}].itemPriceSourceId")}
+      element(:request_source_selector)           {b.select_list(:id => "document.item[#{@line_id}].requestSourceId")}
+      element(:item_type_selector)                {b.select_list(:id => "document.item[#{@line_id}].itemTypeDescription")}
+      element(:format_selector)                   {b.select_list(:id => "document.item[#{@line_id}].formatTypeId")}
+      element(:category_selector)                 {b.select_list(:id => "document.item[#{@line_id}].categoryId")}
+      element(:discount_type_selector)            {b.select_list(:id => "document.item[#{@line_id}].itemDiscountType")}
+      # Buttons, Checkboxes, Etc.
+      element(:delete_button)                     {b.input(:title => "Delete Item #{@line_number}")}
+      element(:route_to_requestor_checkbox)       {b.checkbox(:id => "document.item[#{@line_id}].itemRouteToRequestor")}
+      element(:public_view_checkbox)              {b.checkbox(:id => "document.item[#{@line_id}].itemPublicViewIndicator")}
+      # Readonly Elements
+      # Use these for closed, uneditable fields as with a pre-existing line item on a purchase order.
+      element(:closed_description_field)          {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[1]/td[2]")}
+      element(:closed_item_type_field)            {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[1]/td[3]")}
+      element(:closed_extended_cost_field)        {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[2]/td[3]")}
+      element(:closed_list_price_field)           {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[2]/td[4]")}
+      element(:closed_copies_field)               {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[2]/td[1]")}
+      element(:closed_parts_field)                {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[2]/td[2]")}
+      element(:closed_receipt_status_field)       {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[3]/td[1]")}
+      element(:closed_copies_received_field)      {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[3]/td[2]")}
+      element(:closed_parts_received_field)       {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[3]/td[3]")}
+      element(:closed_item_price_source_field)    {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[3]/td[4]")}
+      element(:closed_request_source_field)       {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[3]/td[5]")}
+      element(:closed_format_field)               {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[4]/td[1]")}
+      element(:closed_category_field)             {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[4]/td[2]")}
+      element(:closed_vendor_item_id_field)       {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[4]/td[3]")}
+      element(:closed_requestor_field)            {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[4]/td[4]")}
+      element(:closed_route_to_requestor_field)   {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[4]/td[5]")}
+      element(:closed_unit_cost_field)            {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[5]/td[1]")}
+      element(:closed_discount_field)             {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[5]/td[2]")}
+      element(:closed_discount_type_field)        {b.td(:xpath => "//tr[td[@class='tab-subhead'][contains(text(),'Item #{@line_number}')]]/following-sibling::tr[5]/td[4]")}
+      # Subtab Toggle Buttons                   # Matches all of type, then selects by index = @line_id (i.e. if @line_num is 1, index is 0)
+      element(:accounting_lines_toggle)         {b.input(:id => /tab-AccountingLines[0-9]+-imageToggle/, :index => @line_id)}
+      #element(:notes_toggle)                   #TBD - The notes and copies lines are treated as the same line for ID purposes.
+      #element(:copies_toggle)                  # There is no reliable way of knowing which index either should have without being state-aware.
     end
 
-    # Delete the highest-numbered accounting line object on the current line item instance.
-    # - Removes the @accounting_line_N instance variable where N = counter.
-    # - Decrements the accounting line counter.
-    #
-    # @raise [StandardError] if counter = 0
-    def delete_accounting_line
-      n = @accounting_line_counter
-      raise StandardError, "No accounting lines exist!" if n == 0
-      remove_instance_variable(:"@accounting_line_#{n}")
-      @accounting_line_counter -= 1
+    def create_accounting_line(which = 1)
+      create_subline("accounting_line_#{which}","Accounting_Line", which)
     end
+    alias_method(:add_accounting_line,:create_accounting_line)
 
-    # Create an copies line object on the current line item instance.
-    # - Increments the copies line counter.
-    # - Creates a new instance of Copies_Line.
-    # - New instance variable will be @copies_line_N where N = counter.
-    def create_copies_line
-      @copies_line_counter += 1
-      n = @copies_line_counter
-      new_line = false
-      make_accessor(:"copies_line_#{n}")
-      instance_variable_set(:"@copies_line_#{n}", \
-        Copies_Line.new(@browser, @line_number, n, new_line))
+    def create_notes_line(which = 1)
+      create_subline("notes_line_#{which}","Notes_Line", which)
     end
+    alias_method(:add_notes_line,:create_notes_line)
 
-    # Delete the highest-numbered copies line object on the current line item instance.
-    # - Removes the @copies_line_N instance variable where N = counter.
-    # - Decrements the copies line counter.
-    #
-    # @raise [StandardError] if counter = 0
-    def delete_copies_line
-      n = @copies_line_counter
-      raise StandardError, "No copies lines exist!" if n == 0
-      remove_instance_variable(:"@copies_line_#{n}")
-      @copies_line_counter -= 1
+    def create_copies_line(which = 1)
+      create_subline("copies_line_#{which}","Copies_Line", which)
     end
+    alias_method(:add_copies_line,:create_copies_line)
 
-    # Create an notes line object on the current line item instance.
-    # - Increments the notes line counter.
-    # - Creates a new instance of Notes_Line.
-    # - New instance variable will be @notes_line_N where N = counter.
-    def create_notes_line
-      @notes_line_counter += 1
-      n = @notes_line_counter
-      new_line = false
-      make_accessor(:"notes_line_#{n}")
-      instance_variable_set(:"@notes_line_#{n}", \
-        Notes_Line.new(@browser, @line_number, n, new_line))
+    def remove_accounting_line(which = 1)
+      remove_subline("accounting_line_#{which}")
     end
+    alias_method(:delete_accounting_line,:remove_accounting_line)
 
-    # Delete the highest-numbered notes line object on the current line item instance.
-    # - Removes the @notes_line_N instance variable where N = counter.
-    # - Decrements the notes line counter.
-    #
-    # @raise [StandardError] if counter = 0
-    def delete_notes_line
-      n = @notes_line_counter
-      raise StandardError, "No notes lines exist!" if n == 0
-      remove_instance_variable(:"@notes_line_#{n}")
-      @notes_line_counter -= 1
+    def remove_notes_line(which = 1)
+      remove_subline("notes_line_#{which}")
     end
-    
+    alias_method(:delete_notes_line,:remove_notes_line)
+
+    def remove_copies_line(which = 1)
+      remove_subline("copies_line_#{which}")
+    end
+    alias_method(:delete_copies_line,:remove_copies_line)
   end
 end

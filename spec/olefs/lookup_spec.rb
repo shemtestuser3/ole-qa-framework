@@ -18,8 +18,8 @@ require 'spec_helper'
 describe 'An OLEFS Lookup page' do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
-    @lookup = OLE_QAF::OLEFS::Lookup.new(@ole.browser, @ole.base_url)
+    @ole = OLE_QA::Framework.new
+    @lookup = OLE_QA::OLEFS::Lookup.new(@ole, @ole.base_url)
   end
 
   after :all do
@@ -27,18 +27,18 @@ describe 'An OLEFS Lookup page' do
   end
 
   it 'should create a new instance' do
-    @lookup.class.should == OLE_QAF::OLEFS::Lookup
-    @lookup.class.superclass.should == OLE_QAF::Page
+    @lookup.class.should == OLE_QA::OLEFS::Lookup
+    @lookup.class.superclass.should == OLE_QA::Page
   end
 
   it 'should have lookup page screen elements' do
-    @lookup.title.class.should == OLE_QAF::Data_Element
-    @lookup.active_indicator_yes.class.should == OLE_QAF::Checkbox_Element
-    @lookup.active_indicator_no.class.should == OLE_QAF::Checkbox_Element
-    @lookup.active_indicator_both.class.should == OLE_QAF::Checkbox_Element
-    @lookup.search_button.class.should == OLE_QAF::Web_Element
-    @lookup.cancel_button.class.should == OLE_QAF::Web_Element
-    @lookup.clear_button.class.should == OLE_QAF::Web_Element
+    methods = @lookup.methods
+    methods.include?(:title).should be_true
+    methods.include?(:active_indicator_yes).should be_true
+    methods.include?(:active_indicator_no).should be_true
+    methods.include?(:active_indicator_both).should be_true
+    methods.include?(:search_button).should be_true
+    methods.include?(:clear_button).should be_true
+    methods.include?(:cancel_button).should be_true
   end
-
 end

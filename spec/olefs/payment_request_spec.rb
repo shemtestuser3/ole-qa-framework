@@ -18,9 +18,9 @@ require 'spec_helper'
 describe 'An OLEFS Payment Request page' do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
+    @ole = OLE_QA::Framework.new
     @browser = @ole.browser
-    @preq = OLE_QAF::OLEFS::Payment_Request.new(@browser, @ole.base_url)
+    @preq = OLE_QA::OLEFS::Payment_Request.new(@ole)
   end
 
   after :all do
@@ -28,58 +28,58 @@ describe 'An OLEFS Payment Request page' do
   end
 
   it 'should create a new instance' do
-    @preq.class.should ==  OLE_QAF::OLEFS::Payment_Request
-    @preq.class.superclass.should == OLE_QAF::OLEFS::PURAP_Document
+    @preq.class.should ==  OLE_QA::OLEFS::Payment_Request
+    @preq.class.superclass.should == OLE_QA::OLEFS::PURAP_Document
   end
 
-  it 'should have invoice info tab elements' do
-    @preq.invoice_number_field.class.should == OLE_QAF::Data_Element
-    @preq.pay_date_field.class.should == OLE_QAF::Input_Element
-    @preq.invoice_date_field.class.should == OLE_QAF::Data_Element
-    @preq.immediate_pay_checkbox.class.should == OLE_QAF::Checkbox_Element
-    @preq.payment_attachment_checkbox.class.should == OLE_QAF::Checkbox_Element
-    @preq.invoice_type_field.class.should == OLE_QAF::Input_Element
-    @preq.invoice_subtype_field.class.should == OLE_QAF::Input_Element
-    @preq.payment_method_selector.class.should == OLE_QAF::Selector_Element
+  it 'should open a new PREQ document via URL' do
+    @preq.open
+    @preq.title.text.strip.should == "Payment Request"
   end
 
-  it 'should have titles tab elements' do
-    @preq.grand_total_field.class.should == OLE_QAF::Data_Element
-    @preq.additional_charges_toggle.class.should == OLE_QAF::Web_Element
-    @preq.freight_extended_cost_field.class.should == OLE_QAF::Input_Element
-    @preq.freight_description_field.class.should == OLE_QAF::Input_Element
-    @preq.shipping_handling_extended_cost_field.class.should == OLE_QAF::Input_Element
-    @preq.shipping_handling_description_field.class.should == OLE_QAF::Input_Element
-    @preq.minimum_order_extended_cost_field.class.should == OLE_QAF::Input_Element
-    @preq.minimum_order_description_field.class.should == OLE_QAF::Input_Element
-    @preq.miscellaneous_overhead_extended_cost_field.class.should == OLE_QAF::Input_Element
-    @preq.miscellaneous_overhead_description_field.class.should == OLE_QAF::Input_Element
-    @preq.prorate_by_quantity_checkbox.class.should == OLE_QAF::Checkbox_Element
-    @preq.prorate_by_dollar_checkbox.class.should == OLE_QAF::Checkbox_Element
-    @preq.prorate_manual_checkbox.class.should == OLE_QAF::Checkbox_Element
-    @preq.close_po_checkbox.class.should == OLE_QAF::Checkbox_Element
-  end
-
-  it 'should have view related documents tab elements' do
-    @preq.view_related_tab_toggle.class.should == OLE_QAF::Web_Element
-    @preq.view_related_po_link.class.should == OLE_QAF::Data_Element
-    @preq.view_related_requisition_link.class.should == OLE_QAF::Data_Element
+  it 'should have payment request elements' do
+    elements = @preq.methods
+    elements.include?(:invoice_number_field).should be_true
+    elements.include?(:pay_date_field).should be_true
+    elements.include?(:invoice_date_field).should be_true
+    elements.include?(:immediate_pay_checkbox).should be_true
+    elements.include?(:payment_attachment_checkbox).should be_true
+    elements.include?(:invoice_type_field).should be_true
+    elements.include?(:invoice_subtype_field).should be_true
+    elements.include?(:payment_method_selector).should be_true
+    elements.include?(:grand_total_field).should be_true
+    elements.include?(:additional_charges_toggle).should be_true
+    elements.include?(:freight_extended_cost_field).should be_true
+    elements.include?(:freight_description_field).should be_true
+    elements.include?(:shipping_handling_extended_cost_field).should be_true
+    elements.include?(:shipping_handling_description_field).should be_true
+    elements.include?(:minimum_order_extended_cost_field).should be_true
+    elements.include?(:minimum_order_description_field).should be_true
+    elements.include?(:misc_overhead_extended_cost_field).should be_true
+    elements.include?(:misc_overhead_description_field).should be_true
+    elements.include?(:prorate_by_quantity_checkbox).should be_true
+    elements.include?(:prorate_by_dollar_checkbox).should be_true
+    elements.include?(:prorate_manual_checkbox).should be_true
+    elements.include?(:close_po_checkbox).should be_true
   end
 
   it 'should have a new line item' do
-    @preq.new_line_item.class.should == OLE_QAF::OLEFS::PREQ_Line_Item
+    @preq.methods.include?(:new_line_item).should be_true
+    @preq.new_line_item.class.should == OLE_QA::OLEFS::New_PREQ_Line_Item
   end
 
-  it 'should add a line item' do
-    @preq.create_line_item
-    @preq.line_item_counter.should == 1
-    @preq.line_item_1.class.should == OLE_QAF::OLEFS::PREQ_Line_Item
+  it 'should create a line item' do
+    @preq.create_line_item(1)
+    @preq.methods.include?(:line_item_1).should be_true
+    @preq.line_item_1.class.should == OLE_QA::OLEFS::PREQ_Line_Item
   end
 
   it 'should remove a line item' do
-    @preq.delete_line_item
-    @preq.line_item_counter.should == 0
-    @preq.line_item_1.class.should == NilClass
+    @preq.remove_line_item(1)
+    @preq.methods.include?(:line_item_1).should be_false
   end
 
+  it 'should raise an error when asked to remove a line item which does not exist' do
+    lambda {@preq.remove_line_item(1)}.should raise_error
+  end
 end

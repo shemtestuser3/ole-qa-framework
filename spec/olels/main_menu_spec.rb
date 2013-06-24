@@ -19,8 +19,8 @@ require "spec_helper"
 describe "The OLELS Main Menu" do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
-    @olels = OLE_QAF::OLELS_Main_Menu.new(@ole)
+    @ole = OLE_QA::Framework.new
+    @olels = OLE_QA::OLELS_Main_Menu.new(@ole)
   end
 
   after :all do

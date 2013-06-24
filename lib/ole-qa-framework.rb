@@ -14,23 +14,17 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QAF
+module OLE_QA
 
   # Load open-uri for DocStore Page Parsing
   require 'open-uri'
   require 'yaml'
-  require 'version'
   require 'headless'
-  require 'selenium-webdriver'
+  require 'watir-webdriver'
 
   # Add absolute directory to $LOAD_PATH
   @libdir = File.expand_path(File.dirname(__FILE__))
   $LOAD_PATH.unshift(@libdir) unless $LOAD_PATH.include?(@libdir)
-
-
-  # Maintain VERSION constant on this module
-  # (Handled by Version Gem)
-  is_versioned
 
   # Return absolute path from which the file was run
   def self.load_dir
@@ -44,33 +38,27 @@ module OLE_QAF
     end
   end
 
+  # Load main class libraries
+  load_libs("/ole_qa_framework/")
+
   # Load all independent modules
   load_libs("/module/")
 
-  # Require all files in browser/
-  load_libs('/browser/')
-
-  # Load specific web element subtypes in order of dependency
-  web_element_dir = '/browser/web_element/'
-  load_libs(web_element_dir, 'data_element.rb')
-  load_libs(web_element_dir, 'input_element.rb')
-  load_libs(web_element_dir, 'selector_element.rb')
-  load_libs(web_element_dir, 'checkbox_element.rb')
-
-  # Load all subdirectory main files
-  # (sets up definitions for base pages and objects
-  # in each functional area)
+  # Load Page & Element Definitions.
+  # Main directory is loaded first, then subdirectories in alphabetical order.
+  # If pages or elements need to be inherited by subclasses, put them in a (foo)/common/ directory.
+  # Subobject directories (foo)/subobjects/ should be loaded before object directories (foo)/objects/ for inheritance.
   load_libs("/common/")
-  load_libs("/olefs/")
-  load_libs("/olels/")
-  load_libs("/docstore/")
-
-  # Load subdirectories for OLE components
-  # (loads pages)
-  load_libs("/common/*/")
-  load_libs("/olels/*/")
-  load_libs("/olefs/*/")
-  load_libs("/docstore/*/")
+  # load_libs("/olefs/")
+  load_libs("/olefs/common/")
+  load_libs("/olefs/subobjects/")
+  load_libs("/olefs/objects/")
+  load_libs("/olefs/pages/")
+  load_libs("/olels/common/")
+  load_libs("/olels/subobjects/")
+  load_libs("/olels/objects/")
+  load_libs("/olels/pages/")
+  # load_libs("/docstore/")
 
   # Handle Browser Functions, Headless Session
   #   Invoke with @ole = Framework.new(opts)
@@ -83,10 +71,11 @@ module OLE_QAF
 
     # OLE Installation Base URL
     # - Also serves as OLE Financial System Main Menu URL
-    attr_accessor :base_url
+    attr_reader :base_url
+    alias :fs_url :base_url
 
     # OLE Library System Base URL
-    attr_accessor :ls_url
+    attr_reader :ls_url
 
     # Wait period (in seconds) used by OLE QAF Web Element functions
     attr_accessor :explicit_wait
@@ -110,10 +99,10 @@ module OLE_QAF
     # To configure the default options, edit
     #   lib/config/default_options.yml
     #
-    attr_accessor :options
+    attr_reader :options
 
     def initialize( options={} )
-      yaml_configuration = File.open(OLE_QAF::load_dir + '/config/default_options.yml', 'r')
+      yaml_configuration = File.open(OLE_QA::load_dir + '/config/default_options.yml', 'r')
       options_defaults = YAML.load(yaml_configuration)
       yaml_configuration.close
       @options = options_defaults.merge(options)
@@ -131,18 +120,23 @@ module OLE_QAF
       @page_route_wait = @options[:page_route_wait]
 
       # Browser Start
-      if @options.has_key?(:browser) && @options[:browser].class == Selenium::WebDriver::Driver
+      if @options.has_key?(:browser) && @options[:browser].class == Watir::Browser
         @browser = @options[:browser]
       else
-        @browser = Selenium::WebDriver.for :firefox
-        @browser.manage.timeouts.implicit_wait = @options[:implicit_wait]
+        @browser = Watir::Browser.new :firefox
+        @browser.driver.manage.timeouts.implicit_wait = @options[:implicit_wait]
       end
 
     end
 
-    # Access Selenium WebDriver browser session.
+    # Access Watir-Webdriver's browser session.
     def browser
       @browser
+    end
+
+    # Access Watir-Webdriver's Window Handling Method
+    def windows
+      @browser.windows
     end
 
     # Teardown the OLE QA Framework.
@@ -153,14 +147,6 @@ module OLE_QAF
       if @options[:headless?] then
         @headless.destroy
       end
-      exit
-    end
-
-    # Select a Selenium WebDriver window by its array position.
-    # - 0 is base window (Selenium IDE - window=null)
-    # - -1 is last opened window (used for popups)
-    def select_window(array_position=0)
-      @browser.switch_to.window(@browser.window_handles[array_position])
     end
 
   end

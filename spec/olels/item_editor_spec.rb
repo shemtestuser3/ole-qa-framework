@@ -18,81 +18,74 @@ require 'spec_helper'
 describe 'An OLELS Item Editor page' do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
+    @ole = OLE_QA::Framework.new
     @browser = @ole.browser
-    @item_editor = OLE_QAF::OLELS::Item_Editor.new(@browser, @ole.ls_url)
+    @item_editor = OLE_QA::OLELS::Item_Editor.new(@ole)
   end
 
   it 'should create a new instance' do
-    @item_editor.class.should == OLE_QAF::OLELS::Item_Editor
-    @item_editor.class.superclass.should == OLE_QAF::OLELS::Editor
+    @item_editor.class.should == OLE_QA::OLELS::Item_Editor
+    @item_editor.class.superclass.should == OLE_QA::OLELS::Editor
   end
 
-  it 'should have holdings location elements' do
-    @item_editor.holdings_prefix_field.class.should == OLE_QAF::Data_Element
-    @item_editor.holdings_shelving_order_field.class.should == OLE_QAF::Data_Element
-    @item_editor.holdings_call_number_field.class.should == OLE_QAF::Data_Element
-    @item_editor.holdings_call_number_type_field.class.should == OLE_QAF::Data_Element
+  it 'should have item editor elements' do
+    elements = @item_editor.methods
+    # Holdings Location/Call Number Information.should be_true
+    elements.include?(:holdings_location_field).should be_true
+    elements.include?(:holdings_prefix_field).should be_true
+    elements.include?(:holdings_shelving_order_field).should be_true
+    elements.include?(:holdings_call_number_field).should be_true
+    elements.include?(:holdings_call_number_type_field).should be_true
+    # Item Location/Call Number Information.should be_true
+    elements.include?(:location_field).should be_true
+    elements.include?(:prefix_field).should be_true
+    elements.include?(:shelving_order_field).should be_true
+    elements.include?(:call_number_field).should be_true
+    elements.include?(:call_number_type_selector).should be_true
+    elements.include?(:browse_button).should be_true
+    # Item Information.should be_true
+    elements.include?(:item_id_field).should be_true
+    elements.include?(:barcode_field).should be_true
+    elements.include?(:barcode_arsl_field).should be_true
+    elements.include?(:former_identifiers_field).should be_true
+    elements.include?(:statistical_searching_codes_selector).should be_true
+    elements.include?(:temp_item_type_selector).should be_true
+    elements.include?(:enumeration_field).should be_true
+    elements.include?(:chronology_field).should be_true
+    elements.include?(:copy_number_field).should be_true
+    elements.include?(:access_info_uri_field).should be_true
+    elements.include?(:item_type_selector).should be_true
+    elements.include?(:number_of_pieces_field).should be_true
+    # Acquisition Information.should be_true
+    elements.include?(:po_line_item_id_field).should be_true
+    elements.include?(:vendor_line_item_id_field).should be_true
+    elements.include?(:fund_field).should be_true
+    elements.include?(:price_field).should be_true
+    elements.include?(:donor_public_display_field).should be_true
+    elements.include?(:donor_note_field).should be_true
+    # Circulation Information.should be_true
+    elements.include?(:item_status_selector).should be_true
+    elements.include?(:checkin_note_field).should be_true
+    elements.include?(:item_effective_status_date).should be_true
+    elements.include?(:fast_add_checkbox).should be_true
+    elements.include?(:staff_only_checkbox).should be_true
+    # Extended Information.should be_true
+    elements.include?(:high_density_storage_field).should be_true
   end
 
-  it 'should have item location elements' do
-    @item_editor.location_field.class.should == OLE_QAF::Input_Element
-    @item_editor.prefix_field.class.should == OLE_QAF::Input_Element
-    @item_editor.shelving_order_field.class.should == OLE_QAF::Input_Element
-    @item_editor.call_number_field.class.should == OLE_QAF::Input_Element
-    @item_editor.call_number_type_selector.class.should == OLE_QAF::Selector_Element
-    @item_editor.browse_button.class.should == OLE_QAF::Web_Element
-  end
-
-  it 'should have item information elements' do
-    @item_editor.item_id_field.class.should == OLE_QAF::Data_Element
-    @item_editor.barcode_field.class.should == OLE_QAF::Input_Element
-    @item_editor.barcode_arsl_field.class.should == OLE_QAF::Input_Element
-    @item_editor.former_identifiers_field.class.should == OLE_QAF::Input_Element
-    @item_editor.statistical_searching_codes_selector.class.should == OLE_QAF::Selector_Element
-    @item_editor.temp_item_type_selector.class.should == OLE_QAF::Selector_Element
-    @item_editor.enumeration_field.class.should == OLE_QAF::Input_Element
-    @item_editor.chronology_field.class.should == OLE_QAF::Input_Element
-    @item_editor.copy_number_field.class.should == OLE_QAF::Input_Element
-    @item_editor.access_info_uri_field.class.should == OLE_QAF::Input_Element
-    @item_editor.item_type_selector.class.should == OLE_QAF::Selector_Element
-    @item_editor.number_of_pieces_field.class.should == OLE_QAF::Input_Element
-  end
-
-  it 'should have acquisition information elements' do
-    @item_editor.po_line_item_id_field.class.should == OLE_QAF::Data_Element
-    @item_editor.vendor_line_item_id_field.class.should == OLE_QAF::Data_Element
-    @item_editor.fund_field.class.should == OLE_QAF::Data_Element
-    @item_editor.price_field.class.should == OLE_QAF::Input_Element
-    @item_editor.donor_public_display_field.class.should == OLE_QAF::Input_Element
-    @item_editor.donor_note_field.class.should == OLE_QAF::Input_Element
-  end
-
-  it 'should have circulation information elements' do
-    @item_editor.item_status_selector.class.should == OLE_QAF::Selector_Element
-    @item_editor.checkin_note_field.class.should == OLE_QAF::Input_Element
-    @item_editor.fast_add_checkbox.class.should == OLE_QAF::Checkbox_Element
-    @item_editor.staff_only_checkbox.class.should == OLE_QAF::Checkbox_Element
-  end
-
-  it 'should have extended information elements' do
-    @item_editor.high_density_storage_field.class.should == OLE_QAF::Input_Element
-  end
-
-  it 'should have an item note' do
-    @item_editor.item_note_counter.should == 1
-    @item_editor.item_note_1.class.should == OLE_QAF::OLELS::Editor_Note
+  it 'should start with an item note' do
+    @item_editor.methods.include?(:item_note_1).should be_true
+    @item_editor.item_note_1.class.should == OLE_QA::OLELS::Item_Note
   end
 
   it 'should add an item note' do
-    @item_editor.add_item_note(false)
-    @item_editor.item_note_2.class.should == OLE_QAF::OLELS::Editor_Note
-    @item_editor.item_note_counter.should == 2
+    @item_editor.add_item_note(2)
+    @item_editor.methods.include?(:item_note_2).should be_true
+    @item_editor.item_note_2.class.should == OLE_QA::OLELS::Item_Note
   end
 
-  it 'should delete an item note' do
-    @item_editor.delete_item_note(2, false)
-    @item_editor.item_note_2.class.should == NilClass
-    @item_editor.item_note_counter.should == 1
+  it 'should remove an item note' do
+    @item_editor.remove_item_note(2)
+    @item_editor.methods.include?(:item_note_2).should be_false
   end
 end

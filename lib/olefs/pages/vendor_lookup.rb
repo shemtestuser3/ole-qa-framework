@@ -12,22 +12,29 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QAF::OLEFS
+module OLE_QA::OLEFS
   # The Vendor Lookup Screen in OLEFS
   class Vendor_Lookup < Lookup
-
-    def initialize(browser, ole_base_url)
+    # Set URL and initialize.
+    def initialize(ole_session)
       # Set @url instance variable from OLE Base URL Variable
-      url = ole_base_url + \
+      url = ole_session.base_url + \
         'portal.do?channelTitle=Vendor&channelUrl=kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.ole.vnd.businessobject.VendorDetail&docFormKey=88888888&returnLocation=' \
-        + ole_base_url + \
+        + ole_session.base_url + \
         'portal.do&hideReturnLink=true'
-      super(browser, url)
-
-      subdir = '/olefs/pages/vendor_lookup/'
-      elements = load_elements(subdir)
-      set_elements(elements)
+      super(ole_session, url)
     end
 
+    # Set Vendor Lookup screen elements.
+    def set_elements
+      super
+      element(:vendor_name_field)                     {b.text_field(:id => "vendorName")}
+      element(:tax_number_field)                      {b.text_field(:id => "vendorHeader.vendorTaxNumber")}
+      element(:vendor_number_field)                   {b.text_field(:id => "vendorNumber")}
+      element(:vendor_type_selector)                  {b.select_list(:id => "vendorHeader.vendorTypeCode")}
+      element(:state_field)                           {b.text_field(:id => "vendorAddresses.vendorStateCode")}
+      element(:commodity_code_field)                  {b.text_field(:id => "vendorCommodities.purchasingCommodityCode")}
+      element(:supplier_diversity_selector)           {b.select_list(:id => "vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode")}
+    end
   end
 end

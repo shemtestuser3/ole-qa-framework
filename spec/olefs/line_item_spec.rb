@@ -19,254 +19,137 @@ require 'spec_helper'
 describe 'An OLEFS line item' do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
-    @browser = @ole.browser
+    @ole = OLE_QA::Framework.new
     @line_number = 1
-    @line_item = OLE_QAF::OLEFS::Line_Item.new(@browser, @line_number)
-    @line_item_added = OLE_QAF::OLEFS::Line_Item.new(@browser, @line_number, new_line = false)
+    @line_item = OLE_QA::OLEFS::Line_Item.new(@ole, @line_number)
+    @new_line_item = OLE_QA::OLEFS::New_Line_Item.new(@ole, @line_number)
   end
 
   it 'should should create a new instance' do
-    @line_item.class.should == OLE_QAF::OLEFS::Line_Item
-  end
-
-  it 'should have an appropriate YAML path' do
-    @line_item.yaml_path.should == '/olefs/objects/line_item/'
+    @line_item.class.should == OLE_QA::OLEFS::Line_Item
+    @new_line_item.class.should == OLE_QA::OLEFS::New_Line_Item
   end
 
   it 'should be a subclass of Line Object' do
-    @line_item.class.superclass.should == OLE_QAF::Line_Object
+    @line_item.class.superclass.should == OLE_QA::OLEFS::Line_Object
+    @new_line_item.class.superclass.should == OLE_QA::OLEFS::Line_Object
   end
 
   it 'should have a browser accessor' do
-    @line_item.browser.class.should == Selenium::WebDriver::Driver
+    @line_item.browser.class.should == @ole.browser.class
+    @new_line_item.browser.class.should == @ole.browser.class
   end
 
-  it 'should have a line number of 1' do
+  it 'should have line number attributes' do
     @line_item.line_number.should == 1
+    @new_line_item.line_number.should == 0
   end
 
-  it 'should have a line identifier of 0' do
-    @line_item.line_identifier.should == 0
+  it 'should have line item elements' do
+    methods_array = @line_item.methods
+    methods_array.include?(:copies_field).should be_true
+    methods_array.include?(:parts_field).should be_true
+    methods_array.include?(:list_price_field).should be_true
+    methods_array.include?(:discount_field).should be_true
+    methods_array.include?(:item_price_source_selector).should be_true
+    methods_array.include?(:request_source_selector).should be_true
+    methods_array.include?(:item_type_selector).should be_true
+    methods_array.include?(:format_selector).should be_true
+    methods_array.include?(:category_selector).should be_true
+    methods_array.include?(:discount_type_selector).should be_true
+    methods_array.include?(:delete_button).should be_true
+    methods_array.include?(:route_to_requestor_checkbox).should be_true
+    methods_array.include?(:public_view_checkbox).should be_true
+    methods_array.include?(:accounting_lines_toggle).should be_true
+    methods_array.include?(:description_field).should be_true
+    methods_array.include?(:item_type_field).should be_true
+    methods_array.include?(:extended_cost_field).should be_true
+    methods_array.include?(:receipt_status_field).should be_true
+    methods_array.include?(:closed_description_field).should be_true
+    methods_array.include?(:closed_item_type_field).should be_true
+    methods_array.include?(:closed_extended_cost_field).should be_true
+    methods_array.include?(:closed_list_price_field).should be_true
+    methods_array.include?(:closed_copies_field).should be_true
+    methods_array.include?(:closed_parts_field).should be_true
+    methods_array.include?(:closed_receipt_status_field).should be_true
+    methods_array.include?(:closed_copies_received_field).should be_true
+    methods_array.include?(:closed_parts_received_field).should be_true
+    methods_array.include?(:closed_item_price_source_field).should be_true
+    methods_array.include?(:closed_request_source_field).should be_true
+    methods_array.include?(:closed_format_field).should be_true
+    methods_array.include?(:closed_category_field).should be_true
+    methods_array.include?(:closed_vendor_item_id_field).should be_true
+    methods_array.include?(:closed_requestor_field).should be_true
+    methods_array.include?(:closed_route_to_requestor_field).should be_true
+    methods_array.include?(:closed_unit_cost_field).should be_true
+    methods_array.include?(:closed_discount_field).should be_true
+    methods_array.include?(:closed_discount_type_field).should be_true
+    #TODO add the methods below when OLE-4329 is fixed.
+    # methods_array.include?(:notes_toggle).should be_true
+    # methods_array.include(:copies_toggle).should be_true
   end
 
-  it 'should have an add button' do
-    @line_item.add_button.class.should == OLE_QAF::Web_Element
+  it 'should have subline objects' do
+    methods = @line_item.methods
+    methods.include?(:new_accounting_line).should be_true
+    methods.include?(:new_notes_line).should be_true
+    methods.include?(:new_copies_line).should be_true
   end
 
-  it 'should have a new bib button' do
-    @line_item.new_bib_button.class.should == OLE_QAF::Web_Element
-  end
-
-  it 'should have an import lines button' do
-    @line_item.import_lines.class.should == OLE_QAF::Web_Element
-  end
-
-  it 'should have a number of copies field' do
-    @line_item.number_of_copies_field.class.should == OLE_QAF::Input_Element
-  end
-
-  it 'should have a number of parts field' do
-    @line_item.number_of_parts_field.class.should == OLE_QAF::Input_Element
-  end
-
-  it 'should have a list price field' do
-    @line_item.list_price_field.class.should == OLE_QAF::Input_Element
-  end
-
-  it 'should have a discount field' do
-    @line_item.discount_field.class.should == OLE_QAF::Input_Element
-  end
-
-  it 'should have an item price source selector' do
-    @line_item.item_price_source_selector.class.should == OLE_QAF::Selector_Element
-  end
-
-  it 'should have a request source selector' do
-    @line_item.request_source_selector.class.should == OLE_QAF::Selector_Element
-  end
-
-  it 'should have an item type selector' do
-    @line_item.item_type_selector.class.should == OLE_QAF::Selector_Element
-  end
-
-  it 'should have a format selector' do
-    @line_item.format_selector.class.should == OLE_QAF::Selector_Element
-  end
-
-  it 'should have a category selector' do
-    @line_item.category_selector.class.should == OLE_QAF::Selector_Element
-  end
-
-  it 'should have a discount type selector' do
-    @line_item.discount_type_selector.class.should == OLE_QAF::Selector_Element
-  end
-
-  it 'should have a public view checkbox' do
-    @line_item.public_view_checkbox.class.should == OLE_QAF::Checkbox_Element
-  end
-
-  it 'should have a route to requestor checkbox' do
-    @line_item.route_to_requestor_checkbox.class.should == OLE_QAF::Checkbox_Element
-  end
-
-  it 'should have a requestor ID data element' do
-    @line_item.requestor_id.class.should == OLE_QAF::Data_Element
-  end
-
-  it 'should have an extended cost data element' do
-    @line_item.extended_cost.class.should == OLE_QAF::Data_Element
-  end
-
-  it 'should have a unit cost data element' do
-    @line_item.unit_cost.class.should == OLE_QAF::Data_Element
-  end
-
-  it 'should not have an add button after being added' do
-    lambda {@line_item_added.add_button}.should raise_error
-  end
-
-  it 'should have a delete button after being added' do
-    @line_item_added.delete_button.class.should == OLE_QAF::Web_Element
-    @line_item_added.delete_button.what.should == "input[title=\"Delete Item 1\"]"
-  end
-
-  it 'should have a link to the current bib record after being added' do
-    @line_item_added.current_bib.class.should == OLE_QAF::Data_Element
-  end
- 
-  it 'should have a number of copies field' do
-    @line_item_added.number_of_copies_field.class.should == OLE_QAF::Input_Element
-  end
-
-  it 'should have a number of parts field' do
-    @line_item_added.number_of_parts_field.class.should == OLE_QAF::Input_Element
-  end
-
-  it 'should have a list price field' do
-    @line_item_added.list_price_field.class.should == OLE_QAF::Input_Element
-  end
-
-  it 'should have a discount field' do
-    @line_item_added.discount_field.class.should == OLE_QAF::Input_Element
-  end
-
-  it 'should have an item price source selector' do
-    @line_item_added.item_price_source_selector.class.should == OLE_QAF::Selector_Element
-  end
-
-  it 'should have a request source selector' do
-    @line_item_added.request_source_selector.class.should == OLE_QAF::Selector_Element
-  end
-
-  it 'should have an item type selector' do
-    @line_item_added.item_type_selector.class.should == OLE_QAF::Selector_Element
-  end
-
-  it 'should have a format selector' do
-    @line_item_added.format_selector.class.should == OLE_QAF::Selector_Element
-  end
-
-  it 'should have a category selector' do
-    @line_item_added.category_selector.class.should == OLE_QAF::Selector_Element
-  end
-
-  it 'should have a discount type selector' do
-    @line_item_added.discount_type_selector.class.should == OLE_QAF::Selector_Element
-  end
-
-  it 'should have a public view checkbox' do
-    @line_item_added.public_view_checkbox.class.should == OLE_QAF::Checkbox_Element
-  end
-
-  it 'should have a route to requestor checkbox' do
-    @line_item_added.route_to_requestor_checkbox.class.should == OLE_QAF::Checkbox_Element
-  end
-
-  it 'should have a requestor ID data element' do
-    @line_item_added.requestor_id.class.should == OLE_QAF::Data_Element
-  end
-
-  it 'should have an extended cost data element' do
-    @line_item_added.extended_cost.class.should == OLE_QAF::Data_Element
-  end
-
-  it 'should have a unit cost data element' do
-    @line_item_added.unit_cost.class.should == OLE_QAF::Data_Element
-  end
-
-  it 'should have a notes tab toggle' do
-    @line_item_added.notes_toggle.class.should == OLE_QAF::Web_Element
-  end
-
-  it 'should have an accounting lines tab toggle' do
-    @line_item_added.accounting_lines_toggle.class.should == OLE_QAF::Web_Element
-  end
-
-  it 'should have a copies tab toggle' do
-    @line_item_added.copies_toggle.class.should == OLE_QAF::Web_Element
-  end
-
-  it 'should have a new accounting line' do
-    @line_item_added.new_accounting_line.class.should == OLE_QAF::OLEFS::Accounting_Line
-    @line_item_added.accounting_line_counter.should == 0
+  it 'should have new line item elements' do
+    elements = @new_line_item.methods
+    elements.include?(:new_bib_button).should be_true
+    elements.include?(:item_type_selector).should be_true
+    elements.include?(:copies_field).should be_true
+    elements.include?(:parts_field).should be_true
+    elements.include?(:list_price_field).should be_true
+    elements.include?(:public_view_checkbox).should be_true
+    elements.include?(:item_price_source_selector).should be_true
+    elements.include?(:request_source_selector).should be_true
+    elements.include?(:format_selector).should be_true
+    elements.include?(:category_selector).should be_true
+    elements.include?(:route_to_requestor_checkbox).should be_true
+    elements.include?(:discount_field).should be_true
+    elements.include?(:discount_type_selector).should be_true
+    elements.include?(:add_button).should be_true
   end
 
   it 'should create an accounting line' do
-    @line_item_added.create_accounting_line
-    @line_item_added.accounting_line_counter.should == 1
-    @line_item_added.accounting_line_1.class.should == OLE_QAF::OLEFS::Accounting_Line
-  end
-
-  it 'should delete an accounting line' do
-    @line_item_added.delete_accounting_line
-    @line_item_added.accounting_line_1.class.should == NilClass
-    @line_item_added.accounting_line_counter.should == 0
-  end
-
-  it 'should raise an error when asked to delete an accounting line that does not exist' do
-    lambda {@line_item_added.delete_accounting_line}.should raise_error
-  end
-
-  it 'should have a new copies line' do
-    @line_item_added.new_copies_line.class.should == OLE_QAF::OLEFS::Copies_Line
-    @line_item_added.copies_line_counter.should == 0
-  end
-
-  it 'should create a copies line' do
-    @line_item_added.create_copies_line
-    @line_item_added.copies_line_counter.should == 1
-    @line_item_added.copies_line_1.class.should == OLE_QAF::OLEFS::Copies_Line
-  end
-
-  it 'should delete a copies line' do
-    @line_item_added.delete_copies_line
-    @line_item_added.copies_line_1.class.should == NilClass
-    @line_item_added.copies_line_counter.should == 0
-  end
-
-  it 'should raise an error when asked to delete a copies line that does not exist' do
-    lambda {@line_item_added.delete_copies_line}.should raise_error
-  end
-
-  it 'should have a new notes line' do
-    @line_item_added.new_notes_line.class.should == OLE_QAF::OLEFS::Notes_Line
-    @line_item_added.notes_line_counter.should == 0
+    @line_item.create_accounting_line(1)
+    @line_item.methods.include?(:accounting_line_1).should be_true
+    @line_item.accounting_line_1.class.should == OLE_QA::OLEFS::Accounting_Line
   end
 
   it 'should create a notes line' do
-    @line_item_added.create_notes_line
-    @line_item_added.notes_line_counter.should == 1
-    @line_item_added.notes_line_1.class.should == OLE_QAF::OLEFS::Notes_Line
+    @line_item.create_notes_line(1)
+    @line_item.methods.include?(:notes_line_1).should be_true
+    @line_item.notes_line_1.class.should == OLE_QA::OLEFS::Notes_Line
   end
 
-  it 'should delete a notes line' do
-    @line_item_added.delete_notes_line
-    @line_item_added.notes_line_counter.should == 0
-    @line_item_added.notes_line_1.class.should == NilClass
+  it 'should create a copies line' do
+    @line_item.create_copies_line(1)
+    @line_item.methods.include?(:copies_line_1).should be_true
+    @line_item.copies_line_1.class.should == OLE_QA::OLEFS::Copies_Line
   end
 
-  it 'should raise an error when asked to delete a notes line that does not exist' do
-    lambda {@line_item_added.delete_notes_line}.should raise_error
+  it 'should remove an accounting line' do
+    @line_item.remove_accounting_line(1)
+    @line_item.methods.include?(:accounting_line_1).should be_false
+  end
+
+  it 'should remove a notes line' do
+    @line_item.remove_notes_line(1)
+    @line_item.methods.include?(:notes_line_1).should be_false
+  end
+
+  it 'should remove a copies line' do
+    @line_item.remove_copies_line(1)
+    @line_item.methods.include?(:copies_line_1).should be_false
+  end
+
+  it 'should raise an error when asked to remove a subline which does not exist' do
+    lambda {@line_item.remove_accounting_line(1)}.should raise_error
+    lambda {@line_item.remove_notes_line(1)}.should raise_error
+    lambda {@line_item.remove_copies_line(1)}.should raise_error
   end
 end

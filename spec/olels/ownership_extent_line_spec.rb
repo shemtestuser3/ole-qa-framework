@@ -18,9 +18,9 @@ require 'spec_helper'
 describe 'An OLELS Ownership Extent Line object' do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
+    @ole = OLE_QA::Framework.new
     @browser = @ole.browser
-    @ownership_line = OLE_QAF::OLELS::Ownership_Extent_Line.new(@browser, 1)
+    @ownership_line = OLE_QA::OLELS::Ownership_Extent_Line.new(@browser, 1)
   end
 
   after :all do
@@ -28,30 +28,31 @@ describe 'An OLELS Ownership Extent Line object' do
   end
 
   it 'should create a new instance' do
-    @ownership_line.class.should == OLE_QAF::OLELS::Ownership_Extent_Line
-    @ownership_line.class.superclass.should == OLE_QAF::Data_Object
+    @ownership_line.class.should == OLE_QA::OLELS::Ownership_Extent_Line
+    @ownership_line.class.superclass.should == OLE_QA::OLELS::Line_Object
   end
 
-  it 'should have ownership extent fields' do
-    @ownership_line.type_selector.class.should == OLE_QAF::Selector_Element
-    @ownership_line.statement_field.class.should == OLE_QAF::Input_Element
-    @ownership_line.add_button.class.should == OLE_QAF::Web_Element
-    @ownership_line.remove_button.class.should == OLE_QAF::Web_Element
+  it 'should have ownership extent line elements' do
+    elements = @ownership_line.methods
+    elements.include?(:type_selector).should be_true
+    elements.include?(:statement_field).should be_true
+    elements.include?(:add_button).should be_true
+    elements.include?(:remove_button).should be_true
   end
 
-  it 'should have an ownership note line' do
-    @ownership_line.ownership_note_1.class.should == OLE_QAF::OLELS::Editor_Note
+  it 'should start with one ownership note' do
+    @ownership_line.methods.include?(:ownership_note_1).should be_true
+    @ownership_line.ownership_note_1.class.should == OLE_QA::OLELS::Ownership_Note
   end
 
-  it 'should add an ownership note line' do
-    @ownership_line.add_ownership_note(do_click = false)
-    @ownership_line.ownership_note_2.class.should == OLE_QAF::OLELS::Editor_Note
-    @ownership_line.ownership_notes_counter.should == 2
+  it 'should add an ownership note' do
+    @ownership_line.add_ownership_note(2)
+    @ownership_line.methods.include?(:ownership_note_2).should be_true
+    @ownership_line.ownership_note_2.class.should == OLE_QA::OLELS::Ownership_Note
   end
 
-  it 'should delete an ownership note line' do
-    @ownership_line.delete_ownership_note(2, do_click = false)
-    @ownership_line.ownership_note_2.class.should == NilClass
-    @ownership_line.ownership_notes_counter.should == 1
+  it 'should delete an ownership note' do
+    @ownership_line.delete_ownership_note(2)
+    @ownership_line.methods.include?(:ownership_note_2).should be_false
   end
 end

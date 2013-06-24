@@ -12,118 +12,65 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QAF::OLELS
+module OLE_QA::OLELS
   # The OLE Library System MARC Instance Record Editor Screen
   class Instance_Editor < Editor
-
-    # An integer counter for the number of Extent of Ownership lines on the editor screen.
-    attr_accessor :ownership_extent_line_counter
-
-    # An integer counter for the number of Access Information notes lines on the editor screen.
-    attr_accessor :access_info_line_counter
-
-    # An integer counter for the number of Holdings Notes lines on the editor screen.
-    attr_accessor :holdings_note_counter
-
-    def initialize(browser, olels_url)
-      super(browser, olels_url)
-
-      @ownership_extent_line_counter = 1
-      make_accessor(:ownership_extent_line_1)
-      @ownership_extent_line_1 = Ownership_Extent_Line.new(@browser, 1)
-
-      @access_info_line_counter = 1
-      make_accessor(:access_info_line_1)
-      @access_info_line_1 = Editor_Note.new(@browser, 'access info', 1)
-
-      @holdings_note_counter = 1
-      make_accessor(:holdings_note_1)
-      @holdings_note_1 = Editor_Note.new(@browser, 'holdings note', 1)
-
-      instance_editor_elements = load_yml('/olels/pages/instance_editor/', 'elements.yml')
-      set_elements(instance_editor_elements)
+    # Set OLELS Instance Editor page elements.
+    def set_elements
+      element(:location_toggle)                       {b.a(:id => "OleLocationInformationSection_toggle")}
+      element(:location_field)                        {b.text_field(:id => "OleHoldingLocation_control")}
+      element(:call_number_toggle)                    {b.a(:id => "OleCallNumberInformation_toggle")}
+      element(:prefix_field)                          {b.text_field(:id => "OleHoldingCallNumber_control")}
+      element(:shelving_order_field)                  {b.text_field(:id => "OleHoldingShelvingOrder_control")}
+      element(:call_number_type_selector)             {b.select_list(:id => "OleHoldingShelvingScheme_control")}
+      element(:call_number_browse_button)             {b.button(:id => "callNumberHoldingsBrowseLink")}
+      element(:ownership_extent_toggle)               {b.a(:id => "OleExtentOfOwnershipSection_toggle")}
+      element(:extended_information_toggle)           {b.a(:id => "OleExtendedInformationSection_toggle")}
+      element(:receipt_status_selector)               {b.select_list(:id => "OleReceiptStatusField_control")}
+      element(:holding_notes_toggle)                  {b.a(:id => "OleHoldingNotes_toggle")}
+      element(:holdings_notes_toggle)                 {b.a(:id => "OleHoldingNotes_toggle")}
     end
 
-    # Open the bibliographic record editor (Bib Editor).
-    # @note There are no direct links to the instance editor.
-    def open
+    # Wait for location field to appear when opening page.
+    def wait_for_elements
       super
-      frame_select
+      @wait_on << :location_field
     end
 
-    # Add an ownership extent line and increment the counter.
-    # - Optionally click the .add_button element on the highest line
-    def add_ownership_extent_line(do_click = true)
-      c = @ownership_extent_line_counter
-      current_line = instance_variable_get(:"@ownership_extent_line_#{c}")
-      current_line.add_button.click if do_click
-      @ownership_extent_line_counter += 1
-      c += 1
-      make_accessor(:"ownership_extent_line_#{c}")
-      instance_variable_set(:"@ownership_extent_line_#{c}",\
-        Ownership_Extent_Line.new(@browser, c))
+    def set_lines
+      create_ownership_extent_line(1)
+      create_access_info_line(1)
+      create_holdings_note(1)
     end
 
-    # Remove an ownership extent line from the page object and decrement the counter.
-    # - Optionally clicks .remove_button element on target line.
-    # - Will delete the highest-numbered line instance on the page object unless it is 1.
-    def delete_ownership_extent_line(which, do_click = true)
-      c = @ownership_extent_line_counter
-      raise StandardError, "Line does not exist!" if which > c
-      current_line = instance_variable_get(:"@ownership_extent_line_#{which}")
-      current_line.remove_button.click if do_click
-      remove_instance_variable(:"@ownership_extent_line_#{c}") unless c == 1
-      @ownership_extent_line_counter -= 1 unless c == 1
+    def create_ownership_extent_line(which = 1)
+      create_line("ownership_extent_line_#{which}","Ownership_Extent_Line",which)
     end
+    alias_method(:add_ownership_extent_line,:create_ownership_extent_line)
 
-    # Add an access info line and increment the counter.
-    # - Optionally click the .add_button element.
-    def add_access_info_line(do_click = true)
-      c = @access_info_line_counter
-      current_line = instance_variable_get(:"@access_info_line_#{c}")
-      current_line.add_button.click if do_click
-      @access_info_line_counter += 1
-      c += 1
-      make_accessor(:"access_info_line_#{c}")
-      instance_variable_set(:"@access_info_line_#{c}",\
-        Editor_Note.new(@browser, 'access info', c))
+    def create_access_info_line(which = 1)
+      create_line("access_info_line_#{which}","Access_Info_Line",which)
     end
+    alias_method(:add_access_info_line,:create_access_info_line)
 
-    # Remove an access info line from the page object and decrement the counter.
-    # - Optionally clicks the .remove_button element on the target line.
-    # - Will delete the highest-numbered line instance on the page object unless it is 1.
-    def delete_access_info_line(which, do_click = true)
-      c = @access_info_line_counter
-      raise StandardError, "Line does not exist!" if which > c
-      current_line = instance_variable_get(:"@acces_info_line_#{which}")
-      current_line.remove_button.click if do_click
-      remove_instance_variable(:"@access_info_line_#{c}") unless c == 1
-      @access_info_line_counter -= 1 unless c == 1
+    def create_holdings_note(which = 1)
+      create_line("holdings_note_#{which}","Holdings_Note",which)
     end
+    alias_method(:add_holdings_note,:create_holdings_note)
 
-    # Add a holdings note and increment the counter.
-    # - Optionally click the .add_button element.
-    def add_holdings_note(do_click = true)
-      c = @holdings_note_counter
-      current_line = instance_variable_get(:"@holdings_note_#{c}")
-      current_line.add_button.click if do_click
-      @holdings_note_counter += 1
-      c += 1
-      make_accessor(:"holdings_note_#{c}")
-      instance_variable_set(:"@holdings_note_#{c}",\
-        Editor_Note.new(@browser, 'holdings note', c))
+    def remove_ownership_extent_line(which = 1)
+      remove_line("ownership_extent_line_#{which}")
     end
+    alias_method(:delete_ownership_extent_line,:remove_ownership_extent_line)
 
-    # Remove a holdings note from the page object and decrement the counter.
-    # - Optionally clicks the .remove_button element on the target line.
-    # - Will delete the highest-numbered line instance on the page object unless it is 1.
-    def delete_holdings_note(which, do_click = true)
-      c = @holdings_note_counter
-      raise StandardError, "Note does not exist!" if which > c
-      current_line = instance_variable_get(:"@holdings_note_#{which}")
-      current_line.remove_button.click if do_click
-      remove_instance_variable(:"@holdings_note_#{c}") unless c == 1
-      @holdings_note_counter -= 1 unless c == 1
+    def remove_access_info_line(which = 1)
+      remove_line("access_info_line_#{which}")
     end
+    alias_method(:delete_access_info_line,:remove_access_info_line)
+
+    def remove_holdings_note(which = 1)
+      remove_line("holdings_note_#{which}")
+    end
+    alias_method(:delete_holdings_note,:remove_holdings_note)
   end
 end

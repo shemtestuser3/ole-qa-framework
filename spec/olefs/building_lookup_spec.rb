@@ -18,8 +18,8 @@ require 'spec_helper'
 describe 'An OLEFS Building Lookup page' do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
-    @building_lookup = OLE_QAF::OLEFS::Building_Lookup.new(@ole.browser, @ole.base_url)
+    @ole = OLE_QA::Framework.new
+    @building_lookup = OLE_QA::OLEFS::Building_Lookup.new(@ole)
   end
 
   after :all do
@@ -27,18 +27,19 @@ describe 'An OLEFS Building Lookup page' do
   end
 
   it 'should create a new instance' do
-    @building_lookup.class.should == OLE_QAF::OLEFS::Building_Lookup
-    @building_lookup.class.superclass.should == OLE_QAF::OLEFS::Lookup
+    @building_lookup.class.should == OLE_QA::OLEFS::Building_Lookup
+    @building_lookup.class.superclass.should == OLE_QA::OLEFS::Lookup
   end
 
   it 'should open via URL' do
     @building_lookup.open
-    @building_lookup.title.verify_text("Building Lookup")
+    @building_lookup.title.text.strip.should == "Building Lookup"
   end
 
   it 'should have building lookup elements' do
-    @building_lookup.campus_code_field.class.should == OLE_QAF::Input_Element
-    @building_lookup.building_code_field.class.should == OLE_QAF::Input_Element
-    @building_lookup.building_name_field.class.should == OLE_QAF::Input_Element
+    methods = @building_lookup.methods
+    methods.include?(:campus_code_field).should be_true
+    methods.include?(:building_code_field).should be_true
+    methods.include?(:building_name_field).should be_true
   end
 end

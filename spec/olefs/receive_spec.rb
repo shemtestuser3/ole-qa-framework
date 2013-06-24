@@ -18,8 +18,8 @@ require 'spec_helper'
 describe 'An OLEFS Receiving Document page' do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
-    @rcv = OLE_QAF::OLEFS::Receiving_Document.new(@ole.browser, @ole.base_url)
+    @ole = OLE_QA::Framework.new
+    @rcv = OLE_QA::OLEFS::Receiving_Document.new(@ole)
   end
 
   after :all do
@@ -27,58 +27,40 @@ describe 'An OLEFS Receiving Document page' do
   end
 
   it 'should create a new instance' do
-    @rcv.class.should == OLE_QAF::OLEFS::Receiving_Document
-    @rcv.class.superclass.should == OLE_QAF::OLEFS::PURAP_Document
+    @rcv.class.should == OLE_QA::OLEFS::Receiving_Document
+    @rcv.class.superclass.should == OLE_QA::OLEFS::PURAP_Document
   end
 
-  it 'should have vendor tab fields' do
-    @rcv.vendor_tab_toggle.class.should == OLE_QAF::Web_Element
-    @rcv.date_received_field.class.should == OLE_QAF::Input_Element
-    @rcv.packing_slip_number_field.class.should == OLE_QAF::Input_Element
-    @rcv.bill_of_lading_number_field.class.should == OLE_QAF::Input_Element
-    @rcv.reference_number_field.class.should == OLE_QAF::Input_Element
-    @rcv.carrier_selector.class.should == OLE_QAF::Selector_Element
+  it 'should open a new receiving document via URL' do
+    @rcv.open
+    @rcv.title.text.strip.should == "Line Item Receiving"
   end
 
-  it 'should have delivery tab fields' do
-    @rcv.delivery_tab_toggle.class.should == OLE_QAF::Web_Element
-    @rcv.campus_field.class.should == OLE_QAF::Data_Element
-    @rcv.building_field.class.should == OLE_QAF::Data_Element
-    @rcv.address_field.class.should == OLE_QAF::Data_Element
-    @rcv.room_field.class.should == OLE_QAF::Data_Element
-    @rcv.city_field.class.should == OLE_QAF::Data_Element
-    @rcv.state_field.class.should == OLE_QAF::Data_Element
-    @rcv.postal_code_field.class.should == OLE_QAF::Data_Element
-    @rcv.country_field.class.should == OLE_QAF::Data_Element
-    @rcv.delivery_to_field.class.should == OLE_QAF::Data_Element
-    @rcv.phone_number_field.class.should == OLE_QAF::Data_Element
-    @rcv.email_field.class.should == OLE_QAF::Data_Element
-  end
-
-  it 'should have related documents tab fields' do
-    @rcv.view_related_tab_toggle.class.should == OLE_QAF::Web_Element
-    @rcv.view_related_po_link.class.should == OLE_QAF::Data_Element
-    @rcv.view_related_requisition_link.class.should == OLE_QAF::Data_Element
+  it 'should have receiving document elements' do
+    elements = @rcv.methods
+    elements.include?(:date_received_field).should be_true
+    elements.include?(:packing_slip_number_field).should be_true
+    elements.include?(:bill_of_lading_number_field).should be_true
+    elements.include?(:reference_number_field).should be_true
+    elements.include?(:carrier_selector).should be_true
   end
 
   it 'should have a new receiving line' do
-    @rcv.new_receiving_line.class.should == OLE_QAF::OLEFS::Receiving_Line
-    @rcv.receiving_line_counter.should == 0
+    @rcv.new_receiving_line.class.should == OLE_QA::OLEFS::New_Receiving_Line
   end
 
-  it 'should add a receiving line' do
-    @rcv.create_receiving_line
-    @rcv.receiving_line_counter.should == 1
-    @rcv.receiving_line_1.class.should == OLE_QAF::OLEFS::Receiving_Line
+  it 'should create a receiving line' do
+    @rcv.create_receiving_line(1)
+    @rcv.methods.include?(:receiving_line_1).should be_true
+    @rcv.receiving_line_1.class.should == OLE_QA::OLEFS::Receiving_Line
   end
 
-  it 'should remove a receiving line' do
-    @rcv.delete_receiving_line
-    @rcv.receiving_line_counter.should == 0
-    @rcv.receiving_line_1.class.should == NilClass
+  it 'should delete a receiving line' do
+    @rcv.remove_receiving_line(1)
+    @rcv.methods.include?(:receiving_line_1).should be_false
   end
 
-  it 'should return an error when asked to remove a non-existent receiving line' do
-    lambda {@rcv.remove_receiving_line}.should raise_error
+  it 'should not delete a receiving line which does not exist' do
+    lambda {@rcv.remove_receiving_line(1)}.should raise_error
   end
 end

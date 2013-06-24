@@ -20,8 +20,8 @@ require 'spec_helper'
 describe 'An OLELS E-Document' do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
-    @edoc = OLE_QAF::OLELS::E_Doc.new(@ole.browser, @ole.ls_url)
+    @ole = OLE_QA::Framework.new
+    @edoc = OLE_QA::OLELS::E_Doc.new(@ole.browser, @ole.ls_url)
   end
 
   after :all do
@@ -29,19 +29,14 @@ describe 'An OLELS E-Document' do
   end
 
   it 'should should create a new instance' do
-    @edoc.class.should == OLE_QAF::OLELS::E_Doc
+    @edoc.class.should == OLE_QA::OLELS::E_Doc
   end
 
   it 'should be a page' do
-    @edoc.class.superclass.should == OLE_QAF::Page
+    @edoc.class.superclass.should == OLE_QA::Page
   end
 
-  it 'should have document header elements' do
-
+  it 'should have e-document elements' do
+    # None yet.
   end
-
-  it 'should have document overview elements' do
-    @edoc.description.class.should == OLE_QAF::Input_Element
-  end
-
 end

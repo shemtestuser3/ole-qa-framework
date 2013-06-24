@@ -12,23 +12,29 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require "rspec"
-require "spec_helper"
+require 'rspec'
+require 'spec_helper'
 
-
-describe "The Selenium Webdriver" do
+describe 'An OLELS Access Info Line object' do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
+    @ole = OLE_QA::Framework.new
+    @access_info = OLE_QA::OLELS::Access_Info_Line.new(@ole,1)
   end
 
   after :all do
     @ole.quit
   end
 
-  it "should be able to open Google" do
-    @ole.browser.get("http://www.google.com")
-    @ole.browser.title.should == "Google"
+  it 'should create a new instance' do
+    @access_info.class.should == OLE_QA::OLELS::Access_Info_Line
+    @access_info.class.superclass.should == OLE_QA::OLELS::Line_Object
   end
 
+  it 'should have access info elements' do
+    elements = @access_info.methods
+    elements.include?(:access_info_field).should be_true
+    elements.include?(:add_button).should be_true
+    elements.include?(:remove_button).should be_true
+  end
 end

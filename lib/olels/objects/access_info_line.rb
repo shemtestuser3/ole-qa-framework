@@ -12,16 +12,14 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QAF
-  # A Data Element which can take input.
-  class Input_Element < Data_Element
-
-    # Enter a new value in the input element.
-    # This will clear any previous value from the element.
-    def type(what)
-      element.clear
-      element.send_keys(what)
+module OLE_QA::OLELS
+  # An Access Information Line on the OLE Library System Instance Record Editor
+  class Access_Info_Line < OLE_QA::OLELS::Line_Object
+    # Set screen elements for access info line.
+    def set_elements
+      element(:access_info_field)                     {b.text_field(:id => "OleAccessInformationField_line#{@line_id}_control")}
+      element(:add_button)                            {b.button(:id => "oleAccessInformation_addTagButton_line#{@line_id}")}
+      element(:remove_button)                         {b.button(:id => "oleAccessInformation_removeTagButton_line#{@line_id}")}
     end
-
   end
 end

@@ -16,22 +16,22 @@ require "rspec"
 require "spec_helper"
 
 
-describe "A Page" do
+describe "The Watir Webdriver" do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
-    @page = OLE_QAF::Page.new(@ole.browser, @ole.base_url)
+    @ole = OLE_QA::Framework.new
   end
 
-  it "should open via url" do
-    @page.open
-    @ole.browser.title.should == "Kuali Portal Index"
+  after :all do
+    @ole.quit
   end
 
-  it "should select a frame if present" do
-    requisition_link = OLE_QAF::Input_Element.new(@ole.browser, :link, "Requisition")
-    requisition_link.click
-    @page.frame_select
+  it 'should create an instance of Watir Webdriver' do
+    @ole.browser.class.should == Watir::Browser
   end
 
+  it "should be able to open Google" do
+    @ole.browser.goto("http://www.google.com")
+    @ole.browser.title.should == "Google"
+  end
 end

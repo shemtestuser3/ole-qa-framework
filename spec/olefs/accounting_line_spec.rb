@@ -18,9 +18,9 @@ require 'spec_helper'
 describe 'An accounting line' do
 
   before :all do
-    @ole = OLE_QAF::Framework.new
-    @accounting_line = OLE_QAF::OLEFS::Accounting_Line.new(@ole.browser, 1, 1)
-    @accounting_line_added = OLE_QAF::OLEFS::Accounting_Line.new(@ole.browser, 1, 1, new_line = false)
+    @ole = OLE_QA::Framework.new
+    @accounting_line = OLE_QA::OLEFS::Accounting_Line.new(@ole, 1, 1)
+    @new_accounting_line = OLE_QA::OLEFS::New_Accounting_Line.new(@ole, 1, 0)
   end
 
   after :all do
@@ -28,55 +28,58 @@ describe 'An accounting line' do
   end
 
   it 'should create a new instance' do
-    @accounting_line.class.should == OLE_QAF::OLEFS::Accounting_Line
+    @accounting_line.class.should == OLE_QA::OLEFS::Accounting_Line
+    @new_accounting_line.class.should == OLE_QA::OLEFS::New_Accounting_Line
   end
 
   it 'should be a subclass of subline object' do
-    @accounting_line.class.superclass.should == OLE_QAF::Subline_Object
-  end
-
-  it 'should have a path to the YAML files' do
-    @accounting_line.yaml_path.should == '/olefs/objects/accounting_line/'
+    @accounting_line.class.superclass.should == OLE_QA::Subline_Object
+    @new_accounting_line.class.superclass.should == OLE_QA::Subline_Object
   end
 
   it 'should have a browser accessor' do
-    @accounting_line.browser.class.should == Selenium::WebDriver::Driver
+    @accounting_line.browser.class.should == @ole.browser.class
+    @new_accounting_line.browser.class.should == @ole.browser.class
   end
 
-  it 'should have accounting line fields' do
-    @accounting_line.chart_selector.class.should == OLE_QAF::Selector_Element
-    @accounting_line.account_number_field.class.should == OLE_QAF::Input_Element
-    @accounting_line.sub_account_field.class.should == OLE_QAF::Input_Element
-    @accounting_line.object_field.class.should == OLE_QAF::Input_Element
-    @accounting_line.sub_object_field.class.should == OLE_QAF::Input_Element
-    @accounting_line.project_field.class.should == OLE_QAF::Input_Element
-    @accounting_line.org_ref_id_field.class.should == OLE_QAF::Input_Element
-    @accounting_line.dollar_field.class.should == OLE_QAF::Input_Element
-    @accounting_line.percent_field.class.should == OLE_QAF::Input_Element
+  it 'should have line number attributes' do
+    @accounting_line.line_number.should == 1
+    @accounting_line.subline_number.should == 1
+    @new_accounting_line.line_number.should == 1
+    @new_accounting_line.subline_number.should == 0
   end
 
-  it 'should have an add button' do
-    @accounting_line.add_button.class.should == OLE_QAF::Web_Element
+  it 'should have accounting line elements' do
+    methods_array = @accounting_line.methods
+    methods_array.include?(:account_number_field).should be_true
+    methods_array.include?(:sub_account_number_field).should be_true
+    methods_array.include?(:object_field).should be_true
+    methods_array.include?(:sub_object_field).should be_true
+    methods_array.include?(:project_field).should be_true
+    methods_array.include?(:org_ref_id_field).should be_true
+    methods_array.include?(:dollar_field).should be_true
+    methods_array.include?(:percent_field).should be_true
+    methods_array.include?(:chart_selector).should be_true
+    methods_array.include?(:delete_button).should be_true
+    methods_array.include?(:balance_inquiry_button).should be_true
+    methods_array.include?(:closed_chart_field).should be_true
+    methods_array.include?(:closed_account_number_field).should be_true
+    methods_array.include?(:closed_object_field).should be_true
+    methods_array.include?(:closed_dollar_field).should be_true
+    methods_array.include?(:closed_percent_field).should be_true
   end
 
-  it 'should have accounting line fields' do
-    @accounting_line_added.chart_selector.class.should == OLE_QAF::Selector_Element
-    @accounting_line_added.account_number_field.class.should == OLE_QAF::Input_Element
-    @accounting_line_added.sub_account_field.class.should == OLE_QAF::Input_Element
-    @accounting_line_added.object_field.class.should == OLE_QAF::Input_Element
-    @accounting_line_added.sub_object_field.class.should == OLE_QAF::Input_Element
-    @accounting_line_added.project_field.class.should == OLE_QAF::Input_Element
-    @accounting_line_added.org_ref_id_field.class.should == OLE_QAF::Input_Element
-    @accounting_line_added.dollar_field.class.should == OLE_QAF::Input_Element
-    @accounting_line_added.percent_field.class.should == OLE_QAF::Input_Element
+  it 'should have new accounting line elements' do
+    methods = @new_accounting_line.methods
+    methods.include?(:chart_selector).should be_true
+    methods.include?(:account_number_field).should be_true
+    methods.include?(:sub_account_number_field).should be_true
+    methods.include?(:object_field).should be_true
+    methods.include?(:sub_object_field).should be_true
+    methods.include?(:project_field).should be_true
+    methods.include?(:org_ref_id_field).should be_true
+    methods.include?(:dollar_field).should be_true
+    methods.include?(:percent_field).should be_true
+    methods.include?(:add_button).should be_true
   end
-
-  it 'should have a delete button' do
-    @accounting_line_added.delete_button.class.should == OLE_QAF::Web_Element
-  end
-
-  it 'should have a balance inquiry button' do
-    @accounting_line_added.balance_inquiry_button.class.should == OLE_QAF::Web_Element
-  end
-
 end

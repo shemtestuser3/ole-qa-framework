@@ -12,20 +12,12 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QAF::OLELS
-
-  # This class contains element definitions common to OLE Library System E-Docs.
-  # Element definitions are stored in lib/olels/e_doc/elements.yml
-  class E_Doc < OLE_QAF::Page
-
-    def initialize(ole_browser, olels_url)
-      super(ole_browser, olels_url)
-
-      e_doc_elements = load_elements(subdir = '/olels/common/e_doc/')
-      set_elements(e_doc_elements)
+module OLE_QA::OLELS
+  # An OLE Libary System E-Document page.
+  class E_Doc < OLE_QA::Page
+    # Set elements common to all OLELS E-Document pages.
+    def set_elements
+      element(:description_field)                     {b.text_field(:xpath => "//tr/th[descendant::label[contains(text(),'Description:')]]/following-sibling::td[1]/descendant::input[1]")}
     end
-
   end
-
-
 end

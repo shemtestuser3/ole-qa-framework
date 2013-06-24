@@ -12,6 +12,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QAF::Page_Helpers
+module OLE_QA::Page_Helpers
 
 end

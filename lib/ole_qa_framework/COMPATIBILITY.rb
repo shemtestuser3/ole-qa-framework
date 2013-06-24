@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QAF
-  # Set the most recent version of OLE with which this framework is compatible.
-  OLE_VERSION = '0.8.0 - Private Release'
+module OLE_QA
+  # The most recent version of OLE with which this framework is compatible.
+  OLE_VERSION = '0.8.0'
 end

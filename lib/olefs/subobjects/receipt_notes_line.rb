@@ -12,22 +12,14 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QAF::OLEFS
-  # An OLE Financial System Requisition
-  class Requisition < PURAP_Document
-
-    include OLE_QAF::Page_Helpers
-
-    def initialize(ole_browser, olefs_url)
-      super(ole_browser, olefs_url)
-
-      subdir = '/olefs/pages/purap_requisition/'
-
-      req_elements = load_elements(subdir)
-      set_elements(req_elements)
-
-      @url = olefs_url + 'portal.do?channelTitle=Requisition&channelUrl=purapOleRequisition.do?methodToCall=docHandler&command=initiate&docTypeName=OLE_REQS'
-
+module OLE_QA::OLEFS
+  # A Receipt Notes Line in an OLE Financial System Receiving Document
+  class Receipt_Notes_Line < OLE_QA::Subline_Object
+    # Set receipt notes elements.
+    def set_elements
+      super
+      element(:note_type_selector)                    {b.select_list(:id => "document.item[#{@line_id}].receiptNoteList[#{@subline_id}].noteTypeId")}
+      element(:note_field)                            {b.text_field(:id => "document.item[#{@line_id}].receiptNoteList[#{@subline_id}].notes")}
     end
   end
 end

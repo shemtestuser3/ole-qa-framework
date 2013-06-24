@@ -12,86 +12,57 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QAF::OLEFS
+module OLE_QA::OLEFS
   # A single Line Item in an OLE Financial System Payment Request.
-  class PREQ_Line_Item < OLE_QAF::Line_Object
-
-    # An integer counter for the number of Accounting Lines attached to the Line Item.
-    # - This counter always points at the new accounting line, the first under the Line Item.
-    # - This counter always represents the sum of available accounting lines on the Line Item.
-    attr_accessor :accounting_line_counter
-
-    # An integer counter for the number of Invoice Notes Lines attached to the Line Item.
-    # - This counter always points at the new invoice notes line, the first under the Line Item.
-    # - This counter always represents the sum of available invoice notes lines on the Line Item.
-    attr_accessor :invoice_notes_line_counter
-
-    def initialize(browser, line_number, new_line = true)
-      @yaml_path = '/olefs/objects/preq_line_item/'
-      @browser = browser
-      @line_number = line_number
-      @new_line = new_line
-      super(@browser, @yaml_path, @line_number, @new_line)
-      
-      @accounting_line_counter = 0
-      @invoice_notes_line_counter = 0
-
-      unless new_line
-        make_accessor(:new_accounting_line)
-        @new_accounting_line = Accounting_Line.new(@browser, @line_number, 0)
-        make_accessor(:new_invoice_notes_line)
-        @new_invoice_notes_line = Invoice_Notes_Line.new(@browser, @line_number, 0)
-      end
+  class PREQ_Line_Item < OLE_QA::OLEFS::Line_Object
+    # Create accessor methods for new subline objects.
+    def set_sublines
+      create_subline("new_invoice_notes_line","New_Invoice_Notes_Line")
+      create_subline("new_accounting_line","New_Accounting_Line")
     end
 
-    # Create an accounting line object on the current line item instance.
-    # - Increments the accounting line counter.
-    # - Creates a new instance of Accounting_Line.
-    # - New instance variable will be @accounting_line_N where N = counter.
-    def create_accounting_line
-      @accounting_line_counter += 1
-      n = @accounting_line_counter
-      new_line = false
-      make_accessor(:"accounting_line_#{n}")
-      instance_variable_set(:"@accounting_line_#{n}", \
-        Accounting_Line.new(@browser, @line_number, n, new_line))
+    # Set PREQ line item elements.
+    def set_elements
+      super
+      # Read-Only Elements
+      element(:open_quantity_field)                           {b.td(:xpath => "//div[@id='tab-ProcessItems-div']/descendant::table/tbody/tr[th[contains(text(),'Item Line #')]]/following-sibling::tr[td/b[contains(text(),'#{@line_number}')]]/td[2]")}
+      element(:po_unit_price_field)                           {b.td(:xpath => "//div[@id='tab-ProcessItems-div']/descendant::table/tbody/tr[th[contains(text(),'Item Line #')]]/following-sibling::tr[td/b[contains(text(),'#{@line_number}')]]/td[3]")}
+      element(:format_field)                                  {b.td(:xpath => "//div[@id='tab-ProcessItems-div']/descendant::table/tbody/tr[th[contains(text(),'Item Line #')]]/following-sibling::tr[td/b[contains(text(),'#{@line_number}')]]/td[4]")}
+      element(:vendor_item_identifier_field)                  {b.td(:xpath => "//div[@id='tab-ProcessItems-div']/descendant::table/tbody/tr[th[contains(text(),'Item Line #')]]/following-sibling::tr[td/b[contains(text(),'#{@line_number}')]]/td[5]")}
+      element(:prorated_surcharge_field)                      {b.td(:xpath => "//div[@id='tab-ProcessItems-div']/descendant::table/tbody/tr[th[contains(text(),'Item Line #')]]/following-sibling::tr[td/b[contains(text(),'#{@line_number}')]]/td[11]")}
+      element(:unit_cost_field)                               {b.td(:xpath => "//div[@id='tab-ProcessItems-div']/descendant::table/tbody/tr[th[contains(text(),'Item Line #')]]/following-sibling::tr[td/b[contains(text(),'#{@line_number}')]]/td[12]")}
+      element(:extended_cost_field)                           {b.td(:xpath => "//div[@id='tab-ProcessItems-div']/descendant::table/tbody/tr[th[contains(text(),'Item Line #')]]/following-sibling::tr[td/b[contains(text(),'#{@line_number}')]]/td[13]")}
+      element(:assigned_to_trade_in_field)                    {b.td(:xpath => "//div[@id='tab-ProcessItems-div']/descendant::table/tbody/tr[th[contains(text(),'Item Line #')]]/following-sibling::tr[td/b[contains(text(),'#{@line_number}')]]/td[14]")}
+      element(:description_field)                             {b.td(:xpath => "//div[@id='tab-ProcessItems-div']/descendant::table/tbody/tr[th[contains(text(),'Item Line #')]]/following-sibling::tr[td/b[contains(text(),'#{@line_number}')]]/td[15]")}
+      element(:number_of_copies_ordered_field)                {b.text_field(:id => "document.item[#{@line_id}].oleItemQuantity")}
+      element(:number_of_parts_ordered_field)                 {b.text_field(:id => "document.item[#{@line_id}].itemNoOfParts")}
+      element(:list_price_field)                              {b.text_field(:id => "document.item[#{@line_id}].itemListPrice")}
+      element(:discount_field)                                {b.text_field(:id => "document.item[#{@line_id}].itemDiscount")}
+      element(:discount_type_selector)                        {b.select_list(:id => "document.item[#{@line_id}].itemDiscountType")}
+      element(:edit_bib_button)                               {b.input(:id => "bibEditAddedItemButton_#{@line_id}")}
+      element(:delete_button)                                 {b.input(:xpath => "//input[@name='methodToCall.deleteItem.line#{@line_id}']")}
+      element(:invoice_notes_toggle)                          {b.input(:xpath => "//div[@id='tab-ProcessItems-div']/descendant::table/tbody/tr[th[contains(text(),'Item Line #')]]/following-sibling::tr[td/b[contains(text(),'#{@line_number}')]]/following-sibling::tr[2]/descendant::input[starts-with(@id,'tab-Notes')]")}
+      element(:accounting_lines_toggle)                       {b.input(:xpath => "//div[@id='tab-ProcessItems-div']/descendant::table/tbody/tr[th[contains(text(),'Item Line #')]]/following-sibling::tr[td/b[contains(text(),'#{@line_number}')]]/following-sibling::tr[3]/descendant::input[starts-with(@id,'tab-AccountingLines')]")}
     end
 
-    # Delete the highest-numbered accounting line object on the current line item instance.
-    # - Removes the @accounting_line_N instance variable where N = counter.
-    # - Decrements the accounting line counter.
-    #
-    # @raise [StandardError] if counter = 0
-    def delete_accounting_line
-      n = @accounting_line_counter
-      raise StandardError, "No accounting lines exist!" if n == 0
-      remove_instance_variable(:"@accounting_line_#{n}")
-      @accounting_line_counter -= 1
+    def create_invoice_notes_line(which = 1)
+      create_subline("invoice_notes_line_#{which}","Invoice_Notes_Line", which)
     end
+    alias_method(:add_invoice_notes_line,:create_invoice_notes_line)
 
-    # Create an invoice notes line object on the current line item instance.
-    # - Increments the invoice notes line counter.
-    # - Creates a new instance of Invoice_Notes_Line.
-    # - New instance variable will be @invoice_notes_line_N where N = counter.
-    def create_invoice_notes_line
-      @invoice_notes_line_counter += 1
-      n = @invoice_notes_line_counter
-      new_line = false
-      make_accessor(:"invoice_notes_line_#{n}")
-      instance_variable_set(:"@invoice_notes_line_#{n}", \
-        Invoice_Notes_Line.new(@browser, @line_number, n, new_line))
+    def create_accounting_line(which = 1)
+      create_subline("accounting_line_#{which}","Accounting_Line", which)
     end
+    alias_method(:add_accounting_line,:create_accounting_line)
 
-    # Delete the highest-numbered invoice notes line object on the current line item instance.
-    # - Removes the @invoice_notes_line_N instance variable where N = counter.
-    # - Decrements the invoice notes line counter.
-    #
-    # @raise [StandardError] if counter = 0#
-    def delete_invoice_notes_line
-      n = @invoice_notes_line_counter
-      raise StandardError, "No invoice lines exist!" if n == 0
-      remove_instance_variable(:"@invoice_notes_line_#{n}")
-      @invoice_notes_line_counter -= 1
+    def remove_invoice_notes_line(which = 1)
+      remove_subline("invoice_notes_line_#{which}")
     end
+    alias_method(:delete_invoice_notes_line,:remove_invoice_notes_line)
+
+    def remove_accounting_line(which = 1)
+      remove_subline("accounting_line_#{which}")
+    end
+    alias_method(:delete_accounting_line,:remove_accounting_line)
   end
 end

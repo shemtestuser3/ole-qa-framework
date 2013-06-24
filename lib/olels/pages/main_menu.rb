@@ -12,23 +12,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QAF
+module OLE_QA
   # The OLE Library System Main Menu Page
   class OLELS_Main_Menu < Page
-
-    def initialize(ole_framework)
-      browser = ole_framework.browser
-      url = ole_framework.ls_url
-      super(browser, url)
+    # Set page URL to OLE Library System URL
+    def initialize(ole_session)
+      url = ole_session.ls_url
+      super(ole_session, url)
     end
-
-    def open
-      super
-      login_button = Input_Element.new(@browser, :id, "log")
-      if login_button.present? then
-        login_button.click
-      end
-    end
-
   end
 end

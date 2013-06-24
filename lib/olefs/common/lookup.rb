@@ -12,17 +12,19 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QAF::OLEFS
+module OLE_QA::OLEFS
   # A Lookup Screen in OLEFS
-  class Lookup < OLE_QAF::Page
-
-    def initialize(browser, url)
-      super(browser, url)
-
-      subdir = '/olefs/common/lookup/'
-      elements = load_elements(subdir)
-      set_elements(elements)
+  class Lookup < OLE_QA::Page
+    # Set lookup page elements.
+    def set_elements
+      super
+      element(:title)                           {b.h1(:xpath => "//div[@id='headerarea-small']/h1")}
+      element(:active_indicator_yes)            {b.radio(:id => "activeYes")}
+      element(:active_indicator_no)             {b.radio(:id => "activeNo")}
+      element(:active_indicator_both)           {b.radio(:id => "activeBoth")}
+      element(:search_button)                   {b.input(:title => "search")}
+      element(:clear_button)                    {b.input(:title => "clear")}
+      element(:cancel_button)                   {b.input(:title => "cancel")}
     end
-
   end
 end
