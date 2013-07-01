@@ -14,5 +14,5 @@
 
 module OLE_QA
   # The version number for this project.
-  VERSION = '1.0.0'
+  VERSION = '1.0.1'
 end
