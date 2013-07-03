@@ -18,10 +18,10 @@ require 'spec_helper'
 describe 'An OLEFS Preq Line Item object' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
+    @ole = OLE_QA::Framework::Session.new
     @browser = @ole.browser
-    @preq_line_item = OLE_QA::OLEFS::PREQ_Line_Item.new(@ole, 1)
-    @new_preq_line = OLE_QA::OLEFS::New_PREQ_Line_Item.new(@ole, 1)
+    @preq_line_item = OLE_QA::Framework::OLEFS::PREQ_Line_Item.new(@ole, 1)
+    @new_preq_line = OLE_QA::Framework::OLEFS::New_PREQ_Line_Item.new(@ole, 1)
   end
 
   after :all do
@@ -29,10 +29,10 @@ describe 'An OLEFS Preq Line Item object' do
   end
 
   it 'should create a new instance' do
-    @preq_line_item.class.should == OLE_QA::OLEFS::PREQ_Line_Item
-    @preq_line_item.class.superclass.should == OLE_QA::OLEFS::Line_Object
-    @new_preq_line.class.should == OLE_QA::OLEFS::New_PREQ_Line_Item
-    @new_preq_line.class.superclass.should == OLE_QA::OLEFS::Line_Object
+    @preq_line_item.class.should == OLE_QA::Framework::OLEFS::PREQ_Line_Item
+    @preq_line_item.class.superclass.should == OLE_QA::Framework::OLEFS::Line_Object
+    @new_preq_line.class.should == OLE_QA::Framework::OLEFS::New_PREQ_Line_Item
+    @new_preq_line.class.superclass.should == OLE_QA::Framework::OLEFS::Line_Object
   end
 
   it 'should have a browser accessor' do
@@ -91,10 +91,10 @@ describe 'An OLEFS Preq Line Item object' do
   it 'should create additional sublines' do
     @preq_line_item.create_accounting_line(1)
     @preq_line_item.methods.include?(:accounting_line_1).should be_true
-    @preq_line_item.accounting_line_1.class.should == OLE_QA::OLEFS::Accounting_Line
+    @preq_line_item.accounting_line_1.class.should == OLE_QA::Framework::OLEFS::Accounting_Line
     @preq_line_item.create_invoice_notes_line(1)
     @preq_line_item.methods.include?(:invoice_notes_line_1).should be_true
-    @preq_line_item.invoice_notes_line_1.class.should == OLE_QA::OLEFS::Invoice_Notes_Line
+    @preq_line_item.invoice_notes_line_1.class.should == OLE_QA::Framework::OLEFS::Invoice_Notes_Line
   end
 
   it 'should remove sublines' do

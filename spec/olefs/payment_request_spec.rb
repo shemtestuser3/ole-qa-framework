@@ -18,9 +18,9 @@ require 'spec_helper'
 describe 'An OLEFS Payment Request page' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
+    @ole = OLE_QA::Framework::Session.new
     @browser = @ole.browser
-    @preq = OLE_QA::OLEFS::Payment_Request.new(@ole)
+    @preq = OLE_QA::Framework::OLEFS::Payment_Request.new(@ole)
   end
 
   after :all do
@@ -28,8 +28,8 @@ describe 'An OLEFS Payment Request page' do
   end
 
   it 'should create a new instance' do
-    @preq.class.should ==  OLE_QA::OLEFS::Payment_Request
-    @preq.class.superclass.should == OLE_QA::OLEFS::PURAP_Document
+    @preq.class.should ==  OLE_QA::Framework::OLEFS::Payment_Request
+    @preq.class.superclass.should == OLE_QA::Framework::OLEFS::PURAP_Document
   end
 
   it 'should open a new PREQ document via URL' do
@@ -65,13 +65,13 @@ describe 'An OLEFS Payment Request page' do
 
   it 'should have a new line item' do
     @preq.methods.include?(:new_line_item).should be_true
-    @preq.new_line_item.class.should == OLE_QA::OLEFS::New_PREQ_Line_Item
+    @preq.new_line_item.class.should == OLE_QA::Framework::OLEFS::New_PREQ_Line_Item
   end
 
   it 'should create a line item' do
     @preq.create_line_item(1)
     @preq.methods.include?(:line_item_1).should be_true
-    @preq.line_item_1.class.should == OLE_QA::OLEFS::PREQ_Line_Item
+    @preq.line_item_1.class.should == OLE_QA::Framework::OLEFS::PREQ_Line_Item
   end
 
   it 'should remove a line item' do

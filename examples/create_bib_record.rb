@@ -16,10 +16,10 @@ require 'ole-qa-framework'
 
 # Start a new instance of the OLE Testing Framework.
 # Do not run the browser in headless mode.
-ole = OLE_QA::Framework.new(:headless? => false)
+ole = OLE_QA::Framework::Session.new(:headless? => false)
 
 # Create an instance of the OLELS Bib Editor Page.
-bib_editor = OLE_QA::OLELS::Bib_Editor.new(ole)
+bib_editor = OLE_QA::Framework::OLELS::Bib_Editor.new(ole)
 
 # Open the page directly via URL.
 # Automatically select the iframe with ID "iframeporlet"

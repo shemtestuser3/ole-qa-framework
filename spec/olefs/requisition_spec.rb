@@ -20,8 +20,8 @@ require 'spec_helper'
 describe 'A purap_requisition document' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
-    @req = OLE_QA::OLEFS::Requisition.new(@ole)
+    @ole = OLE_QA::Framework::Session.new
+    @req = OLE_QA::Framework::OLEFS::Requisition.new(@ole)
   end
 
   after :all do
@@ -29,11 +29,11 @@ describe 'A purap_requisition document' do
   end
 
   it 'should create a new instance' do
-    @req.class.should == OLE_QA::OLEFS::Requisition
+    @req.class.should == OLE_QA::Framework::OLEFS::Requisition
   end
 
   it 'should be a subclass of an OLEFS E-Document' do
-    @req.class.superclass.should == OLE_QA::OLEFS::PURAP_Document
+    @req.class.superclass.should == OLE_QA::Framework::OLEFS::PURAP_Document
   end
 
   it 'should open a new purap_requisition via url' do
@@ -63,13 +63,13 @@ describe 'A purap_requisition document' do
   end
 
   it 'should have a new line item' do
-    @req.new_line_item.class.should == OLE_QA::OLEFS::New_Line_Item
+    @req.new_line_item.class.should == OLE_QA::Framework::OLEFS::New_Line_Item
   end
 
   it 'should create a line item' do
     @req.create_line_item(1)
     @req.methods.include?(:line_item_1).should be_true
-    @req.line_item_1.class.should == OLE_QA::OLEFS::Line_Item
+    @req.line_item_1.class.should == OLE_QA::Framework::OLEFS::Line_Item
   end
 
   it 'should delete a line item' do

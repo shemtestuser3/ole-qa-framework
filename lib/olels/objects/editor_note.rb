@@ -12,10 +12,10 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLELS
+module OLE_QA::Framework::OLELS
 
   # Any of Various Notes which Appear on the OLE Library System Instance Editor
-  class Editor_Note < OLE_QA::Data_Object
+  class Editor_Note < OLE_QA::Framework::Data_Object
 
     # The type of Instance Note represented by an instance of this object.
     attr_accessor :note_type
@@ -33,7 +33,7 @@ module OLE_QA::OLELS
     attr_accessor :yaml_file
 
     # @note Subline Number is only necessary when instantiating for a note type which represents a subline element.
-    #  e.g., ownership_note = OLE_QA::OLELS::Editor_Note.new(browser, 'ownership note', 2, 1)
+    #  e.g., ownership_note = OLE_QA::Framework::OLELS::Editor_Note.new(browser, 'ownership note', 2, 1)
     #  Otherwise leave this set to 0.
     def initialize(browser, note_type, line_number, subline_number = 0)
       super(browser)

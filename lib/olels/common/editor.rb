@@ -12,14 +12,14 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLELS
+module OLE_QA::Framework::OLELS
 
   # This represents the base object for the Describe Editor.
   # It generates elements common to all three editor screens:
   # - Bibliographic Editor
   # - Instance Editor (for Holdings)
   # - Item Editor
-  class Editor < OLE_QA::Page
+  class Editor < OLE_QA::Framework::Page
 
     # The URL for this Page object is the universal Describe Editor URL in OLELS.
     # When the Editor is opened via URL, it will start on the
@@ -34,7 +34,7 @@ module OLE_QA::OLELS
     #
     def initialize(ole_session)
       editor_url =  ole_session.ls_url + 'portal.do?channelTitle=Editor&channelUrl='
-      editor_url += ole_session.ls_url + 'kr-krad/editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=bibliographic&docFormat=marc&editable=true'
+      editor_url += ole_session.ls_url + 'ole-kr-krad/editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=bibliographic&docFormat=marc&editable=true'
       super(ole_session, editor_url)
       set_lines if defined?(self.set_lines)
     end
@@ -61,7 +61,7 @@ module OLE_QA::OLELS
       raise StandardError, "Line object already exists.  (#{instance_name})" if self.instance_variables.include?("@#{instance_name}".to_sym)
       new_line_name = instance_name
       make_accessor(:"#{instance_name}")
-      klas = OLE_QA::OLELS.const_get(:"#{class_name}")
+      klas = OLE_QA::Framework::OLELS.const_get(:"#{class_name}")
       instance_variable_set(:"@#{new_line_name}", klas.new(@ole, which))
     end
 

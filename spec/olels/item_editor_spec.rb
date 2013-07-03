@@ -18,14 +18,14 @@ require 'spec_helper'
 describe 'An OLELS Item Editor page' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
+    @ole = OLE_QA::Framework::Session.new
     @browser = @ole.browser
-    @item_editor = OLE_QA::OLELS::Item_Editor.new(@ole)
+    @item_editor = OLE_QA::Framework::OLELS::Item_Editor.new(@ole)
   end
 
   it 'should create a new instance' do
-    @item_editor.class.should == OLE_QA::OLELS::Item_Editor
-    @item_editor.class.superclass.should == OLE_QA::OLELS::Editor
+    @item_editor.class.should == OLE_QA::Framework::OLELS::Item_Editor
+    @item_editor.class.superclass.should == OLE_QA::Framework::OLELS::Editor
   end
 
   it 'should have item editor elements' do
@@ -75,13 +75,13 @@ describe 'An OLELS Item Editor page' do
 
   it 'should start with an item note' do
     @item_editor.methods.include?(:item_note_1).should be_true
-    @item_editor.item_note_1.class.should == OLE_QA::OLELS::Item_Note
+    @item_editor.item_note_1.class.should == OLE_QA::Framework::OLELS::Item_Note
   end
 
   it 'should add an item note' do
     @item_editor.add_item_note(2)
     @item_editor.methods.include?(:item_note_2).should be_true
-    @item_editor.item_note_2.class.should == OLE_QA::OLELS::Item_Note
+    @item_editor.item_note_2.class.should == OLE_QA::Framework::OLELS::Item_Note
   end
 
   it 'should remove an item note' do

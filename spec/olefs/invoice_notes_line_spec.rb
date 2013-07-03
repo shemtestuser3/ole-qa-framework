@@ -18,17 +18,17 @@ require 'spec_helper'
 describe 'An OLEFS Invoice Notes Line object' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
+    @ole = OLE_QA::Framework::Session.new
     @browser = @ole.browser
-    @invoice_notes = OLE_QA::OLEFS::Invoice_Notes_Line.new(@ole, 1, 1)
-    @new_invoice_notes = OLE_QA::OLEFS::New_Invoice_Notes_Line.new(@ole, 1, 0)
+    @invoice_notes = OLE_QA::Framework::OLEFS::Invoice_Notes_Line.new(@ole, 1, 1)
+    @new_invoice_notes = OLE_QA::Framework::OLEFS::New_Invoice_Notes_Line.new(@ole, 1, 0)
   end
 
   it 'should create a new instance' do
-    @invoice_notes.class.should == OLE_QA::OLEFS::Invoice_Notes_Line
-    @invoice_notes.class.superclass.should == OLE_QA::Subline_Object
-    @new_invoice_notes.class.should == OLE_QA::OLEFS::New_Invoice_Notes_Line
-    @new_invoice_notes.class.superclass.should == OLE_QA::Subline_Object
+    @invoice_notes.class.should == OLE_QA::Framework::OLEFS::Invoice_Notes_Line
+    @invoice_notes.class.superclass.should == OLE_QA::Framework::Subline_Object
+    @new_invoice_notes.class.should == OLE_QA::Framework::OLEFS::New_Invoice_Notes_Line
+    @new_invoice_notes.class.superclass.should == OLE_QA::Framework::Subline_Object
   end
 
   it 'should have invoice notes line elements' do

@@ -18,9 +18,9 @@ require 'spec_helper'
 describe 'The Bib Editor' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
+    @ole = OLE_QA::Framework::Session.new
     @browser = @ole.browser
-    @bib_editor = OLE_QA::OLELS::Bib_Editor.new(@ole)
+    @bib_editor = OLE_QA::Framework::OLELS::Bib_Editor.new(@ole)
   end
 
   after :all do
@@ -28,8 +28,8 @@ describe 'The Bib Editor' do
   end
 
   it 'should create a new instance' do
-    @bib_editor.class.should == OLE_QA::OLELS::Bib_Editor
-    @bib_editor.class.superclass.should == OLE_QA::OLELS::Editor
+    @bib_editor.class.should == OLE_QA::Framework::OLELS::Bib_Editor
+    @bib_editor.class.superclass.should == OLE_QA::Framework::OLELS::Editor
   end
 
   it 'should have bib editor elements' do
@@ -60,13 +60,13 @@ describe 'The Bib Editor' do
   end
 
   it 'should start with one data line added' do
-    @bib_editor.data_line_1.class.should == OLE_QA::OLELS::Data_Line
+    @bib_editor.data_line_1.class.should == OLE_QA::Framework::OLELS::Data_Line
   end
 
   it 'should add a data line' do
     @bib_editor.add_data_line(2)
     @bib_editor.methods.include?(:data_line_2).should be_true
-    @bib_editor.data_line_2.class.should == OLE_QA::OLELS::Data_Line
+    @bib_editor.data_line_2.class.should == OLE_QA::Framework::OLELS::Data_Line
   end
 
   it 'should delete a data line' do

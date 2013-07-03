@@ -12,23 +12,19 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require "rspec"
-require "spec_helper"
+module OLE_QA::Framework::OLELS
+  # A lookup screen in the OLE Library System
+  class Lookup < OLE_QA::Framework::Page
+    # Set elements common to all OLELS lookup screens.
+    def set_elements
+      super
+      element(:title)                           {b.h1.span(:class => "uif-headerText-span")}
+    end
 
-
-describe "The OLEFS Main Menu" do
-
-  before :all do
-    @ole = OLE_QA::Framework::Session.new
-    @olefs = OLE_QA::Framework::OLEFS::Main_Menu.new(@ole)
-  end
-
-  after :all do
-    @ole.quit
-  end
-
-  it "should open via url" do
-    @olefs.open
-    @ole.browser.title.strip.should == "Kuali Portal Index"
+    # Set elements to be loaded before the page is considered complete.
+    def wait_for_elements
+      super
+      @wait_on << :title
+    end
   end
 end

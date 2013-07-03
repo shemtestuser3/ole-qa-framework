@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "#{lib}/ole-qa-framework"
+require "ole_qa_framework/VERSION"
 
 Gem::Specification.new do |spec|
   spec.name          = "ole-qa-framework"
-  spec.version       = "#{OLE_QA::VERSION}"
+  spec.version       = OLE_QA::Framework::VERSION
   spec.authors       = ["Jain Waldrip"]
   spec.email         = ["jkwaldri@indiana.edu"]
   spec.description   = "Watir-Webdriver Based Page-Object Framework for Kuali Open Library Environment QA Testing"

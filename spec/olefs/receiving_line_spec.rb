@@ -18,11 +18,11 @@ require 'spec_helper'
 describe 'An OLEFS Receiving Line object' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
+    @ole = OLE_QA::Framework::Session.new
     @browser = @ole.browser
     @line_number = 1
-    @rcv_line = OLE_QA::OLEFS::Receiving_Line.new(@ole, @line_number)
-    @new_rcv_line = OLE_QA::OLEFS::New_Receiving_Line.new(@ole, @line_number)
+    @rcv_line = OLE_QA::Framework::OLEFS::Receiving_Line.new(@ole, @line_number)
+    @new_rcv_line = OLE_QA::Framework::OLEFS::New_Receiving_Line.new(@ole, @line_number)
   end
 
   after :all do
@@ -30,10 +30,10 @@ describe 'An OLEFS Receiving Line object' do
   end
 
   it 'should create a new instance' do
-    @rcv_line.class.should == OLE_QA::OLEFS::Receiving_Line
-    @rcv_line.class.superclass.should == OLE_QA::OLEFS::Line_Object
-    @new_rcv_line.class.should == OLE_QA::OLEFS::New_Receiving_Line
-    @new_rcv_line.class.superclass.should == OLE_QA::OLEFS::Line_Object
+    @rcv_line.class.should == OLE_QA::Framework::OLEFS::Receiving_Line
+    @rcv_line.class.superclass.should == OLE_QA::Framework::OLEFS::Line_Object
+    @new_rcv_line.class.should == OLE_QA::Framework::OLEFS::New_Receiving_Line
+    @new_rcv_line.class.superclass.should == OLE_QA::Framework::OLEFS::Line_Object
   end
 
   it 'should have a browser accessor' do
@@ -77,16 +77,16 @@ describe 'An OLEFS Receiving Line object' do
   it 'should add sublines' do
     @rcv_line.create_exception_notes_line(1)
     @rcv_line.methods.include?(:exception_notes_line_1).should be_true
-    @rcv_line.exception_notes_line_1.class.should == OLE_QA::OLEFS::Exception_Notes_Line
+    @rcv_line.exception_notes_line_1.class.should == OLE_QA::Framework::OLEFS::Exception_Notes_Line
     @rcv_line.create_receipt_notes_line(1)
     @rcv_line.methods.include?(:receipt_notes_line_1).should be_true
-    @rcv_line.receipt_notes_line_1.class.should == OLE_QA::OLEFS::Receipt_Notes_Line
+    @rcv_line.receipt_notes_line_1.class.should == OLE_QA::Framework::OLEFS::Receipt_Notes_Line
     @rcv_line.create_copies_line(1)
     @rcv_line.methods.include?(:copies_line_1).should be_true
-    @rcv_line.copies_line_1.class.should == OLE_QA::OLEFS::Copies_Line
+    @rcv_line.copies_line_1.class.should == OLE_QA::Framework::OLEFS::Copies_Line
     @rcv_line.create_processing_line(1)
     @rcv_line.methods.include?(:processing_line_1).should be_true
-    @rcv_line.processing_line_1.class.should == OLE_QA::OLEFS::Processing_Line
+    @rcv_line.processing_line_1.class.should == OLE_QA::Framework::OLEFS::Processing_Line
   end
 
   it 'should remove sublines' do

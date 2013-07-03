@@ -12,9 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA
+module OLE_QA::Framework::OLELS
   # The OLE Library System Main Menu Page
-  class OLELS_Main_Menu < Page
+  class Main_Menu < OLE_QA::Framework::Page
     # Set page URL to OLE Library System URL
     def initialize(ole_session)
       url = ole_session.ls_url

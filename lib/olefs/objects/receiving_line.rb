@@ -12,9 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLEFS
+module OLE_QA::Framework::OLEFS
   # A single line on an OLE Financial System Receiving Document
-  class Receiving_Line < OLE_QA::OLEFS::Line_Object
+  class Receiving_Line < OLE_QA::Framework::OLEFS::Line_Object
     # Create accessor methods for new subline objects.
     def set_sublines
       create_subline("new_exception_notes_line","New_Exception_Notes_Line")

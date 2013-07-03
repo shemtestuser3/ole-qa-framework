@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA
+module OLE_QA::Framework
   # A Data Object in OLE that represents a line nested under another line.
   # A subline can usually be added or deleted, and has element identifiers
   # which vary dependent upon the line below which they are nested.
@@ -28,7 +28,7 @@ module OLE_QA
     attr_reader :subline_number
     attr_reader :subline_id
 
-    # @param ole_session [Object] The OLE_QA::Framework session to pass to the Data Object.
+    # @param ole_session [Object] The OLE_QA::Framework::Session session to pass to the Data Object.
     # @param line_number [Fixnum] The line number this subline object will use for element definitions.
     # @param subline_number [Fixnum] The subline number this subline object will use for element definitions.
     def initialize(ole_session, line_number = 1, subline_number = 1)
@@ -40,7 +40,7 @@ module OLE_QA
 
     # Set elements on the subline object.
     # @note Use line_number, line_id, subline_number, and subline_id to replace dynamic identifier numbers.
-    #   (See {OLE_QA::Line_Object#set_elements} for more on line number substitution.)
+    #   (See {OLE_QA::Framework::Line_Object#set_elements} for more on line number substitution.)
     def set_elements
     end
   end

@@ -12,9 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLELS
+module OLE_QA::Framework::OLELS
   # An Access Information Line on the OLE Library System Instance Record Editor
-  class Access_Info_Line < OLE_QA::OLELS::Line_Object
+  class Access_Info_Line < OLE_QA::Framework::OLELS::Line_Object
     # Set screen elements for access info line.
     def set_elements
       element(:access_info_field)                     {b.text_field(:id => "OleAccessInformationField_line#{@line_id}_control")}

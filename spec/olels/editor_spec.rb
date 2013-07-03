@@ -19,8 +19,8 @@ require 'spec_helper'
 describe 'The Editor base class' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
-    @editor = OLE_QA::OLELS::Editor.new(@ole)
+    @ole = OLE_QA::Framework::Session.new
+    @editor = OLE_QA::Framework::OLELS::Editor.new(@ole)
   end
 
   after :all do
@@ -28,11 +28,11 @@ describe 'The Editor base class' do
   end
 
   it 'should create a new instance of the Editor base class' do
-    @editor.class.should == OLE_QA::OLELS::Editor
+    @editor.class.should == OLE_QA::Framework::OLELS::Editor
   end
 
   it 'should should be a page' do
-    @editor.class.superclass.should == OLE_QA::Page
+    @editor.class.superclass.should == OLE_QA::Framework::Page
   end
 
   it 'should open the Marc Editor via URL' do

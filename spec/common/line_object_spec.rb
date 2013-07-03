@@ -19,8 +19,8 @@ require 'spec_helper'
 describe 'A Line Object' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
-    @line_object = OLE_QA::Line_Object.new(@ole, 1)
+    @ole = OLE_QA::Framework::Session.new
+    @line_object = OLE_QA::Framework::Line_Object.new(@ole, 1)
   end
 
   after :all do
@@ -28,11 +28,11 @@ describe 'A Line Object' do
   end
 
   it 'should create a new instance' do
-    @line_object.class.should == OLE_QA::Line_Object
+    @line_object.class.should == OLE_QA::Framework::Line_Object
   end
 
   it 'should be a subclass of data object' do
-    @line_object.class.superclass.should == OLE_QA::Data_Object
+    @line_object.class.superclass.should == OLE_QA::Framework::Data_Object
   end
 
   it 'should have a browser accessor' do

@@ -18,8 +18,8 @@ require 'spec_helper'
 describe 'An OLELS Access Info Line object' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
-    @access_info = OLE_QA::OLELS::Access_Info_Line.new(@ole,1)
+    @ole = OLE_QA::Framework::Session.new
+    @access_info = OLE_QA::Framework::OLELS::Access_Info_Line.new(@ole,1)
   end
 
   after :all do
@@ -27,8 +27,8 @@ describe 'An OLELS Access Info Line object' do
   end
 
   it 'should create a new instance' do
-    @access_info.class.should == OLE_QA::OLELS::Access_Info_Line
-    @access_info.class.superclass.should == OLE_QA::OLELS::Line_Object
+    @access_info.class.should == OLE_QA::Framework::OLELS::Access_Info_Line
+    @access_info.class.superclass.should == OLE_QA::Framework::OLELS::Line_Object
   end
 
   it 'should have access info elements' do

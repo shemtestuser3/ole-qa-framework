@@ -12,9 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLEFS
+module OLE_QA::Framework::OLEFS
   # A single Line Item in an OLE Financial System Payment Request.
-  class PREQ_Line_Item < OLE_QA::OLEFS::Line_Object
+  class PREQ_Line_Item < OLE_QA::Framework::OLEFS::Line_Object
     # Create accessor methods for new subline objects.
     def set_sublines
       create_subline("new_invoice_notes_line","New_Invoice_Notes_Line")

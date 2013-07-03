@@ -12,9 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLEFS
+module OLE_QA::Framework::OLEFS
   # A Copies Line in an OLE Financial System PURAP E-Document.
-  class Copies_Line < OLE_QA::Subline_Object
+  class Copies_Line < OLE_QA::Framework::Subline_Object
     # Set copies line elements.
     def set_elements
       super

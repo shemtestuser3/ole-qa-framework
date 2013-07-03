@@ -18,8 +18,8 @@ require 'spec_helper'
 describe 'An OLELS Holdings Note object' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
-    @holdings_note = OLE_QA::OLELS::Holdings_Note.new(@ole,1)
+    @ole = OLE_QA::Framework::Session.new
+    @holdings_note = OLE_QA::Framework::OLELS::Holdings_Note.new(@ole,1)
   end
 
   after :all do
@@ -27,8 +27,8 @@ describe 'An OLELS Holdings Note object' do
   end
 
   it 'should create a new instance' do
-    @holdings_note.class.should == OLE_QA::OLELS::Holdings_Note
-    @holdings_note.class.superclass.should == OLE_QA::OLELS::Line_Object
+    @holdings_note.class.should == OLE_QA::Framework::OLELS::Holdings_Note
+    @holdings_note.class.superclass.should == OLE_QA::Framework::OLELS::Line_Object
   end
 
   it 'should have holdings note elements' do

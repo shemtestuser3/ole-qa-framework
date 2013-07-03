@@ -19,7 +19,7 @@ require "spec_helper"
 describe "The Watir Webdriver" do
 
   before :all do
-    @ole = OLE_QA::Framework.new
+    @ole = OLE_QA::Framework::Session.new
   end
 
   after :all do

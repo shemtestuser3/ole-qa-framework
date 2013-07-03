@@ -18,9 +18,9 @@ require 'spec_helper'
 describe 'A copies line' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
-    @copies_line = OLE_QA::OLEFS::Copies_Line.new(@ole, 1, 1)
-    @new_copies_line = OLE_QA::OLEFS::New_Copies_Line.new(@ole, 1, 0)
+    @ole = OLE_QA::Framework::Session.new
+    @copies_line = OLE_QA::Framework::OLEFS::Copies_Line.new(@ole, 1, 1)
+    @new_copies_line = OLE_QA::Framework::OLEFS::New_Copies_Line.new(@ole, 1, 0)
   end
 
   after :all do
@@ -28,13 +28,13 @@ describe 'A copies line' do
   end
 
   it 'should create a new instance' do
-    @copies_line.class.should == OLE_QA::OLEFS::Copies_Line
-    @new_copies_line.class.should == OLE_QA::OLEFS::New_Copies_Line
+    @copies_line.class.should == OLE_QA::Framework::OLEFS::Copies_Line
+    @new_copies_line.class.should == OLE_QA::Framework::OLEFS::New_Copies_Line
   end
 
   it 'should be a subclass of subline object' do
-    @copies_line.class.superclass.should == OLE_QA::Subline_Object
-    @new_copies_line.class.superclass.should == OLE_QA::Subline_Object
+    @copies_line.class.superclass.should == OLE_QA::Framework::Subline_Object
+    @new_copies_line.class.superclass.should == OLE_QA::Framework::Subline_Object
   end
 
   it 'should have a browser accessor' do

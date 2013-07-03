@@ -12,12 +12,12 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA
+module OLE_QA::Framework
 
   # An OLE Page object
   class Page
 
-    # The OLE_QA::Framework session passed to the Page object.
+    # The OLE_QA::Framework::Session session passed to the Page object.
     attr_accessor :ole
 
     # The URL to open a given page.
@@ -26,10 +26,10 @@ module OLE_QA
     #   or OLELS, instead use the :new_url accessor set on the e-Doc object.
     attr_reader :url
 
-    include OLE_QA::Helpers
-    include OLE_QA::Page_Helpers
+    include OLE_QA::Framework::Helpers
+    include OLE_QA::Framework::Page_Helpers
 
-    # @param ole_session [Object] The OLE_QA::Framework session in which the page should load.
+    # @param ole_session [Object] The OLE_QA::Framework::Session session in which the page should load.
     # @param url [String] The URL (if any) used to open the page.  (Set to "" if unused.)
     def initialize(ole_session, url)
       @ole = ole_session
@@ -53,7 +53,7 @@ module OLE_QA
 
     # Fill this method with element definitions in a subclass.
     # - Call super first in this method if the subclass overrides elements from the superclass.
-    # - Use with {OLE_QA::Helpers#set_element}
+    # - Use with {OLE_QA::Framework::Helpers#set_element}
     # @note This method is automatically called on any subclass of Page which invokes the original
     #   initialize method.
     def set_elements

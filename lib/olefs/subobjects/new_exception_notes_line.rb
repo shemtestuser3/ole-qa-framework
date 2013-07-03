@@ -12,10 +12,10 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLEFS
+module OLE_QA::Framework::OLEFS
   # A new Exception Notes Line on an OLE Financial System Receiving Line.
-  class New_Exception_Notes_Line < OLE_QA::Subline_Object
-    # Initialize as a subclass of {OLE_QA::Subline_Object} with a subline_number of 0.
+  class New_Exception_Notes_Line < OLE_QA::Framework::Subline_Object
+    # Initialize as a subclass of {OLE_QA::Framework::Subline_Object} with a subline_number of 0.
     def initialize(ole_session, line_number, which)
       super(ole_session, line_number, 0)
     end

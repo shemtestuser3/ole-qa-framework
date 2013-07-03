@@ -18,8 +18,8 @@ require 'spec_helper'
 describe 'An OLEFS Purchase Order' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
-    @purchase_order = OLE_QA::OLEFS::Purchase_Order.new(@ole)
+    @ole = OLE_QA::Framework::Session.new
+    @purchase_order = OLE_QA::Framework::OLEFS::Purchase_Order.new(@ole)
   end
 
   after :all do
@@ -27,8 +27,8 @@ describe 'An OLEFS Purchase Order' do
   end
 
   it 'should create a new instance' do
-    @purchase_order.class.should == OLE_QA::OLEFS::Purchase_Order
-    @purchase_order.class.superclass.should == OLE_QA::OLEFS::PURAP_Document
+    @purchase_order.class.should == OLE_QA::Framework::OLEFS::Purchase_Order
+    @purchase_order.class.superclass.should == OLE_QA::Framework::OLEFS::PURAP_Document
   end
 
   it 'should have purchase order elements' do
@@ -57,13 +57,13 @@ describe 'An OLEFS Purchase Order' do
   end
 
   it 'should have a new line item' do
-    @purchase_order.new_line_item.class.should == OLE_QA::OLEFS::New_Line_Item
+    @purchase_order.new_line_item.class.should == OLE_QA::Framework::OLEFS::New_Line_Item
   end
 
   it 'should create a line item' do
     @purchase_order.create_line_item(1)
     @purchase_order.methods.include?(:line_item_1).should be_true
-    @purchase_order.line_item_1.class.should == OLE_QA::OLEFS::Line_Item
+    @purchase_order.line_item_1.class.should == OLE_QA::Framework::OLEFS::Line_Item
   end
 
   it 'should delete a line item' do

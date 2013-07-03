@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA
+module OLE_QA::Framework
 
   # A Data Object in OLE that represents a single line in a given area.
   # A line object can usually be added or deleted, and may or may not
@@ -24,7 +24,7 @@ module OLE_QA
     attr_reader :line_number
     attr_reader :line_id
 
-    # @param ole_session [Object] The OLE_QA::Framework session to pass to the Data Object.
+    # @param ole_session [Object] The OLE_QA::Framework::Session session to pass to the Data Object.
     # @param line_number [Fixnum] The number this line object will use for element definitions.
     def initialize(ole_session, line_number = 1)
       @line_number = line_number

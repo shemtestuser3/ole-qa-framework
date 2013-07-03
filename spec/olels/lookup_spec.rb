@@ -15,11 +15,11 @@
 require 'rspec'
 require 'spec_helper'
 
-describe 'An OLEFS Lookup page' do
+describe 'An OLELS Lookup page' do
 
   before :all do
     @ole = OLE_QA::Framework::Session.new
-    @lookup = OLE_QA::Framework::OLEFS::Lookup.new(@ole, @ole.base_url)
+    @lookup = OLE_QA::Framework::OLELS::Lookup.new(@ole, @ole.ls_url)
   end
 
   after :all do
@@ -27,18 +27,12 @@ describe 'An OLEFS Lookup page' do
   end
 
   it 'should create a new instance' do
-    @lookup.class.should == OLE_QA::Framework::OLEFS::Lookup
+    @lookup.class.should == OLE_QA::Framework::OLELS::Lookup
     @lookup.class.superclass.should == OLE_QA::Framework::Page
   end
 
-  it 'should have lookup page screen elements' do
-    methods = @lookup.methods
-    methods.include?(:title).should be_true
-    methods.include?(:active_indicator_yes).should be_true
-    methods.include?(:active_indicator_no).should be_true
-    methods.include?(:active_indicator_both).should be_true
-    methods.include?(:search_button).should be_true
-    methods.include?(:clear_button).should be_true
-    methods.include?(:cancel_button).should be_true
+  it 'should have lookup page elements' do
+    elements = @lookup.methods
+    elements.include?(:title).should be_true
   end
 end

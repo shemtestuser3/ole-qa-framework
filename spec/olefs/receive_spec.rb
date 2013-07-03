@@ -18,8 +18,8 @@ require 'spec_helper'
 describe 'An OLEFS Receiving Document page' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
-    @rcv = OLE_QA::OLEFS::Receiving_Document.new(@ole)
+    @ole = OLE_QA::Framework::Session.new
+    @rcv = OLE_QA::Framework::OLEFS::Receiving_Document.new(@ole)
   end
 
   after :all do
@@ -27,8 +27,8 @@ describe 'An OLEFS Receiving Document page' do
   end
 
   it 'should create a new instance' do
-    @rcv.class.should == OLE_QA::OLEFS::Receiving_Document
-    @rcv.class.superclass.should == OLE_QA::OLEFS::PURAP_Document
+    @rcv.class.should == OLE_QA::Framework::OLEFS::Receiving_Document
+    @rcv.class.superclass.should == OLE_QA::Framework::OLEFS::PURAP_Document
   end
 
   it 'should open a new receiving document via URL' do
@@ -46,13 +46,13 @@ describe 'An OLEFS Receiving Document page' do
   end
 
   it 'should have a new receiving line' do
-    @rcv.new_receiving_line.class.should == OLE_QA::OLEFS::New_Receiving_Line
+    @rcv.new_receiving_line.class.should == OLE_QA::Framework::OLEFS::New_Receiving_Line
   end
 
   it 'should create a receiving line' do
     @rcv.create_receiving_line(1)
     @rcv.methods.include?(:receiving_line_1).should be_true
-    @rcv.receiving_line_1.class.should == OLE_QA::OLEFS::Receiving_Line
+    @rcv.receiving_line_1.class.should == OLE_QA::Framework::OLEFS::Receiving_Line
   end
 
   it 'should delete a receiving line' do

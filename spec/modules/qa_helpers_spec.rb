@@ -18,10 +18,10 @@ require 'spec_helper'
 describe 'The Helpers module' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
+    @ole = OLE_QA::Framework::Session.new
 
     class TestObject
-      include OLE_QA::Helpers
+      include OLE_QA::Framework::Helpers
       def initialize(ole_session)
         make_accessor(:foo)
         @foo = "foo"

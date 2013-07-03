@@ -18,10 +18,10 @@ require 'spec_helper'
 describe 'A Subline Object' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
+    @ole = OLE_QA::Framework::Session.new
     @line_num = 1
     @subline_num = 1
-    @subline = OLE_QA::Subline_Object.new(@ole, @line_num, @subline_num)
+    @subline = OLE_QA::Framework::Subline_Object.new(@ole, @line_num, @subline_num)
   end
 
   after :all do
@@ -29,11 +29,11 @@ describe 'A Subline Object' do
   end
 
   it 'should create a new instance' do
-    @subline.class.should == OLE_QA::Subline_Object
+    @subline.class.should == OLE_QA::Framework::Subline_Object
   end
 
   it 'should be a subclass of data object' do
-    @subline.class.superclass.should == OLE_QA::Data_Object
+    @subline.class.superclass.should == OLE_QA::Framework::Data_Object
   end
 
   it 'should have a line number' do

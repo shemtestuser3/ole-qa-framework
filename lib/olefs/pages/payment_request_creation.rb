@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLEFS
+module OLE_QA::Framework::OLEFS
   # A Payment Request Creation screen in the OLE Financial System
   class PREQ_Creation < E_Doc
     def initialize(ole_session)

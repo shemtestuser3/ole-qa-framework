@@ -19,8 +19,8 @@ require "spec_helper"
 describe "A Page" do
 
   before :all do
-    @ole = OLE_QA::Framework.new
-    @page = OLE_QA::Page.new(@ole, @ole.base_url)
+    @ole = OLE_QA::Framework::Session.new
+    @page = OLE_QA::Framework::Page.new(@ole, @ole.base_url)
   end
 
   it "should open via url" do

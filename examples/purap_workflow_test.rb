@@ -16,13 +16,13 @@ require "ole-qa-framework"
 
 # Start a new instance of the OLE Testing Framework.
 # Do not run the browser in headless mode.
-ole = OLE_QA::Framework.new(:headless? => false)
+ole = OLE_QA::Framework::Session.new(:headless? => false)
 
 # Capture the start time in MM/DD/YYYY format.
 time = Time.now.strftime("%m/%d/%y")
 
 # Open a new requisition.
-requisition = OLE_QA::OLEFS::Requisition.new(ole)
+requisition = OLE_QA::Framework::OLEFS::Requisition.new(ole)
 requisition.open
 
 # Set the description field to "PURAP Workflow Test - MM/DD/YYYY".
@@ -31,7 +31,7 @@ requisition.description_field.set("PURAP Workflow Test - #{time}")
 # Set the delivery address to Wells Library, Room 100.
 requisition.delivery_tab_toggle.click
 requisition.building_search_icon.click
-building_lookup = OLE_QA::OLEFS::Building_Lookup.new(ole)
+building_lookup = OLE_QA::Framework::OLEFS::Building_Lookup.new(ole)
 building_lookup.wait_for_page_to_load
 building_lookup.building_name_field.set("Wells Library")
 building_lookup.search_button.click
@@ -43,7 +43,7 @@ requisition.delivery_tab_toggle.click
 # Select "YBP Library Services" as the vendor.
 requisition.vendor_tab_toggle.click
 requisition.vendor_search_icon.click
-vendor_lookup = OLE_QA::OLEFS::Vendor_Lookup.new(ole)
+vendor_lookup = OLE_QA::Framework::OLEFS::Vendor_Lookup.new(ole)
 vendor_lookup.wait_for_page_to_load
 vendor_lookup.vendor_name_field.set("YBP")
 vendor_lookup.search_button.click
@@ -54,7 +54,7 @@ requisition.vendor_tab_toggle.click
 # Add a Bib Record to the new line item with a title only.
 requisition.new_line_item.new_bib_button.click
 ole.browser.windows[-1].use
-bib_editor = OLE_QA::OLELS::Bib_Editor.new(ole)
+bib_editor = OLE_QA::Framework::OLELS::Bib_Editor.new(ole)
 bib_editor.wait_for_page_to_load
 bib_editor.control_008_link.click
 bib_editor.control_008_field.wait_until_present
@@ -137,7 +137,7 @@ end
 
 # Open the purchase order.
 ole.browser.goto(requisition.view_related_po_link.href)
-purchase_order = OLE_QA::OLEFS::Purchase_Order.new(ole)
+purchase_order = OLE_QA::Framework::OLEFS::Purchase_Order.new(ole)
 purchase_order.wait_for_page_to_load
 
 # Get the purchase order number and the purchase order's total.
@@ -147,7 +147,7 @@ po_total = purchase_order.grand_total_field.text.strip
 
 # Receive the purchase order.
 purchase_order.receiving_button.click
-receiving_doc = OLE_QA::OLEFS::Receiving_Document.new(ole)
+receiving_doc = OLE_QA::Framework::OLEFS::Receiving_Document.new(ole)
 receiving_doc.wait_for_page_to_load
 receiving_doc.create_receiving_line(1)
 receiving_doc.submit_button.click
@@ -162,7 +162,7 @@ invoice_number = Array.new(12){rand(36).to_s(36)}.join
 
 # Open the payment request creation screen, fill in invoice information,
 # and create the payment request.
-payment_request_create_screen = OLE_QA::OLEFS::PREQ_Creation.new(ole)
+payment_request_create_screen = OLE_QA::Framework::OLEFS::PREQ_Creation.new(ole)
 payment_request_create_screen.open
 payment_request_create_screen.purchase_order_number_field.set(po_number)
 payment_request_create_screen.invoice_date_field.set(time)
@@ -171,7 +171,7 @@ payment_request_create_screen.invoice_amount_field.set(po_total)
 payment_request_create_screen.continue_button.click
 
 # Calculate and approve the payment request once it opens.
-payment_request = OLE_QA::OLEFS::Payment_Request.new(ole)
+payment_request = OLE_QA::Framework::OLEFS::Payment_Request.new(ole)
 payment_request.wait_for_page_to_load
 payment_request.payment_method_selector.select("Check")
 payment_request.calculate_button.click

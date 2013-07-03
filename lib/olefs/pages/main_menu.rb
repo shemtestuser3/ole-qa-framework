@@ -12,9 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA
+module OLE_QA::Framework::OLEFS
   # The OLE Financial System Main Menu Page
-  class OLEFS_Main_Menu < Page
+  class Main_Menu < OLE_QA::Framework::Page
     # Set URL and initialize.
     def initialize(ole_session)
       super(ole_session, ole_session.base_url)

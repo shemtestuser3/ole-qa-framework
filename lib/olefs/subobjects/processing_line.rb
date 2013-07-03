@@ -12,9 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLEFS
+module OLE_QA::Framework::OLEFS
   # A Special Processing Instructions Line in an OLE Financial System Receiving Document.
-  class Processing_Line < OLE_QA::Subline_Object
+  class Processing_Line < OLE_QA::Framework::Subline_Object
     def set_elements
       super
       element(:note_field)                {b.td(:xpath => "//table[@summary='Items Section']/tbody/tr[td[1]/b[contains(text(),'#{@line_number}')]]/following-sibling::tr[4]/td[1]/table/tbody/tr[2]/td[1]/table/tbody/tr[td[contains(text(),'Note #{@subline_number}')]]/following-sibling::tr[1]/td[1]")}

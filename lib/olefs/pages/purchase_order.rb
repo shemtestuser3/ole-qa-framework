@@ -12,12 +12,12 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLEFS
+module OLE_QA::Framework::OLEFS
   # An OLE Financial System Purchase Order
   # - Many screen elements are identical to those of a Requisition
   # - Line Item handling is identical to that of a Requisition
   class Purchase_Order < PURAP_Document
-    # Initialize with a URL of OLE_QA::Framework.base_url
+    # Initialize with a URL of OLE_QA::Framework::Session.base_url
     # @note OLEFS Purchase Orders do not have a direct link to open new documents.
     def initialize(ole_session)
       super(ole_session, ole_session.base_url)

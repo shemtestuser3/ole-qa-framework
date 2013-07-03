@@ -12,12 +12,12 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLELS
+module OLE_QA::Framework::OLELS
   # The OLE Library System MARC Bibliographic Record Editor Screen
   class Bib_Editor < Editor
     # Set OLE Library System Bib Editor screen elements.
     # @note  Elements for individual Marc data lines are set on
-    #   {OLE_QA::OLELS::Data_Line}
+    #   {OLE_QA::Framework::OLELS::Data_Line}
     def set_elements
       super
       element(:leader_field)                        {b.text_field(:id => "LeaderTextInputField_control")}

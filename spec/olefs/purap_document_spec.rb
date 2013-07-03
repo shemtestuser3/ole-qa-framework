@@ -18,8 +18,8 @@ require 'spec_helper'
 describe 'An OLEFS Purap Document page' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
-    @purap_document = OLE_QA::OLEFS::PURAP_Document.new(@ole, @ole.base_url)
+    @ole = OLE_QA::Framework::Session.new
+    @purap_document = OLE_QA::Framework::OLEFS::PURAP_Document.new(@ole, @ole.base_url)
   end
 
   after :all do
@@ -27,8 +27,8 @@ describe 'An OLEFS Purap Document page' do
   end
 
   it 'should create a new instance' do
-    @purap_document.class.should == OLE_QA::OLEFS::PURAP_Document
-    @purap_document.class.superclass.should == OLE_QA::OLEFS::E_Doc
+    @purap_document.class.should == OLE_QA::Framework::OLEFS::PURAP_Document
+    @purap_document.class.superclass.should == OLE_QA::Framework::OLEFS::E_Doc
   end
 
   it 'should have PURAP document elements' do

@@ -13,6 +13,8 @@
 #  limitations under the License.
 
 module OLE_QA
-  # The most recent version of OLE with which this framework is compatible.
-  OLE_VERSION = '0.8.0'
+  module Framework
+    # The most recent version of OLE with which this framework is compatible.
+    OLE_VERSION = '0.8.0'
+  end
 end

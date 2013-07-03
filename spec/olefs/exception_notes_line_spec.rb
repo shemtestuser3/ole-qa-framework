@@ -18,17 +18,17 @@ require 'spec_helper'
 describe 'An OLEFS Exception Notes Line object' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
+    @ole = OLE_QA::Framework::Session.new
     @browser = @ole.browser
-    @exception_notes_line = OLE_QA::OLEFS::Exception_Notes_Line.new(@ole, 1, 1)
-    @new_exception_notes_line = OLE_QA::OLEFS::New_Exception_Notes_Line.new(@ole, 1, 0)
+    @exception_notes_line = OLE_QA::Framework::OLEFS::Exception_Notes_Line.new(@ole, 1, 1)
+    @new_exception_notes_line = OLE_QA::Framework::OLEFS::New_Exception_Notes_Line.new(@ole, 1, 0)
   end
 
   it 'should create a new instance' do
-    @exception_notes_line.class.should == OLE_QA::OLEFS::Exception_Notes_Line
-    @exception_notes_line.class.superclass.should == OLE_QA::Subline_Object
-    @new_exception_notes_line.class.should == OLE_QA::OLEFS::New_Exception_Notes_Line
-    @new_exception_notes_line.class.superclass.should == OLE_QA::Subline_Object
+    @exception_notes_line.class.should == OLE_QA::Framework::OLEFS::Exception_Notes_Line
+    @exception_notes_line.class.superclass.should == OLE_QA::Framework::Subline_Object
+    @new_exception_notes_line.class.should == OLE_QA::Framework::OLEFS::New_Exception_Notes_Line
+    @new_exception_notes_line.class.superclass.should == OLE_QA::Framework::Subline_Object
   end
 
   it 'should have a browser accessor' do

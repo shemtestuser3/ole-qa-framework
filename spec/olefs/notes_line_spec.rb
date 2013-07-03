@@ -18,9 +18,9 @@ require 'spec_helper'
 describe 'A notes line' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
-    @notes_line = OLE_QA::OLEFS::Notes_Line.new(@ole, 1, 1)
-    @new_notes_line = OLE_QA::OLEFS::New_Notes_Line.new(@ole, 1, 0)
+    @ole = OLE_QA::Framework::Session.new
+    @notes_line = OLE_QA::Framework::OLEFS::Notes_Line.new(@ole, 1, 1)
+    @new_notes_line = OLE_QA::Framework::OLEFS::New_Notes_Line.new(@ole, 1, 0)
   end
 
   after :all do
@@ -28,13 +28,13 @@ describe 'A notes line' do
   end
 
   it 'should create a new instance' do
-    @notes_line.class.should == OLE_QA::OLEFS::Notes_Line
-    @new_notes_line.class.should == OLE_QA::OLEFS::New_Notes_Line
+    @notes_line.class.should == OLE_QA::Framework::OLEFS::Notes_Line
+    @new_notes_line.class.should == OLE_QA::Framework::OLEFS::New_Notes_Line
   end
 
   it 'should be a subclass of subline object' do
-    @notes_line.class.superclass.should == OLE_QA::Subline_Object
-    @new_notes_line.class.superclass.should == OLE_QA::Subline_Object
+    @notes_line.class.superclass.should == OLE_QA::Framework::Subline_Object
+    @new_notes_line.class.superclass.should == OLE_QA::Framework::Subline_Object
   end
 
   it 'should have a browser accessor' do

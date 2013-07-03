@@ -19,20 +19,20 @@ require 'spec_helper'
 describe 'An OLEFS line item' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
+    @ole = OLE_QA::Framework::Session.new
     @line_number = 1
-    @line_item = OLE_QA::OLEFS::Line_Item.new(@ole, @line_number)
-    @new_line_item = OLE_QA::OLEFS::New_Line_Item.new(@ole, @line_number)
+    @line_item = OLE_QA::Framework::OLEFS::Line_Item.new(@ole, @line_number)
+    @new_line_item = OLE_QA::Framework::OLEFS::New_Line_Item.new(@ole, @line_number)
   end
 
   it 'should should create a new instance' do
-    @line_item.class.should == OLE_QA::OLEFS::Line_Item
-    @new_line_item.class.should == OLE_QA::OLEFS::New_Line_Item
+    @line_item.class.should == OLE_QA::Framework::OLEFS::Line_Item
+    @new_line_item.class.should == OLE_QA::Framework::OLEFS::New_Line_Item
   end
 
   it 'should be a subclass of Line Object' do
-    @line_item.class.superclass.should == OLE_QA::OLEFS::Line_Object
-    @new_line_item.class.superclass.should == OLE_QA::OLEFS::Line_Object
+    @line_item.class.superclass.should == OLE_QA::Framework::OLEFS::Line_Object
+    @new_line_item.class.superclass.should == OLE_QA::Framework::OLEFS::Line_Object
   end
 
   it 'should have a browser accessor' do
@@ -117,19 +117,19 @@ describe 'An OLEFS line item' do
   it 'should create an accounting line' do
     @line_item.create_accounting_line(1)
     @line_item.methods.include?(:accounting_line_1).should be_true
-    @line_item.accounting_line_1.class.should == OLE_QA::OLEFS::Accounting_Line
+    @line_item.accounting_line_1.class.should == OLE_QA::Framework::OLEFS::Accounting_Line
   end
 
   it 'should create a notes line' do
     @line_item.create_notes_line(1)
     @line_item.methods.include?(:notes_line_1).should be_true
-    @line_item.notes_line_1.class.should == OLE_QA::OLEFS::Notes_Line
+    @line_item.notes_line_1.class.should == OLE_QA::Framework::OLEFS::Notes_Line
   end
 
   it 'should create a copies line' do
     @line_item.create_copies_line(1)
     @line_item.methods.include?(:copies_line_1).should be_true
-    @line_item.copies_line_1.class.should == OLE_QA::OLEFS::Copies_Line
+    @line_item.copies_line_1.class.should == OLE_QA::Framework::OLEFS::Copies_Line
   end
 
   it 'should remove an accounting line' do

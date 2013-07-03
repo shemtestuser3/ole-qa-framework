@@ -18,10 +18,10 @@ require 'spec_helper'
 describe 'An OLEFS Receipt Notes Line object' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
+    @ole = OLE_QA::Framework::Session.new
     @browser = @ole.browser
-    @receipt_notes_line = OLE_QA::OLEFS::Receipt_Notes_Line.new(@ole, 1, 1)
-    @new_receipt_notes_line = OLE_QA::OLEFS::New_Receipt_Notes_Line.new(@ole, 1, 0)
+    @receipt_notes_line = OLE_QA::Framework::OLEFS::Receipt_Notes_Line.new(@ole, 1, 1)
+    @new_receipt_notes_line = OLE_QA::Framework::OLEFS::New_Receipt_Notes_Line.new(@ole, 1, 0)
   end
 
   after :all do
@@ -29,10 +29,10 @@ describe 'An OLEFS Receipt Notes Line object' do
   end
 
   it 'should create a new instance' do
-    @receipt_notes_line.class.should == OLE_QA::OLEFS::Receipt_Notes_Line
-    @receipt_notes_line.class.superclass.should == OLE_QA::Subline_Object
-    @new_receipt_notes_line.class.should == OLE_QA::OLEFS::New_Receipt_Notes_Line
-    @new_receipt_notes_line.class.superclass.should == OLE_QA::Subline_Object
+    @receipt_notes_line.class.should == OLE_QA::Framework::OLEFS::Receipt_Notes_Line
+    @receipt_notes_line.class.superclass.should == OLE_QA::Framework::Subline_Object
+    @new_receipt_notes_line.class.should == OLE_QA::Framework::OLEFS::New_Receipt_Notes_Line
+    @new_receipt_notes_line.class.superclass.should == OLE_QA::Framework::Subline_Object
   end
 
   it 'should have a browser accessor' do

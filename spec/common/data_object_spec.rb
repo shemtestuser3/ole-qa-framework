@@ -19,8 +19,8 @@ require 'spec_helper'
 describe 'A Data Object' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
-    @data_object = OLE_QA::Data_Object.new(@ole)
+    @ole = OLE_QA::Framework::Session.new
+    @data_object = OLE_QA::Framework::Data_Object.new(@ole)
   end
 
   after :all do
@@ -28,7 +28,7 @@ describe 'A Data Object' do
   end
 
   it 'should create a new instance' do
-    @data_object.class.should == OLE_QA::Data_Object
+    @data_object.class.should == OLE_QA::Framework::Data_Object
   end
 
   it 'should have a browser accessor' do

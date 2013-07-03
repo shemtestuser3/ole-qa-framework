@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLEFS
+module OLE_QA::Framework::OLEFS
   # An OLE Financial System Receiving Document
   class Receiving_Document < PURAP_Document
     def initialize(ole_session)

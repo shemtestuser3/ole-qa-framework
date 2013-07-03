@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLEFS
+module OLE_QA::Framework::OLEFS
   # An OLE Financial System PURchasing/Accounts Payable Document
   class PURAP_Document < E_Doc
     def initialize(ole_session, url)
@@ -57,7 +57,7 @@ module OLE_QA::OLEFS
       raise StandardError, "Line object already exists.  (#{instance_name})" if self.instance_variables.include?("@#{instance_name}".to_sym)
       new_line_name = instance_name
       make_accessor(:"#{instance_name}")
-      klas = OLE_QA::OLEFS.const_get(:"#{class_name}")
+      klas = OLE_QA::Framework::OLEFS.const_get(:"#{class_name}")
       instance_variable_set(:"@#{new_line_name}", klas.new(@ole, which))
     end
     alias_method(:add_line,:create_line)

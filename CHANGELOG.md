@@ -1,3 +1,11 @@
+### v2.0.0 - 2013/07/03
+
+* Namespace Refactoring
+    * Main namespace has been changed from OLE_QA to OLE_QA::Framework.
+    * Main session-handling class has been renamed to OLE_QA::Framework::Session.
+    * Constants VERSION and COMPATIBILITY have been moved to OLE_QA::Framework.
+    * Main Menu classes moved to OLEFS & OLELS namespaces under OLE_QA::Framework.
+
 ### v1.0.0 - 2013/06/24
 
 * Watir-Webdriver

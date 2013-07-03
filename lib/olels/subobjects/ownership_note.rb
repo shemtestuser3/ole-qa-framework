@@ -12,9 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLELS
+module OLE_QA::Framework::OLELS
   # An Ownership Note on an OLE Library System Extent of Ownership Line.
-  class Ownership_Note < OLE_QA::Subline_Object
+  class Ownership_Note < OLE_QA::Framework::Subline_Object
     # Set ownership note screen elements.
     def set_elements
       element(:note_type_selector)                  {b.select_list(:id => "extentSubHoldingNoteTypeField_line#{@line_id}_line#{@subline_id}_control")}

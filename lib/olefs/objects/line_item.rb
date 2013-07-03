@@ -12,9 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLEFS
+module OLE_QA::Framework::OLEFS
   # A single Line Item in an OLE Financial System PURAP E-Document.
-  class Line_Item < OLE_QA::OLEFS::Line_Object
+  class Line_Item < OLE_QA::Framework::OLEFS::Line_Object
     # Create accessor methods for new subline objects.
     def set_sublines
       create_subline("new_accounting_line","New_Accounting_Line")

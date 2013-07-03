@@ -18,11 +18,11 @@ require 'spec_helper'
 describe 'The OLEFS PURAP workflow' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
-    @requisition = OLE_QA::OLEFS::Requisition.new(@ole)
-    @purchase_order = OLE_QA::OLEFS::Purchase_Order.new(@ole)
-    @receiving_doc = OLE_QA::OLEFS::Receiving_Document.new(@ole)
-    @payment_request = OLE_QA::OLEFS::Payment_Request.new(@ole)
+    @ole = OLE_QA::Framework::Session.new
+    @requisition = OLE_QA::Framework::OLEFS::Requisition.new(@ole)
+    @purchase_order = OLE_QA::Framework::OLEFS::Purchase_Order.new(@ole)
+    @receiving_doc = OLE_QA::Framework::OLEFS::Receiving_Document.new(@ole)
+    @payment_request = OLE_QA::Framework::OLEFS::Payment_Request.new(@ole)
   end
 
   after :all do
@@ -45,7 +45,7 @@ describe 'The OLEFS PURAP workflow' do
     it 'should set the building to Wells Library, room 100' do
       @requisition.delivery_tab_toggle.click
       @requisition.building_search_icon.click
-      building_lookup = OLE_QA::OLEFS::Building_Lookup.new(@ole)
+      building_lookup = OLE_QA::Framework::OLEFS::Building_Lookup.new(@ole)
       building_lookup.wait_for_page_to_load
       building_lookup.building_name_field.set("Wells Library")
       building_lookup.search_button.click
@@ -59,7 +59,7 @@ describe 'The OLEFS PURAP workflow' do
     it 'should set the vendor to YBP' do
       @requisition.vendor_tab_toggle.click
       @requisition.vendor_search_icon.click
-      vendor_lookup = OLE_QA::OLEFS::Vendor_Lookup.new(@ole)
+      vendor_lookup = OLE_QA::Framework::OLEFS::Vendor_Lookup.new(@ole)
       vendor_lookup.wait_for_page_to_load
       vendor_lookup.vendor_name_field.set("YBP")
       vendor_lookup.search_button.click
@@ -70,7 +70,7 @@ describe 'The OLEFS PURAP workflow' do
     it 'should create a Bib Record' do
       @requisition.new_line_item.new_bib_button.click
       @ole.browser.windows[-1].use
-      bib_editor = OLE_QA::OLELS::Bib_Editor.new(@ole)
+      bib_editor = OLE_QA::Framework::OLELS::Bib_Editor.new(@ole)
       bib_editor.wait_for_page_to_load
       bib_editor.control_008_link.click
       bib_editor.control_008_field.present?.should be_true
@@ -148,7 +148,7 @@ describe 'The OLEFS PURAP workflow' do
   context "purchase order" do
 
     it 'should create a new purchase order' do
-      @purchase_order = OLE_QA::OLEFS::Purchase_Order.new(@ole)
+      @purchase_order = OLE_QA::Framework::OLEFS::Purchase_Order.new(@ole)
     end
 
     it 'should wait for the purchase order to load' do
@@ -184,7 +184,7 @@ describe 'The OLEFS PURAP workflow' do
     end
 
     it 'should create a payment request' do
-      preq_creation_screen = OLE_QA::OLEFS::PREQ_Creation.new(@ole)
+      preq_creation_screen = OLE_QA::Framework::OLEFS::PREQ_Creation.new(@ole)
       preq_creation_screen.open
       preq_creation_screen.purchase_order_number_field.set(@po_number)
       preq_creation_screen.purchase_order_number_field.value.strip.should == @po_number

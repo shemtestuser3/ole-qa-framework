@@ -18,8 +18,8 @@ require 'spec_helper'
 describe 'My behaviour' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
-    @item_note = OLE_QA::OLELS::Item_Note.new(@ole,1)
+    @ole = OLE_QA::Framework::Session.new
+    @item_note = OLE_QA::Framework::OLELS::Item_Note.new(@ole,1)
   end
 
   after :all do
@@ -27,8 +27,8 @@ describe 'My behaviour' do
   end
 
   it 'should create a new instance' do
-    @item_note.class.should == OLE_QA::OLELS::Item_Note
-    @item_note.class.superclass.should == OLE_QA::OLELS::Line_Object
+    @item_note.class.should == OLE_QA::Framework::OLELS::Item_Note
+    @item_note.class.superclass.should == OLE_QA::Framework::OLELS::Line_Object
   end
 
   it 'should have item note elements' do

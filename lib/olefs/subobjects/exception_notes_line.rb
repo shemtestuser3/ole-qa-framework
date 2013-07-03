@@ -12,9 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLEFS
+module OLE_QA::Framework::OLEFS
   # An Exception Notes Line in an OLE Financial System Receiving Document
-  class Exception_Notes_Line < OLE_QA::Subline_Object
+  class Exception_Notes_Line < OLE_QA::Framework::Subline_Object
     # Set exception notes line elements.
     def set_elements
       super

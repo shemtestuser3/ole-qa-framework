@@ -12,9 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLELS
+module OLE_QA::Framework::OLELS
   # An OLE Library System Line Object
-  class Line_Object < OLE_QA::Line_Object
+  class Line_Object < OLE_QA::Framework::Line_Object
     def initialize(ole_session, line_number)
       super(ole_session, line_number)
       set_sublines if defined?(self.set_sublines)
@@ -24,7 +24,7 @@ module OLE_QA::OLELS
       raise StandardError, "Subline object already exists. (#{instance_name})" if self.instance_variables.include?("@#{instance_name}".to_sym)
       new_line_name = instance_name
       make_accessor(:"#{new_line_name}")
-      klas = OLE_QA::OLELS.const_get(:"#{class_name}")
+      klas = OLE_QA::Framework::OLELS.const_get(:"#{class_name}")
       instance_variable_set(:"@#{new_line_name}", klas.new(@ole, @line_number, which))
     end
     alias_method(:add_subline,:create_subline)

@@ -18,9 +18,9 @@ require 'spec_helper'
 describe 'An OLELS Instance Editor page' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
+    @ole = OLE_QA::Framework::Session.new
     @browser = @ole.browser
-    @instance_editor = OLE_QA::OLELS::Instance_Editor.new(@ole)
+    @instance_editor = OLE_QA::Framework::OLELS::Instance_Editor.new(@ole)
   end
 
   after :all do
@@ -28,8 +28,8 @@ describe 'An OLELS Instance Editor page' do
   end
 
   it 'should create a new instance' do
-    @instance_editor.class.should == OLE_QA::OLELS::Instance_Editor
-    @instance_editor.class.superclass.should == OLE_QA::OLELS::Editor
+    @instance_editor.class.should == OLE_QA::Framework::OLELS::Instance_Editor
+    @instance_editor.class.superclass.should == OLE_QA::Framework::OLELS::Editor
   end
 
   it 'should have instance editor elements' do
@@ -52,21 +52,21 @@ describe 'An OLELS Instance Editor page' do
     @instance_editor.methods.include?(:ownership_extent_line_1).should be_true
     @instance_editor.methods.include?(:access_info_line_1).should be_true
     @instance_editor.methods.include?(:holdings_note_1).should be_true
-    @instance_editor.ownership_extent_line_1.class.should == OLE_QA::OLELS::Ownership_Extent_Line
-    @instance_editor.access_info_line_1.class.should == OLE_QA::OLELS::Access_Info_Line
-    @instance_editor.holdings_note_1.class.should == OLE_QA::OLELS::Holdings_Note
+    @instance_editor.ownership_extent_line_1.class.should == OLE_QA::Framework::OLELS::Ownership_Extent_Line
+    @instance_editor.access_info_line_1.class.should == OLE_QA::Framework::OLELS::Access_Info_Line
+    @instance_editor.holdings_note_1.class.should == OLE_QA::Framework::OLELS::Holdings_Note
   end
 
   it 'should add line objects' do
     @instance_editor.add_ownership_extent_line(2)
     @instance_editor.methods.include?(:ownership_extent_line_2).should be_true
-    @instance_editor.ownership_extent_line_2.class.should == OLE_QA::OLELS::Ownership_Extent_Line
+    @instance_editor.ownership_extent_line_2.class.should == OLE_QA::Framework::OLELS::Ownership_Extent_Line
     @instance_editor.add_access_info_line(2)
     @instance_editor.methods.include?(:access_info_line_2).should be_true
-    @instance_editor.access_info_line_2.class.should == OLE_QA::OLELS::Access_Info_Line
+    @instance_editor.access_info_line_2.class.should == OLE_QA::Framework::OLELS::Access_Info_Line
     @instance_editor.add_holdings_note(2)
     @instance_editor.methods.include?(:holdings_note_2).should be_true
-    @instance_editor.holdings_note_2.class.should == OLE_QA::OLELS::Holdings_Note
+    @instance_editor.holdings_note_2.class.should == OLE_QA::Framework::OLELS::Holdings_Note
   end
 
   it 'should remove line objects' do

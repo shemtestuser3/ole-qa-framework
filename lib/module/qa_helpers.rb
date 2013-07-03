@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::Helpers
+module OLE_QA::Framework::Helpers
   # Handle frame selection in the browser via aliasing the @browser session passed to a page or data object.
   # - If the page or data object is inherited by any kind of OLE e-Doc, all elements will be encapsulated within a frame
   #   with an ID of 'iframeportlet'.
@@ -106,7 +106,7 @@ module OLE_QA::Helpers
 
   # Load a YML file.
   def load_yml(subdir, filename)
-    basedir = OLE_QA::load_dir
+    basedir = OLE_QA::Framework::load_dir
     file_path = basedir + '/' + subdir + filename
     if File.exists?(file_path) then
       yaml_file = File.open(file_path, 'r')

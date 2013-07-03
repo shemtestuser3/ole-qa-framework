@@ -12,13 +12,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLEFS
+module OLE_QA::Framework::OLEFS
 
   # This class contains element definitions common to OLE Financial System E-Docs.
   # Element definitions are stored in lib/olefs/e_doc/elements.yml
-  class E_Doc < OLE_QA::Page
+  class E_Doc < OLE_QA::Framework::Page
     # Automatically set element definitions on the E-Document object.
-    # @note This method is automagically invoked on any Page object.  (see {OLE_QA::OLEFS::Page#initialize})
+    # @note This method is automagically invoked on any Page object.  (see {OLE_QA::Framework::OLEFS::Page#initialize})
     def set_elements
       super
       # General Info

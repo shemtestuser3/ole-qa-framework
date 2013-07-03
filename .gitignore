@@ -12,10 +12,6 @@ lib/bundler/man
 pkg
 rdoc
 spec/reports
-spec/common
-spec/modules
-spec/olefs
-spec/olels
 test/tmp
 test/version_tmp
 tmp

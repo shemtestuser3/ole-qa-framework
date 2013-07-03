@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLEFS
+module OLE_QA::Framework::OLEFS
   # An OLE Financial System Requisition
   class Requisition < PURAP_Document
     # Set URL and initialize.

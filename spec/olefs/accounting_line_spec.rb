@@ -18,9 +18,9 @@ require 'spec_helper'
 describe 'An accounting line' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
-    @accounting_line = OLE_QA::OLEFS::Accounting_Line.new(@ole, 1, 1)
-    @new_accounting_line = OLE_QA::OLEFS::New_Accounting_Line.new(@ole, 1, 0)
+    @ole = OLE_QA::Framework::Session.new
+    @accounting_line = OLE_QA::Framework::OLEFS::Accounting_Line.new(@ole, 1, 1)
+    @new_accounting_line = OLE_QA::Framework::OLEFS::New_Accounting_Line.new(@ole, 1, 0)
   end
 
   after :all do
@@ -28,13 +28,13 @@ describe 'An accounting line' do
   end
 
   it 'should create a new instance' do
-    @accounting_line.class.should == OLE_QA::OLEFS::Accounting_Line
-    @new_accounting_line.class.should == OLE_QA::OLEFS::New_Accounting_Line
+    @accounting_line.class.should == OLE_QA::Framework::OLEFS::Accounting_Line
+    @new_accounting_line.class.should == OLE_QA::Framework::OLEFS::New_Accounting_Line
   end
 
   it 'should be a subclass of subline object' do
-    @accounting_line.class.superclass.should == OLE_QA::Subline_Object
-    @new_accounting_line.class.superclass.should == OLE_QA::Subline_Object
+    @accounting_line.class.superclass.should == OLE_QA::Framework::Subline_Object
+    @new_accounting_line.class.superclass.should == OLE_QA::Framework::Subline_Object
   end
 
   it 'should have a browser accessor' do

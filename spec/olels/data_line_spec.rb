@@ -18,9 +18,9 @@ require 'spec_helper'
 describe 'A Bib Editor Line' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
+    @ole = OLE_QA::Framework::Session.new
     @browser = @ole.browser
-    @data_line = OLE_QA::OLELS::Data_Line.new(@ole, 1)
+    @data_line = OLE_QA::Framework::OLELS::Data_Line.new(@ole, 1)
   end
 
   after :all do
@@ -28,8 +28,8 @@ describe 'A Bib Editor Line' do
   end
 
   it 'should create a new instance' do
-    @data_line.class.should == OLE_QA::OLELS::Data_Line
-    @data_line.class.superclass.should == OLE_QA::OLELS::Line_Object
+    @data_line.class.should == OLE_QA::Framework::OLELS::Data_Line
+    @data_line.class.superclass.should == OLE_QA::Framework::OLELS::Line_Object
   end
 
   it 'should have Marc data line elements' do

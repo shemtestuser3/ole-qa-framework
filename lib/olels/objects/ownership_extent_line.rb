@@ -12,9 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLELS
+module OLE_QA::Framework::OLELS
   # An Extent of Ownership Line on the OLE Library System Instance Editor.
-  class Ownership_Extent_Line < OLE_QA::OLELS::Line_Object
+  class Ownership_Extent_Line < OLE_QA::Framework::OLELS::Line_Object
 
     def set_elements
       element(:type_selector)                     {b.select_list(:id => "extentTextualHoldingsType_line#{@line_id}_control")}

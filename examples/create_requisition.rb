@@ -16,10 +16,10 @@ require 'ole-qa-framework'
 
 # Start a new instance of the OLE Testing Framework.
 # Do not run the browser in headless mode.
-ole = OLE_QA::Framework.new(:headless? => false)
+ole = OLE_QA::Framework::Session.new(:headless? => false)
 
 # Create an instance of the OLEFS Requisition Page.
-requisition = OLE_QA::OLEFS::Requisition.new(ole)
+requisition = OLE_QA::Framework::OLEFS::Requisition.new(ole)
 
 # Open the page directly via URL.
 requisition.open
@@ -27,7 +27,7 @@ requisition.open
 # Select a Delivery Location of Wells Library, Room 100
 requisition.delivery_tab_toggle.click
 requisition.building_search_icon.click
-building_lookup = OLE_QA::OLEFS::Building_Lookup.new(ole)
+building_lookup = OLE_QA::Framework::OLEFS::Building_Lookup.new(ole)
 building_lookup.building_name_field.set("Wells Library")
 building_lookup.search_button.click
 building_lookup.element(:return_building_link)  {building_lookup.browser.a(:xpath => "//td[contains(text(),'Wells Library')]/preceding-sibling::td[3]/a")}
@@ -38,7 +38,7 @@ requisition.room_field.set("100")
 requisition.vendor_tab_toggle.click
 requisition.vendor_search_icon.wait_until_present
 requisition.vendor_search_icon.click
-vendor_lookup = OLE_QA::OLEFS::Vendor_Lookup.new(ole)
+vendor_lookup = OLE_QA::Framework::OLEFS::Vendor_Lookup.new(ole)
 vendor_lookup.vendor_name_field.set("YBP")
 vendor_lookup.search_button.click
 vendor_lookup.element(:return_vendor_link)      {vendor_lookup.browser.a(:xpath => "//td[a[contains(text(),'YBP Library Services')]]/preceding-sibling::td[1]/a")}
@@ -50,7 +50,7 @@ vendor_lookup.return_vendor_link.click
 # - Print the success or failure message from the Bib Editor to the command line.
 requisition.new_line_item.new_bib_button.click
 ole.browser.windows[-1].use
-bib_editor = OLE_QA::OLELS::Bib_Editor.new(ole)
+bib_editor = OLE_QA::Framework::OLELS::Bib_Editor.new(ole)
 bib_editor.wait_for_page_to_load
 bib_editor.control_008_link.click
 bib_editor.control_008_field.wait_until_present

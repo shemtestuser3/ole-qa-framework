@@ -18,9 +18,9 @@ require 'spec_helper'
 describe 'An OLEFS Processing Line object' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
+    @ole = OLE_QA::Framework::Session.new
     @browser = @ole.browser
-    @processing_line = OLE_QA::OLEFS::Processing_Line.new(@ole, 1, 1)
+    @processing_line = OLE_QA::Framework::OLEFS::Processing_Line.new(@ole, 1, 1)
   end
 
   after :all do
@@ -28,8 +28,8 @@ describe 'An OLEFS Processing Line object' do
   end
 
   it 'should create a new instance' do
-    @processing_line.class.should == OLE_QA::OLEFS::Processing_Line
-    @processing_line.class.superclass.should == OLE_QA::Subline_Object
+    @processing_line.class.should == OLE_QA::Framework::OLEFS::Processing_Line
+    @processing_line.class.superclass.should == OLE_QA::Framework::Subline_Object
   end
 
   it 'should have a browser accessor' do

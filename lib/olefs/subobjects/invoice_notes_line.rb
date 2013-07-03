@@ -12,9 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLEFS
+module OLE_QA::Framework::OLEFS
   # An Invoice Notes Line on an OLE Financial System Payment Request.
-  class Invoice_Notes_Line < OLE_QA::Subline_Object
+  class Invoice_Notes_Line < OLE_QA::Framework::Subline_Object
     # Set invoice notes line elements.
     def set_elements
       super

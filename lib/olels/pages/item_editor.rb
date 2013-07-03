@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLELS
+module OLE_QA::Framework::OLELS
   # The OLE Library System MARC Item Record Editor Screen
   class Item_Editor < Editor
     # Set Item Editor screen elements.

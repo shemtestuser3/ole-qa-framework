@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLEFS
+module OLE_QA::Framework::OLEFS
   # The Building Lookup Screen in OLEFS
   class Building_Lookup < Lookup
     # Set URL and initialize.

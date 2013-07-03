@@ -12,9 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLELS
+module OLE_QA::Framework::OLELS
   # An OLE Libary System E-Document page.
-  class E_Doc < OLE_QA::Page
+  class E_Doc < OLE_QA::Framework::Page
     # Set elements common to all OLELS E-Document pages.
     def set_elements
       element(:description_field)                     {b.text_field(:xpath => "//tr/th[descendant::label[contains(text(),'Description:')]]/following-sibling::td[1]/descendant::input[1]")}

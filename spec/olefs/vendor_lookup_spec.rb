@@ -18,8 +18,8 @@ require 'spec_helper'
 describe 'An OLEFS Vendor Lookup page' do
 
   before :all do
-    @ole = OLE_QA::Framework.new
-    @vendor_lookup = OLE_QA::OLEFS::Vendor_Lookup.new(@ole)
+    @ole = OLE_QA::Framework::Session.new
+    @vendor_lookup = OLE_QA::Framework::OLEFS::Vendor_Lookup.new(@ole)
   end
 
   after :all do
@@ -27,8 +27,8 @@ describe 'An OLEFS Vendor Lookup page' do
   end
 
   it 'should create a new instance' do
-    @vendor_lookup.class.should == OLE_QA::OLEFS::Vendor_Lookup
-    @vendor_lookup.class.superclass.should == OLE_QA::OLEFS::Lookup
+    @vendor_lookup.class.should == OLE_QA::Framework::OLEFS::Vendor_Lookup
+    @vendor_lookup.class.superclass.should == OLE_QA::Framework::OLEFS::Lookup
   end
 
   it 'should open via URL' do

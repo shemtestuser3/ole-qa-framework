@@ -12,9 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLEFS
+module OLE_QA::Framework::OLEFS
   # A Lookup Screen in OLEFS
-  class Lookup < OLE_QA::Page
+  class Lookup < OLE_QA::Framework::Page
     # Set lookup page elements.
     def set_elements
       super

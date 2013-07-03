@@ -12,10 +12,10 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-module OLE_QA::OLEFS
+module OLE_QA::Framework::OLEFS
   # A new Receiving Line on an OLE Financial System Receiving Document.
-  class New_Receiving_Line < OLE_QA::OLEFS::Line_Object
-    # Initialize as a subclass of {OLE_QA::OLEFS::Line_Object} with a line_number of 0.
+  class New_Receiving_Line < OLE_QA::Framework::OLEFS::Line_Object
+    # Initialize as a subclass of {OLE_QA::Framework::OLEFS::Line_Object} with a line_number of 0.
     def initialize(ole_session, which)
       super(ole_session, 0)
     end
