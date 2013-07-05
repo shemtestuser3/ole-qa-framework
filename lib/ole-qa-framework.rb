@@ -169,7 +169,10 @@ module OLE_QA
           @headless.destroy
         end
       end
+    end
 
+    # Define OLE_QA::Framework::Error.
+    class Error < StandardError
     end
   end
 end
