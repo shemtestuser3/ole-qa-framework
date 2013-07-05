@@ -1,3 +1,31 @@
+### v2.0.4 - 2013/07/05
+
+* .function - alias for .set_function
+* Common Object class added
+    * The Common Object class is inherited by both Page & Data Object classes in order
+        to perform a DRYer initialize for both.
+
+### v2.0.3 - 2013/07/05
+
+* .elements & .functions methods on Page & Data Objects
+    * elements and functions defined on Page and Data Objects are automatically added
+        to the .elements and .functions array accessor methods, respectively.
+* .set_function
+    * defines a function in the same manner as an element - a lambda to be evaluated
+        which represents a set of actions to be taken in sequence by the browser.
+
+### v2.0.2 - 2013/07/05
+
+* Wait Constants -> Wait Reader Attributes
+    * .explicit_wait & .doc_wait still set from options, but now exist as reader
+        attributes on the OLE_QA::Framework module.
+
+### v2.0.1 - 2013/07/05
+
+* Wait Constants in OLE_QA::Framework Namespace
+    * Explicit_Wait -> explicit_wait option
+    * Doc_Wait -> doc_wait option
+
 ### v2.0.0 - 2013/07/03
 
 * Namespace Refactoring

@@ -15,10 +15,7 @@
 module OLE_QA::Framework
 
   # An OLE Page object
-  class Page
-
-    # The OLE_QA::Framework::Session session passed to the Page object.
-    attr_accessor :ole
+  class Page < Common_Object
 
     # The URL to open a given page.
     # @note Do not use this value for the URL to open a new page of a given
@@ -26,23 +23,14 @@ module OLE_QA::Framework
     #   or OLELS, instead use the :new_url accessor set on the e-Doc object.
     attr_reader :url
 
-    # Arrays containing the names(Symbol) of each element or function declared
-    #   on a page object.
-    attr_reader :elements, :functions
-
-    include OLE_QA::Framework::Helpers
     include OLE_QA::Framework::Page_Helpers
 
-    # @param ole_session [Object] The OLE_QA::Framework::Session session in which the page should load.
+    # @param ole_session [Object] The OLE_QA::Framework::Session instance in which the page should load.
     # @param url [String] The URL (if any) used to open the page.  (Set to "" if unused.)
     def initialize(ole_session, url)
-      @ole = ole_session
-      @browser = ole_session.browser
+      super(ole_session)
       @url = url
       @wait_on = Array.new
-      @elements = Array.new
-      @functions = Array.new
-      set_elements if defined?(self.set_elements)
       wait_for_elements if defined?(self.wait_for_elements)
     end
 
@@ -55,14 +43,6 @@ module OLE_QA::Framework
     def open(url = @url)
       @browser.goto(url)
       @wait_on.each { |element| wait_for_element(element) } if defined?(wait_for_elements)
-    end
-
-    # Fill this method with element definitions in a subclass.
-    # - Call super first in this method if the subclass overrides elements from the superclass.
-    # - Use with {OLE_QA::Framework::Helpers#set_element}
-    # @note This method is automatically called on any subclass of Page which invokes the original
-    #   initialize method.
-    def set_elements
     end
 
     # Define this method on a subclass.  Add element symbols to the @wait_on array.
@@ -88,6 +68,5 @@ module OLE_QA::Framework
     def wait_for_page_to_load
       @wait_on.each { |element| wait_for_element(element) }
     end
-
   end
 end

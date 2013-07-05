@@ -134,6 +134,7 @@ module OLE_QA::Framework::Helpers
     end
     @functions << name
   end
+  alias_method(:function,:set_function)
 
   # Load a YML file.
   def load_yml(subdir, filename)

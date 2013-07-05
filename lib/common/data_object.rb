@@ -15,32 +15,7 @@
 module OLE_QA::Framework
 
   # An object in OLE which contains screen elements but is not itself a screen element.
-  class Data_Object
-
-    include OLE_QA::Framework::Helpers
+  class Data_Object < Common_Object
     include OLE_QA::Framework::Data_Helpers
-
-    # The OLE_QA::Framework::Session session passed to the Data Object.
-    attr_accessor :ole
-
-    # Arrays containing the names(Symbol) of each element or function declared
-    #   on a data object.
-    attr_reader :elements, :functions
-
-    # @param ole_session [Object] The OLE_QA::Framework::Session session with which the data object should load.
-    def initialize(ole_session)
-      @ole = ole_session
-      @elements = Array.new
-      @functions = Array.new
-      set_elements if defined?(self.set_elements)
-    end
-
-    # Fill this method with element definitions in a subclass.
-    # - Call super first in this method if the subclass overrides elements from the superclass.
-    # - Use with {OLE_QA::Framework::Helpers#set_element}
-    # @note This method is automatically called on any subclass of Data Object which invokes the original
-    #   initialize method.
-    def set_elements
-    end
   end
 end
