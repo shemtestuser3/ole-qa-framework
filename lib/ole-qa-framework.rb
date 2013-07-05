@@ -60,6 +60,15 @@ module OLE_QA
     load_libs("/olels/pages/")
     # load_libs("/docstore/")
 
+    # Initialize wait variables to 0 for now.  They will be set programatically in {OLE_QA::Framework::Session}.
+    @explicit_wait = 0
+    @doc_wait = 0
+
+    # Set accessor methods for explicit_wait & doc_wait, to be used mainly by OLE_QA::Tools (ole-qa-tools).
+    class << self
+      attr_reader :explicit_wait, :doc_wait
+    end
+
     # Handle Browser Functions, Headless Session
     #   Invoke with @ole = Session.new(opts)
     #   Exit with @ole.quit
@@ -109,7 +118,7 @@ module OLE_QA
         @options = options_defaults.merge(options)
 
         # Start headless session if requested
-        if @options[:headless?] then
+        if @options[:headless?]
           @headless = Headless.new
           @headless.start
         end
@@ -118,13 +127,13 @@ module OLE_QA
         @base_url = @options[:base_url]
         @ls_url = @options[:ls_url]
         @explicit_wait = @options[:explicit_wait]
-        @page_route_wait = @options[:page_route_wait]
+        @doc_wait = @options[:doc_wait]
 
-        # Pass explicit_wait to a Module Constant for use with OLE_QA::Tools
-        OLE_QA::Framework.const_set('Explicit_Wait',@options[:explicit_wait])
+        # Pass explicit_wait to a module accessor for use with OLE_QA::Tools
+        OLE_QA::Framework.instance_variable_set(:@explicit_wait,@options[:explicit_wait])
 
-        # Pass page_wait to a Module Constant for use with OLE_QA::Tools
-        OLE_QA::Framework.const_set('Doc_Wait',@options[:doc_wait])
+        # Pass doc_wait to a module accessor for use with OLE_QA::Tools
+        OLE_QA::Framework.instance_variable_set(:@doc_wait,@options[:doc_wait])
 
         # Browser Start
         if @options.has_key?(:browser) && @options[:browser].class == Watir::Browser
