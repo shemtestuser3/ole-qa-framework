@@ -26,6 +26,10 @@ module OLE_QA::Framework
     #   or OLELS, instead use the :new_url accessor set on the e-Doc object.
     attr_reader :url
 
+    # Arrays containing the names(Symbol) of each element or function declared
+    #   on a page object.
+    attr_reader :elements, :functions
+
     include OLE_QA::Framework::Helpers
     include OLE_QA::Framework::Page_Helpers
 
@@ -36,6 +40,8 @@ module OLE_QA::Framework
       @browser = ole_session.browser
       @url = url
       @wait_on = Array.new
+      @elements = Array.new
+      @functions = Array.new
       set_elements if defined?(self.set_elements)
       wait_for_elements if defined?(self.wait_for_elements)
     end

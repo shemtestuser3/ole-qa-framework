@@ -101,8 +101,39 @@ module OLE_QA::Framework::Helpers
         yield self
       end
     end
+    @elements << name
   end
   alias_method(:element, :set_element)
+
+  # Set a function definition on a page or data object.
+  # - A function created with this method becomes an accessor attribute
+  #   associated with an instance variable on the page or data object on
+  #   which it is created.
+  #
+  # @param name [Symbol] The name the new function will have on the object.
+  #   (This will be an instance variable, so it cannot contain spaces.)
+  # @param force [Boolean] If set to true, this method can be used to override an existing function definition.
+  #
+  # @raise StandardError if a parameter is of an incorrect type.
+  # @raise StandardError if an instance method already exists for a function with the same name.
+  #   (Suppress with force = true.)
+  #
+  # @note This method can also be used to add a function to an existing page object instance.
+  #   The code block passed to the method will need to explicitly name the class instance in order to
+  #   access the browser method.
+  def set_function(name, force = false)
+    raise StandardError, "Name must be a symbol.  Given: #{name} (#{name.class})" unless name.instance_of?(Symbol)
+    eigenclass = class << self;
+      self
+    end
+    raise StandardError, "Element is already defined.  (Use the 'force = true' option to suppress this error.)" if eigenclass.instance_methods.include?(name) && ! force
+    eigenclass.class_eval do
+      define_method name.to_s do
+        yield self
+      end
+    end
+    @functions << name
+  end
 
   # Load a YML file.
   def load_yml(subdir, filename)
@@ -117,9 +148,5 @@ module OLE_QA::Framework::Helpers
       raise StandardError, "File does not exist. (#{basedir + subdir + filename})"
     end
   end
-
-  # Alias for .load_yml
-  def load_yaml(subdir, filename)
-    load_yml(subdir, filename)
-  end
+  alias_method(:load_yaml,:load_yml)
 end

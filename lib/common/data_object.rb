@@ -23,9 +23,15 @@ module OLE_QA::Framework
     # The OLE_QA::Framework::Session session passed to the Data Object.
     attr_accessor :ole
 
+    # Arrays containing the names(Symbol) of each element or function declared
+    #   on a data object.
+    attr_reader :elements, :functions
+
     # @param ole_session [Object] The OLE_QA::Framework::Session session with which the data object should load.
     def initialize(ole_session)
       @ole = ole_session
+      @elements = Array.new
+      @functions = Array.new
       set_elements if defined?(self.set_elements)
     end
 
