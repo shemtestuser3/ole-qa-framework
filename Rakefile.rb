@@ -19,3 +19,7 @@ require 'rubygems'
 require 'rspec/core/rake_task'
 require 'bundler/gem_tasks'
 
+desc "Print the current version number."
+task :version do
+  puts OLE_QA::Framework::VERSION
+end
