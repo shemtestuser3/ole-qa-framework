@@ -1,3 +1,20 @@
+### v2.1.0 - 2013/07/??
+
+* Login/Logout
+    * Added .login(username) & .logout to OLE_QA::Framework::Page_Helpers
+        * .login attempts to login with given username string
+            * returns true if successful, false if not
+            * raises OLE_QA::Framework::Error if login field not found
+        * .logout attempts to logout
+            * returns true if successful, false if not
+        * both methods use @browser instance variable instead of  browser
+        function, as the login field is never found within iframeportlet.
+* Open Method
+    * Added .open(url) to OLE_QA::Framework::Session
+        * opens the given URL, defaults to @base_url
+* Custom Error Class
+    * Added OLE_QA::Framework::Error class (inherits StandardError).
+
 ### v2.0.4 - 2013/07/05
 
 * .function - alias for .set_function
