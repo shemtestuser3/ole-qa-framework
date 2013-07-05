@@ -80,6 +80,9 @@ module OLE_QA
       # Wait period (in seconds) used by OLE QAF Web Element functions
       attr_accessor :explicit_wait
 
+      # The options with which this OLE_QA Framework Session was invoked
+      attr_reader :options
+
       # Options hash keys:
       #   :base_url => "http://tst.ole.kuali.org/"
       #     (URL for OLE Installation)
@@ -91,7 +94,7 @@ module OLE_QA
       #     (Set Selenium Webdriver's default wait period)
       #   :explicit_wait => NN
       #     (Set the wait period used by custom wait functions)
-      #   :doc_route_wait => NN
+      #   :doc_wait => NN
       #     (Set the wait period for eDoc routing to complete)
       #   :browser => selenium_webdriver
       #     (Where browser is a Selenium WebDriver session)
@@ -99,8 +102,6 @@ module OLE_QA
       # To configure the default options, edit
       #   lib/config/default_options.yml
       #
-      attr_reader :options
-
       def initialize( options={} )
         yaml_configuration = File.open(OLE_QA::Framework::load_dir + '/config/default_options.yml', 'r')
         options_defaults = YAML.load(yaml_configuration)
@@ -118,6 +119,12 @@ module OLE_QA
         @ls_url = @options[:ls_url]
         @explicit_wait = @options[:explicit_wait]
         @page_route_wait = @options[:page_route_wait]
+
+        # Pass explicit_wait to a Module Constant for use with OLE_QA::Tools
+        OLE_QA::Framework.const_set('Explicit_Wait',@options[:explicit_wait])
+
+        # Pass page_wait to a Module Constant for use with OLE_QA::Tools
+        OLE_QA::Framework.const_set('Doc_Wait',@options[:doc_wait])
 
         # Browser Start
         if @options.has_key?(:browser) && @options[:browser].class == Watir::Browser
