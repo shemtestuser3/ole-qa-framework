@@ -13,5 +13,21 @@
 #  limitations under the License.
 
 module OLE_QA::Framework::Page_Helpers
+  # Login as a given user.
+  # @param username [String] The username to use.
+  # @return [Boolean] Whether the login process succeeded.
+  def login(username)
+    raise OLE_QA::Framework::Error,"Login field not present on this page: #{self.class.name}" unless @browser.text_field(:name => "backdoorId").present?
+    @browser.text_field(:name => "backdoorId").set(username)
+    @browser.input(:class => "go", :value => "Login").click
+    @browser.div(:id => "login-info").strong(:text => /Impersonating User\:/, :text => /#{username}/).present?
+  end
 
+  # Logout from previous login.
+  # @return [Boolean] Whether the logout process succeeded.
+  def logout
+    @browser.input(:class => "go", :value => "Logout").click
+    # Return false if still impersonating user, true if not.
+    @browser.div(:id => "login-info").strong(:text => /Impersonating User\:/).present? ? false : true
+  end
 end
