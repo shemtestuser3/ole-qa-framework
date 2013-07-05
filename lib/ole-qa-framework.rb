@@ -155,6 +155,11 @@ module OLE_QA
         @browser.windows
       end
 
+      # Open a page via URL.  (Defaults to @base_url.)
+      def open(url = @base_url)
+        @browser.goto(url)
+      end
+
       # Teardown the OLE QA Framework.
       # - Exit the Selenium WebDriver browser session.
       # - Exit the Headless (XVFB) session if necessary.
