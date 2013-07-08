@@ -39,15 +39,6 @@ module OLE_QA::Framework::OLELS
       element(:control_006_set_button)              {b.button(:id => "ControlField_Set_button")}
       element(:control_006_reset_button)            {b.button(:id => "ControlField_Reset_button")}
       element(:control_008_field)                   {b.text_field(:id => "Control_Field_008_control")}
-      # Navigation Area Elements
-      # TODO Check on necessity of plurality for add instance button once it is functioning again.  (see OLE-4294)
-      element(:delete_bib_button)                   {b.img(:xpath => "//img[@class='deleteBib']")}
-      element(:holdings_links)                      {b.divs(:class => "holdingIdentifierClass")}
-      element(:item_links)                          {b.divs(:class => "itemIdentifierClass")}
-      element(:add_instance_buttons)                {b.imgs(:class => "addInstance")}
-      element(:delete_instance_buttons)             {b.imgs(:title => "Delete Instance")}
-      element(:add_item_buttons)                    {b.imgs(:title => "Add Item")}
-      element(:delete_item_buttons)                 {b.imgs(:title => "Delete Item")}
     end
 
     # Add the first Marc Data Line to a new Bib Editor record.

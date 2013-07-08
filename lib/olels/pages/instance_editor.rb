@@ -17,6 +17,7 @@ module OLE_QA::Framework::OLELS
   class Instance_Editor < Editor
     # Set OLELS Instance Editor page elements.
     def set_elements
+      super
       element(:location_toggle)                       {b.a(:id => "OleLocationInformationSection_toggle")}
       element(:location_field)                        {b.text_field(:id => "OleHoldingLocation_control")}
       element(:call_number_toggle)                    {b.a(:id => "OleCallNumberInformation_toggle")}

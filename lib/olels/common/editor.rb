@@ -43,17 +43,34 @@ module OLE_QA::Framework::OLELS
     # @note "Return to Search" buttons will not appear when Editors are not invoked via Describe Workbench,
     #   despite their commonality.
     def set_elements
+      super
       element(:title)                           {b.h2(:class => "uif-headerText").span}
       element(:submit_button)                   {b.button(:id => "submitEditor")}
       element(:cancel_button)                   {b.button(:id => "cancelEditor")}
       element(:close_button)                    {b.button(:id => "closeEditor")}
       element(:return_to_search_button)         {b.button(:id => "returnToSearch_button")}
       element(:message)                         {b.span(:id => "workMessageSection_span")}
+      # Navigation Area Elements
+      # TODO Check on necessity of plurality for add instance button once it is functioning again.  (see OLE-4294)
+      element(:delete_bib_button)                   {b.img(:xpath => "//img[@class='deleteBib']")}
+      element(:holdings_links)                      {b.divs(:class => "holdingIdentifierClass")}
+      element(:item_links)                          {b.divs(:class => "itemIdentifierClass")}
+      element(:add_instance_buttons)                {b.imgs(:class => "addInstance")}
+      element(:delete_instance_buttons)             {b.imgs(:title => "Delete Instance")}
+      element(:add_item_buttons)                    {b.imgs(:title => "Add Item")}
+      element(:delete_item_buttons)                 {b.imgs(:title => "Delete Item")}
     end
 
     # Designate elements always expected to be present once the editor has finished loading.
     def wait_for_elements
       @wait_on << :title
+    end
+
+    # Define commonly-used functions on Editor page objects.
+    def set_functions
+      super
+      # Click the submit button, wait until a message appears, and return the message text.
+      function(:save_record)                        {submit_button.click ; message.wait_until_present ; message.text.strip}
     end
 
     # Create a Line Object on an Editor page.
