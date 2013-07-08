@@ -20,5 +20,12 @@ module OLE_QA::Framework::OLELS
       url = ole_session.ls_url
       super(ole_session, url)
     end
+
+    def set_elements
+      super
+      element(:loan_link)                 {b.link(:text => "Loan")}
+      element(:return_link)               {b.link(:text => "Return")}
+      element(:editor_link)               {b.link(:text => "Editor")}
+    end
   end
 end
