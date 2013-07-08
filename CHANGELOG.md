@@ -14,6 +14,13 @@
         * opens the given URL, defaults to @base_url
 * Custom Error Class
     * Added OLE_QA::Framework::Error class (inherits StandardError).
+* OLELS
+    * Main Menu
+        * added some links as elements
+    * Editors
+        * added .save_record function to base class
+        * Item Editor
+            * fixed .call_number_type_selector definition
 
 ### v2.0.4 - 2013/07/05
 
