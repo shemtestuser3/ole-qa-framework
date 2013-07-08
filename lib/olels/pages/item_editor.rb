@@ -17,6 +17,7 @@ module OLE_QA::Framework::OLELS
   class Item_Editor < Editor
     # Set Item Editor screen elements.
     def set_elements
+      super
       # Holdings Location/Call Number Information
       element(:holdings_location_field)                   {b.span(:id => "OleHoldingLocationLevelName_control")}
       element(:holdings_prefix_field)                     {b.span(:id => "OleHoldingCallNumberPrefix_control")}
@@ -28,7 +29,7 @@ module OLE_QA::Framework::OLELS
       element(:prefix_field)                              {b.text_field(:id => "OleItemCallNumberPrefix_control")}
       element(:shelving_order_field)                      {b.text_field(:id => "OleItemShelvingOrder_control")}
       element(:call_number_field)                         {b.text_field(:id => "OleItemCallNumber_control")}
-      element(:call_number_type_selector)                 {b.text_field(:id => "OleItemShelvingScheme_control")}
+      element(:call_number_type_selector)                 {b.select_list(:id => "OleItemShelvingScheme_control")}
       element(:browse_button)                             {b.button(:id => "callNumberItemBrowseLink")}
       # Item Information
       element(:item_id_field)                             {b.text_field(:id => "oleItemIdentifier_ID_control")}
