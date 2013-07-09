@@ -18,10 +18,13 @@ module OLE_QA::Framework::OLELS
     # Set OLELS Instance Editor page elements.
     def set_elements
       super
+      # Override :message element on Editor base class.
+      element(:message, force = true)                 {b.span(:id => "workInstanceMessage_span")}
       element(:location_toggle)                       {b.a(:id => "OleLocationInformationSection_toggle")}
       element(:location_field)                        {b.text_field(:id => "OleHoldingLocation_control")}
       element(:call_number_toggle)                    {b.a(:id => "OleCallNumberInformation_toggle")}
-      element(:prefix_field)                          {b.text_field(:id => "OleHoldingCallNumber_control")}
+      element(:prefix_field)                          {b.text_field(:id => "OleHoldingCallNumberPrefix_control")}
+      element(:call_number_field)                     {b.text_field(:id => "OleHoldingCallNumber_control")}
       element(:shelving_order_field)                  {b.text_field(:id => "OleHoldingShelvingOrder_control")}
       element(:call_number_type_selector)             {b.select_list(:id => "OleHoldingShelvingScheme_control")}
       element(:call_number_browse_button)             {b.button(:id => "callNumberHoldingsBrowseLink")}

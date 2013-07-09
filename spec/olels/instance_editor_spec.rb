@@ -38,6 +38,7 @@ describe 'An OLELS Instance Editor page' do
     elements.include?(:location_field).should be_true
     elements.include?(:call_number_toggle).should be_true
     elements.include?(:prefix_field).should be_true
+    elements.include?(:call_number_field).should be_true
     elements.include?(:shelving_order_field).should be_true
     elements.include?(:call_number_type_selector).should be_true
     elements.include?(:call_number_browse_button).should be_true
