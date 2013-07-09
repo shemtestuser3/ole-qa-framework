@@ -30,20 +30,23 @@ describe 'An OLELS Item Editor page' do
 
   it 'should have item editor elements' do
     elements = @item_editor.methods
-    # Holdings Location/Call Number Information.should be_true
+    # Messages Elements
+    elements.include?(:message).should be_true
+    elements.include?(:messages).should be_true
+    # Holdings Location/Call Number Information
     elements.include?(:holdings_location_field).should be_true
     elements.include?(:holdings_prefix_field).should be_true
     elements.include?(:holdings_shelving_order_field).should be_true
     elements.include?(:holdings_call_number_field).should be_true
     elements.include?(:holdings_call_number_type_field).should be_true
-    # Item Location/Call Number Information.should be_true
+    # Item Location/Call Number Information
     elements.include?(:location_field).should be_true
     elements.include?(:prefix_field).should be_true
     elements.include?(:shelving_order_field).should be_true
     elements.include?(:call_number_field).should be_true
     elements.include?(:call_number_type_selector).should be_true
     elements.include?(:browse_button).should be_true
-    # Item Information.should be_true
+    # Item Information
     elements.include?(:item_id_field).should be_true
     elements.include?(:barcode_field).should be_true
     elements.include?(:barcode_arsl_field).should be_true
@@ -56,20 +59,20 @@ describe 'An OLELS Item Editor page' do
     elements.include?(:access_info_uri_field).should be_true
     elements.include?(:item_type_selector).should be_true
     elements.include?(:number_of_pieces_field).should be_true
-    # Acquisition Information.should be_true
+    # Acquisition Information
     elements.include?(:po_line_item_id_field).should be_true
     elements.include?(:vendor_line_item_id_field).should be_true
     elements.include?(:fund_field).should be_true
     elements.include?(:price_field).should be_true
     elements.include?(:donor_public_display_field).should be_true
     elements.include?(:donor_note_field).should be_true
-    # Circulation Information.should be_true
+    # Circulation Information
     elements.include?(:item_status_selector).should be_true
     elements.include?(:checkin_note_field).should be_true
     elements.include?(:item_effective_status_date).should be_true
     elements.include?(:fast_add_checkbox).should be_true
     elements.include?(:staff_only_checkbox).should be_true
-    # Extended Information.should be_true
+    # Extended Information
     elements.include?(:high_density_storage_field).should be_true
   end
 

@@ -18,6 +18,9 @@ module OLE_QA::Framework::OLELS
     # Set Item Editor screen elements.
     def set_elements
       super
+      # Override message in Editor base class, add multi-message element.
+      element(:message, true)                             {b.span(:id => "workItemMessage_span")}
+      element(:messages)                                  {b.span(:id => "workItemMessage_span").font}
       # Holdings Location/Call Number Information
       element(:holdings_location_field)                   {b.span(:id => "OleHoldingLocationLevelName_control")}
       element(:holdings_prefix_field)                     {b.span(:id => "OleHoldingCallNumberPrefix_control")}
@@ -59,6 +62,13 @@ module OLE_QA::Framework::OLELS
       element(:staff_only_checkbox)                       {b.checkbox(:id => "oleItemStaffOnly_control")}
       # Extended Information
       element(:high_density_storage_field)                {b.text_field(:id => "oleItemHighDensityStorage_control")}
+    end
+
+    # Set commonly-used functions on the Item Editor page.
+    def set_functions
+      super
+      # Return an array containing the text of multiple message elements.
+      function(:get_messages)                             {ary_out = [] ; messages.each {|msg| ary_out << msg.text} ; ary_out}
     end
 
     # Create an item note line object.
