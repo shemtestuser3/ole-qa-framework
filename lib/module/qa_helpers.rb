@@ -18,7 +18,9 @@ module OLE_QA::Framework::Helpers
   #   with an ID of 'iframeportlet'.
   # - If the page is a main menu page or a lookup page, the frame may not be present.
   def browser
-    if @ole.browser.frame(:id => 'iframeportlet').present?
+    if @ole.browser.frame(:class => 'fancybox-iframe').present?
+      @ole.browser.frame(:class => 'fancybox-iframe')
+    elsif @ole.browser.frame(:id => 'iframeportlet').present?
       @ole.browser.frame(:id => 'iframeportlet')
     else
       @ole.browser
