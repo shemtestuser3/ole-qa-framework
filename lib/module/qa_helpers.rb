@@ -120,18 +120,16 @@ module OLE_QA::Framework::Helpers
   # @raise StandardError if an instance method already exists for a function with the same name.
   #   (Suppress with force = true.)
   #
-  # @note This method can also be used to add a function to an existing page object instance.
-  #   The code block passed to the method will need to explicitly name the class instance in order to
-  #   access the browser method.
-  def set_function(name, force = false)
+  # @note Invoking a function without passing the expected parameter/s may not return an appropriate error message.
+  def set_function(name, force = false, &block)
     raise StandardError, "Name must be a symbol.  Given: #{name} (#{name.class})" unless name.instance_of?(Symbol)
     eigenclass = class << self;
       self
     end
     raise StandardError, "Element is already defined.  (Use the 'force = true' option to suppress this error.)" if eigenclass.instance_methods.include?(name) && ! force
     eigenclass.class_eval do
-      define_method name.to_s do
-        yield self
+      define_method name.to_s do |*arg|
+        yield *arg
       end
     end
     @functions << name
