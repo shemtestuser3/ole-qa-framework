@@ -21,6 +21,15 @@
         * added .save_record function to base class
         * Item Editor
             * fixed .call_number_type_selector definition
+    * Patron Lookup
+        * added page
+    * Loan
+        * added page
+* QA Helper Module
+    * redefined .set_function
+        * Now uses splat-expansion to give functions optional parameters.
+        * Currently, all parameters are considered optional.
+        * Defaults can be defined for function by declaring |var = value| in block.
 
 ### v2.0.4 - 2013/07/05
 
