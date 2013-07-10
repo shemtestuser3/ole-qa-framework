@@ -15,9 +15,6 @@
 module OLE_QA::Framework::OLELS
   # The Loan page in the OLE Library System.
   class Loan < OLE_QA::Framework::Page
-
-    attr_accessor :patron_box
-
     def initialize(ole_session)
       url = ole_session.ls_url + 'portal.do?channelTitle=Loan&channelUrl='
       url += ole_session.ls_url + 'ole-kr-krad/loancontroller?viewId=PatronItemView&methodToCall=start'
