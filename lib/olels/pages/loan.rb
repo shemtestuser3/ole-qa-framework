@@ -43,7 +43,6 @@ module OLE_QA::Framework::OLELS
       element(:current_items_toggle)                      {b.a(:id => 'Patron-LoanItemListSection-HorizontalBoxSection_toggle').span}
       element(:checked_out_items_toggle)                  {b.a(:id => 'Patron-ExistingLoanItemListSection-HorizontalBoxSection_toggle').span}
       # General
-      element(:loading_box)                               {b.h1.img(:alt => "Loading...", :text => "Loading...")}
       element(:loan_messages)                             {b.div(:id => 'LoanMessageFieldSection').spans(:class => 'uif-message')}
       element(:return_button)                             {b.button(:id => 'ReturnLinkView-buttons')}
       element(:header_close_button)                       {b.button(:id => 'headerDoneButton')}
@@ -65,7 +64,7 @@ module OLE_QA::Framework::OLELS
       element(:patron_email)                              {b.span(:id => 'patronEmail_control')}
     end
 
-    # Wait for the return button to be present before calling the page loaded.
+    # Wait for the return button to be present.
     def wait_for_elements
       super
       @wait_on << :return_button

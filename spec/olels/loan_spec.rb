@@ -22,6 +22,10 @@ describe 'An OLELS Loan page' do
     @loan = OLE_QA::Framework::OLELS::Loan.new(@ole)
   end
 
+  after :all do
+    @ole.quit
+  end
+
   it 'should create a new instance' do
     @loan.should be_an_instance_of(OLE_QA::Framework::OLELS::Loan)
     @loan.class.superclass.should == OLE_QA::Framework::Page
@@ -44,7 +48,6 @@ describe 'An OLELS Loan page' do
     elements.include?(:do_not_loan_button).should be_true
     elements.include?(:current_items_toggle).should be_true
     elements.include?(:checked_out_items_toggle).should be_true
-    elements.include?(:loading_box).should be_true
     elements.include?(:loan_messages).should be_true
     elements.include?(:return_button).should be_true
     elements.include?(:header_close_button).should be_true
@@ -63,16 +66,6 @@ describe 'An OLELS Loan page' do
     elements.include?(:patron_preferred_address).should be_true
     elements.include?(:patron_phone_number).should be_true
     elements.include?(:patron_email).should be_true
-  end
-
-  it 'should open the loan screen via URL' do
-    main_menu = OLE_QA::Framework::OLELS::Main_Menu.new(@ole)
-    main_menu.open
-    main_menu.login('dev2')
-    @loan.open
-    @loan.return_button.present?.should be_true
-    @loan.circulation_desk_selector.present?.should be_true
-    @loan.patron_field.present?.should be_true
   end
 
   it 'should include loan screen functions' do
@@ -97,5 +90,15 @@ describe 'An OLELS Loan page' do
     functions.include?(:co_item_due_date).should be_true
     functions.include?(:co_item_claims_return_note).should be_true
     functions.include?(:co_item_claims_return_date).should be_true
+  end
+
+  it 'should open the loan screen via URL' do
+    main_menu = OLE_QA::Framework::OLELS::Main_Menu.new(@ole)
+    main_menu.open
+    main_menu.login('dev2')
+    @loan.open
+    @loan.return_button.present?.should be_true
+    @loan.circulation_desk_selector.present?.should be_true
+    @loan.patron_field.present?.should be_true
   end
 end
