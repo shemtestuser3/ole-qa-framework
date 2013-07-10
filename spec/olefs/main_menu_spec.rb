@@ -20,7 +20,7 @@ describe "The OLEFS Main Menu" do
 
   before :all do
     @ole = OLE_QA::Framework::Session.new
-    @olefs = OLE_QA::Framework::OLEFS::Main_Menu.new(@ole)
+    @main_menu = OLE_QA::Framework::OLEFS::Main_Menu.new(@ole)
   end
 
   after :all do
@@ -28,7 +28,7 @@ describe "The OLEFS Main Menu" do
   end
 
   it "should open via url" do
-    @olefs.open
+    @main_menu.open
     @ole.browser.title.strip.should == "Kuali Portal Index"
   end
 end
