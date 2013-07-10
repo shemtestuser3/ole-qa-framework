@@ -1,4 +1,4 @@
-### v2.1.0 - 2013/07/??
+### v2.1.0 - 2013/07/10
 
 * Login/Logout
     * Added .login(username) & .logout to OLE_QA::Framework::Page_Helpers
@@ -25,9 +25,11 @@
         * added page
     * Loan
         * added page
+    * Return
+        * added page
 * QA Helper Module
     * redefined .set_function
-        * Now uses splat-expansion to give functions optional parameters.
+        * Now uses splat expansion to give functions optional parameters.
         * Currently, all parameters are considered optional.
         * Defaults can be defined for function by declaring |var = value| in block.
 
