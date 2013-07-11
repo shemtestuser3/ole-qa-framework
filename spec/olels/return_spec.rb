@@ -40,6 +40,7 @@ describe 'My behaviour' do
     elements.include?(:checkin_time_field).should be_true
     elements.include?(:item_field).should be_true
     elements.include?(:item_search_button).should be_true
+    elements.include?(:items_returned_toggle).should be_true
     elements.include?(:checkin_message_box).should be_true
     elements.include?(:return_button).should be_true
     elements.include?(:do_not_return_button).should be_true

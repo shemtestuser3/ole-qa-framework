@@ -32,6 +32,7 @@ module OLE_QA::Framework::OLELS
       element(:checkin_time_field)                        {b.text_field(:id => 'CheckInTime_control')}
       element(:item_field)                                {b.text_field(:id => 'CheckInItem_control')}
       element(:item_search_button)                        {b.fieldset(:id => 'CheckInItem_fieldset').input(:title => 'Search Field')}
+      element(:items_returned_toggle)                     {b.a(:id => 'ItemReturnedList-HorizontalBoxSection_toggle')}
       # Checkin Message Elements
       element(:checkin_message_box)                       {b.div(:id => 'MessagePopupSectionForReturn')}
       element(:return_button)                             {b.button(:id => 'returnBtn')}
