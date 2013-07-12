@@ -15,3 +15,5 @@ and the OLE Smoke Test Application.
 The examples directory contains some minimal example scripts to show
 how the testing framework can be used to fulfill common OLE
 use case scenarios.
+
+Testing a Contribution Commit
