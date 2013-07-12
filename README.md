@@ -17,3 +17,4 @@ how the testing framework can be used to fulfill common OLE
 use case scenarios.
 
 Testing a Contribution Commit
+Testing the Contribution and Jira integration with test-jira : See https://test-jira.kuali.org/browse/INFR-1981
