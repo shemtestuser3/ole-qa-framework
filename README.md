@@ -17,3 +17,4 @@ how the testing framework can be used to fulfill common OLE
 use case scenarios.
 
 Testing a Contribution Commit
+Add some changes: Test link to test.jira.kuali.org INFR-1981 Test github with Jira 
