@@ -49,7 +49,6 @@ module OLE_QA::Framework::OLELS
       element(:cancel_button)                   {b.button(:id => "cancelEditor")}
       element(:close_button)                    {b.button(:id => "closeEditor")}
       element(:return_to_search_button)         {b.button(:id => "returnToSearch_button")}
-      element(:message)                         {b.span(:id => "workMessageSection_span")}
       # Navigation Area Elements
       # TODO Check on necessity of plurality for add instance button once it is functioning again.  (see OLE-4294)
       element(:delete_bib_button)                   {b.img(:xpath => "//img[@class='deleteBib']")}

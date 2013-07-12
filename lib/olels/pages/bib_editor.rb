@@ -20,6 +20,7 @@ module OLE_QA::Framework::OLELS
     #   {OLE_QA::Framework::OLELS::Data_Line}
     def set_elements
       super
+      element(:message)                             {b.span(:id => "workMessageSection_span")}
       element(:leader_field)                        {b.text_field(:id => "LeaderTextInputField_control")}
       element(:bib_record_status_selector)          {b.select_list(:id => "StatusFieldSection_control")}
       element(:set_button)                          {b.button(:id => "set_button")}
@@ -32,13 +33,19 @@ module OLE_QA::Framework::OLELS
       element(:control_009_link)                    {b.a(:id => "009FieldLink")}
       # Control Fields & Related Elements
       #   (NB - Dependent on links & leader field state!)
+      # TODO - Update when OLE-4431 is resolved.  {https://jira.kuali.org/browse/OLE-4431}
+      element(:control_001_field)                   {b.text_field(:id => "Control_Field_001_control")}
       element(:control_003_field)                   {b.text_field(:id => "Control_Field_003_control")}
       element(:control_005_field)                   {b.text_field(:id => "Control_Field_005_control")}
-      element(:control_006_field)                   {b.text_field(:id => "Control_Field_006_control")}
+      element(:control_006_field)                   {b.text_field(:id => "006Field_control")}
       element(:control_006_format_selector)         {b.select_list(:id => "006Field_0_control")}
       element(:control_006_set_button)              {b.button(:id => "ControlField_Set_button")}
       element(:control_006_reset_button)            {b.button(:id => "ControlField_Reset_button")}
-      element(:control_008_field)                   {b.text_field(:id => "Control_Field_008_control")}
+      element(:control_007_field)                   {b.text_field(:id => "007Field_control")}
+      element(:control_007_catmtrl_selector)        {b.select_list(:id => "007Field_0_control")}
+      element(:control_007_set_button)              {b.button(:id => "ControlField007_Set_button")}
+      element(:control_007_reset_button)            {b.button(:id => "ControlField007_Reset_button")}
+      element(:control_008_field)                   {b.text_field(:id => "008Field_control")}
     end
 
     # Add the first Marc Data Line to a new Bib Editor record.

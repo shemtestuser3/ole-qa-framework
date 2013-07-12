@@ -33,7 +33,8 @@ describe 'The Bib Editor' do
   end
 
   it 'should have bib editor elements' do
-    elements = @bib_editor.methods
+    elements = @bib_editor.elements
+    elements.include?(:message).should be_true
     elements.include?(:leader_field).should be_true
     elements.include?(:bib_record_status_selector).should be_true
     elements.include?(:set_button).should be_true
@@ -43,12 +44,17 @@ describe 'The Bib Editor' do
     elements.include?(:control_007_link).should be_true
     elements.include?(:control_008_link).should be_true
     elements.include?(:control_009_link).should be_true
+    elements.include?(:control_001_field).should be_true
     elements.include?(:control_003_field).should be_true
     elements.include?(:control_005_field).should be_true
     elements.include?(:control_006_field).should be_true
     elements.include?(:control_006_format_selector).should be_true
     elements.include?(:control_006_set_button).should be_true
     elements.include?(:control_006_reset_button).should be_true
+    elements.include?(:control_007_field).should be_true
+    elements.include?(:control_007_catmtrl_selector).should be_true
+    elements.include?(:control_007_set_button).should be_true
+    elements.include?(:control_007_reset_button).should be_true
     elements.include?(:control_008_field).should be_true
     elements.include?(:delete_bib_button).should be_true
     elements.include?(:holdings_links).should be_true

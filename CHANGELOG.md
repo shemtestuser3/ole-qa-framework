@@ -1,3 +1,10 @@
+### v2.1.1 - 2013/07/12
+
+* Patch Bib Editor
+    * Update control field IDs for compatibility with M1-r12784
+* Patch Editor base Class
+    * move message to Bib Editor, span ID is not universal across editor types
+
 ### v2.1.0 - 2013/07/10
 
 * Login/Logout

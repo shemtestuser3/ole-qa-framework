@@ -47,7 +47,6 @@ describe 'The Editor base class' do
     elements.include?(:cancel_button).should be_true
     elements.include?(:close_button).should be_true
     elements.include?(:return_to_search_button).should be_true
-    elements.include?(:message).should be_true
   end
 
   it 'should wait for a title to be present' do
